@@ -1,0 +1,8 @@
+{
+  "profiles": {
+    "GitlabCmd.Console": {
+      "commandName": "Project",
+      "commandLineArgs": "add-issue --title \"te test\""
+    }
+  }
+}

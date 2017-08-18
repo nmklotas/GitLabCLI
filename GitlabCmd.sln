@@ -1,0 +1,58 @@
+Microsoft Visual Studio Solution File, Format Version 12.00
+# Visual Studio 15
+VisualStudioVersion = 15.0.26730.3
+MinimumVisualStudioVersion = 15.0.26124.0
+Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "src", "src", "{AE71C149-E87E-43AD-9015-9AD53190ADA3}"
+EndProject
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "GitlabCmd.Console", "src\GitlabCmd.Console\GitlabCmd.Console.csproj", "{350B0486-DF68-4DF1-BB1C-2A36A5E9BAE8}"
+EndProject
+Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "test", "test", "{7589036C-E288-40C5-B96A-45DEE133D1F0}"
+EndProject
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "GitlabCmd.Console.Test", "test\GitlabCmd.Console.Test\GitlabCmd.Console.Test.csproj", "{4865A247-F136-4625-AF38-7BF18746E734}"
+EndProject
+Global
+	GlobalSection(SolutionConfigurationPlatforms) = preSolution
+		Debug|Any CPU = Debug|Any CPU
+		Debug|x64 = Debug|x64
+		Debug|x86 = Debug|x86
+		Release|Any CPU = Release|Any CPU
+		Release|x64 = Release|x64
+		Release|x86 = Release|x86
+	EndGlobalSection
+	GlobalSection(ProjectConfigurationPlatforms) = postSolution
+		{350B0486-DF68-4DF1-BB1C-2A36A5E9BAE8}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{350B0486-DF68-4DF1-BB1C-2A36A5E9BAE8}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{350B0486-DF68-4DF1-BB1C-2A36A5E9BAE8}.Debug|x64.ActiveCfg = Debug|Any CPU
+		{350B0486-DF68-4DF1-BB1C-2A36A5E9BAE8}.Debug|x64.Build.0 = Debug|Any CPU
+		{350B0486-DF68-4DF1-BB1C-2A36A5E9BAE8}.Debug|x86.ActiveCfg = Debug|Any CPU
+		{350B0486-DF68-4DF1-BB1C-2A36A5E9BAE8}.Debug|x86.Build.0 = Debug|Any CPU
+		{350B0486-DF68-4DF1-BB1C-2A36A5E9BAE8}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{350B0486-DF68-4DF1-BB1C-2A36A5E9BAE8}.Release|Any CPU.Build.0 = Release|Any CPU
+		{350B0486-DF68-4DF1-BB1C-2A36A5E9BAE8}.Release|x64.ActiveCfg = Release|Any CPU
+		{350B0486-DF68-4DF1-BB1C-2A36A5E9BAE8}.Release|x64.Build.0 = Release|Any CPU
+		{350B0486-DF68-4DF1-BB1C-2A36A5E9BAE8}.Release|x86.ActiveCfg = Release|Any CPU
+		{350B0486-DF68-4DF1-BB1C-2A36A5E9BAE8}.Release|x86.Build.0 = Release|Any CPU
+		{4865A247-F136-4625-AF38-7BF18746E734}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{4865A247-F136-4625-AF38-7BF18746E734}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{4865A247-F136-4625-AF38-7BF18746E734}.Debug|x64.ActiveCfg = Debug|Any CPU
+		{4865A247-F136-4625-AF38-7BF18746E734}.Debug|x64.Build.0 = Debug|Any CPU
+		{4865A247-F136-4625-AF38-7BF18746E734}.Debug|x86.ActiveCfg = Debug|Any CPU
+		{4865A247-F136-4625-AF38-7BF18746E734}.Debug|x86.Build.0 = Debug|Any CPU
+		{4865A247-F136-4625-AF38-7BF18746E734}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{4865A247-F136-4625-AF38-7BF18746E734}.Release|Any CPU.Build.0 = Release|Any CPU
+		{4865A247-F136-4625-AF38-7BF18746E734}.Release|x64.ActiveCfg = Release|Any CPU
+		{4865A247-F136-4625-AF38-7BF18746E734}.Release|x64.Build.0 = Release|Any CPU
+		{4865A247-F136-4625-AF38-7BF18746E734}.Release|x86.ActiveCfg = Release|Any CPU
+		{4865A247-F136-4625-AF38-7BF18746E734}.Release|x86.Build.0 = Release|Any CPU
+	EndGlobalSection
+	GlobalSection(SolutionProperties) = preSolution
+		HideSolutionNode = FALSE
+	EndGlobalSection
+	GlobalSection(NestedProjects) = preSolution
+		{350B0486-DF68-4DF1-BB1C-2A36A5E9BAE8} = {AE71C149-E87E-43AD-9015-9AD53190ADA3}
+		{4865A247-F136-4625-AF38-7BF18746E734} = {7589036C-E288-40C5-B96A-45DEE133D1F0}
+	EndGlobalSection
+	GlobalSection(ExtensibilityGlobals) = postSolution
+		SolutionGuid = {37AE3EA0-D230-4909-9175-4D0CC6FB9E8C}
+	EndGlobalSection
+EndGlobal
