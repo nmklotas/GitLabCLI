@@ -14,5 +14,11 @@ namespace GitlabCmd.Console.Cmd
 
         [Option('l', "labels", Separator = ',')]
         public IEnumerable<string> Labels { get; set; }
+
+        [Option('a', "assignee")]
+        public string Assignee { get; set; }
+
+        [Option("assign-myself")]
+        public bool AssignMyself { get; set; }
     }
 }

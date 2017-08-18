@@ -10,10 +10,7 @@ namespace GitlabCmd.Console.App
     {
         private readonly AppSettings _settings;
 
-        public ParametersHandler(AppSettings settings)
-        {
-            _settings = settings;
-        }
+        public ParametersHandler(AppSettings settings) => _settings = settings;
 
         public Result<AddIssueParameters> GetAddIssueParameters(AddIssueOptions options)
         {
@@ -29,8 +26,12 @@ namespace GitlabCmd.Console.App
             var parameters = new AddIssueParameters(
                 options.Title,
                 options.Description,
-                projectName, 
-                labels);
+                projectName,
+                options.Assignee,
+                labels)
+            {
+                AssignToCurrentUser = options.AssignMyself
+            };
 
             return Result.Ok(parameters);
         }

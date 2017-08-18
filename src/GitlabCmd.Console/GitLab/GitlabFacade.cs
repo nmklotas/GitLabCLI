@@ -13,19 +13,34 @@ namespace GitlabCmd.Console.GitLab
     {
         private readonly Lazy<GitLabClient> _client;
 
-        public GitLabFacade(Lazy<GitLabClient> client)
-        {
-            _client = client;
-        }
+        public GitLabFacade(Lazy<GitLabClient> client) => _client = client;
 
         public async Task<Result<int>> AddIssue(
+            string title,
+            string description,
+            string projectName,
+            string assigneeName = null,
+            IEnumerable<string> labels = null)
+        {
+            return await SafeGetResult(async () =>
+            {
+                if (assigneeName.IsEmpty())
+                    return await InnerAddIssue(title, description, projectName, null, labels);
+
+                var users = await _client.Value.Users.All();
+                User assignee = users.FirstOrDefault(u => u.Username.EqualsIgnoringCase(assigneeName));
+                return await InnerAddIssue(title, description, projectName, assignee?.Id, labels);
+            });
+        }
+
+        public async Task<Result<int>> AddIssueForCurrentUser(
             string title,
             string description,
             string projectName,
             IEnumerable<string> labels = null)
         {
             return await SafeGetResult(
-                () => InnerAddIssue(title, description, projectName, labels));
+                async () => await InnerAddIssue(title, description, projectName, _client.Value.Users.Current.Id, labels));
         }
 
         public async Task<Result<int>> CreateMergeRequest(
@@ -65,6 +80,7 @@ namespace GitlabCmd.Console.GitLab
             string title,
             string description,
             string projectName,
+            int? assigneeId,
             IEnumerable<string> labels)
         {
             var allProjects = await _client.Value.Projects.Accessible();
@@ -77,7 +93,8 @@ namespace GitlabCmd.Console.GitLab
                 ProjectId = project.Id,
                 Title = title,
                 Description = description,
-                Labels = labels != null ? string.Join(",", labels) : null
+                Labels = labels != null ? string.Join(",", labels) : null,
+                AssigneeId = assigneeId
             });
 
             return Result.Ok(createdIssue.Id);
