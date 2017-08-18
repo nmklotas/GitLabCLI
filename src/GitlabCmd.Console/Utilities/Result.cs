@@ -2,11 +2,10 @@ using System;
 using System.Collections.Generic;
 using System.Diagnostics;
 using System.Linq;
-using System.Runtime.Serialization;
 
 namespace GitlabCmd.Console.Utilities
 {
-    internal sealed class ResultCommonLogic
+    public sealed class ResultCommonLogic
     {
         public bool IsFailure { get; }
         public bool IsSuccess => !IsFailure;
@@ -44,7 +43,6 @@ namespace GitlabCmd.Console.Utilities
             _error = error;
         }
     }
-
 
     public struct Result
     {
@@ -141,7 +139,6 @@ namespace GitlabCmd.Console.Utilities
         }
     }
 
-
     public struct Result<T>
     {
         [DebuggerBrowsable(DebuggerBrowsableState.Never)]
@@ -178,10 +175,7 @@ namespace GitlabCmd.Console.Utilities
 
         public static implicit operator Result(Result<T> result)
         {
-            if (result.IsSuccess)
-                return Result.Ok();
-            else
-                return Result.Fail(result.Error);
+            return result.IsSuccess ? Result.Ok() : Result.Fail(result.Error);
         }
     }
 }
