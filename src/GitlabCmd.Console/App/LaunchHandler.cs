@@ -11,6 +11,7 @@ namespace GitlabCmd.Console.App
         private readonly Parser _parser;
         private readonly ParametersHandler _parametersHandler;
         private readonly GitLabIssueHandler _issueHandler;
+        private readonly ConfigurationHandler _configurationHandler;
 
         public LaunchHandler(
             Parser parser, 
@@ -20,6 +21,7 @@ namespace GitlabCmd.Console.App
         {
             _parser = parser;
             _parametersHandler = parametersHandler;
+            _configurationHandler = configurationHandler;
             _issueHandler = issueHandler;
         }
 
@@ -46,9 +48,13 @@ namespace GitlabCmd.Console.App
             return ExitCode.Success;
         }
 
-        private Task<int> Configure(GitlabCmdConfigurationOptions options) 
-            => Task.FromResult(ExitCode.Success);
-
+        private Task<int> Configure(GitlabCmdConfigurationOptions options)
+        {
+            var parameters = _parametersHandler.GetConfigurationParameters(options);
+            _configurationHandler.Handle(parameters);
+            return Task.FromResult(ExitCode.Success);
+        }
+             
         private Task<int> CreateMergeRequest(CreateMergeRequestOptions options) 
             => Task.FromResult(ExitCode.Success);
 
