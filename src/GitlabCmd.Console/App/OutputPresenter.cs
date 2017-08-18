@@ -2,9 +2,7 @@
 {
     public class OutputPresenter
     {
-        public void Info(string text)
-        {
-            System.Console.WriteLine(text);
-        }
+        public void Info(string text) 
+            => System.Console.WriteLine(text);
     }
 }

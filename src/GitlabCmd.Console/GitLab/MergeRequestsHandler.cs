@@ -6,10 +6,7 @@ namespace GitlabCmd.Console.GitLab
     {
         private readonly GitLabFacade _gitLabFacade;
 
-        public MergeRequestsHandler(GitLabFacade gitLabFacade)
-        {
-            _gitLabFacade = gitLabFacade;
-        }
+        public MergeRequestsHandler(GitLabFacade gitLabFacade) => _gitLabFacade = gitLabFacade;
 
         public async Task CreateMergeRequestAsync(CreateMergeRequestParameters parameters)
         {

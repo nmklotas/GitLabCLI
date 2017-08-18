@@ -22,20 +22,17 @@ namespace GitlabCmd.Console.App
             _issueHandler = issueHandler;
         }
 
-        public async Task<int> Launch(string[] args)
-        {
-            return await _parser.
-                ParseArguments<
-                    AddIssueOptions,
-                    GitlabCmdConfigurationOptions,
-                    CreateMergeRequestOptions,
-                    Task<int>>(args).
-                MapResult(
-                    (AddIssueOptions options) => AddIssue(options),
-                    (GitlabCmdConfigurationOptions options) => Configure(options),
-                    (CreateMergeRequestOptions options) => CreateMergeRequest(options),
-                    HandleErrors);
-        }
+        public async Task<int> Launch(string[] args) => await _parser.
+            ParseArguments<
+                AddIssueOptions,
+                GitlabCmdConfigurationOptions,
+                CreateMergeRequestOptions,
+                Task<int>>(args).
+            MapResult(
+                (AddIssueOptions options) => AddIssue(options),
+                (GitlabCmdConfigurationOptions options) => Configure(options),
+                (CreateMergeRequestOptions options) => CreateMergeRequest(options),
+                HandleErrors);
 
         private async Task<int> AddIssue(AddIssueOptions options)
         {
@@ -48,19 +45,13 @@ namespace GitlabCmd.Console.App
             return ExitCode.Success;
         }
 
-        private Task<int> Configure(GitlabCmdConfigurationOptions options)
-        {
-            return Task.FromResult(ExitCode.Success);
-        }
+        private Task<int> Configure(GitlabCmdConfigurationOptions options) 
+            => Task.FromResult(ExitCode.Success);
 
-        private Task<int> CreateMergeRequest(CreateMergeRequestOptions options)
-        {
-            return Task.FromResult(ExitCode.Success);
-        }
+        private Task<int> CreateMergeRequest(CreateMergeRequestOptions options) 
+            => Task.FromResult(ExitCode.Success);
 
-        private Task<int> HandleErrors(IEnumerable<Error> errors)
-        {
-            return Task.FromResult(ExitCode.InvalidArguments);
-        }
+        private Task<int> HandleErrors(IEnumerable<Error> errors) 
+            => Task.FromResult(ExitCode.InvalidArguments);
     }
 }

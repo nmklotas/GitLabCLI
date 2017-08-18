@@ -46,7 +46,7 @@ namespace GitlabCmd.Console.Utilities
 
     public struct Result
     {
-        private static readonly Result OkResult = new Result(false, null);
+        private static readonly Result _okResult = new Result(false, null);
 
         [DebuggerBrowsable(DebuggerBrowsableState.Never)]
         private readonly ResultCommonLogic _logic;
@@ -56,34 +56,19 @@ namespace GitlabCmd.Console.Utilities
         public string Error => _logic.Error;
 
         [DebuggerStepThrough]
-        private Result(bool isFailure, string error)
-        {
-            _logic = new ResultCommonLogic(isFailure, error);
-        }
+        private Result(bool isFailure, string error) => _logic = new ResultCommonLogic(isFailure, error);
 
         [DebuggerStepThrough]
-        public static Result Ok()
-        {
-            return OkResult;
-        }
+        public static Result Ok() => _okResult;
 
         [DebuggerStepThrough]
-        public static Result Fail(string error)
-        {
-            return new Result(true, error);
-        }
+        public static Result Fail(string error) => new Result(true, error);
 
         [DebuggerStepThrough]
-        public static Result<T> Ok<T>(T value)
-        {
-            return new Result<T>(false, value, null);
-        }
+        public static Result<T> Ok<T>(T value) => new Result<T>(false, value, null);
 
         [DebuggerStepThrough]
-        public static Result<T> Fail<T>(string error)
-        {
-            return new Result<T>(true, default(T), error);
-        }
+        public static Result<T> Fail<T>(string error) => new Result<T>(true, default(T), error);
 
         /// <summary>
         /// Returns first failure in the list of <paramref name="results"/>. If there is no failure returns success.
@@ -110,7 +95,7 @@ namespace GitlabCmd.Console.Utilities
         [DebuggerStepThrough]
         public static Result Combine(string errorMessagesSeparator, params Result[] results)
         {
-            List<Result> failedResults = results.Where(x => x.IsFailure).ToList();
+            var failedResults = results.Where(x => x.IsFailure).ToList();
 
             if (!failedResults.Any())
                 return Ok();
@@ -120,16 +105,10 @@ namespace GitlabCmd.Console.Utilities
         }
 
         [DebuggerStepThrough]
-        public static Result Combine(params Result[] results)
-        {
-            return Combine(", ", results);
-        }
+        public static Result Combine(params Result[] results) => Combine(", ", results);
 
         [DebuggerStepThrough]
-        public static Result Combine<T>(params Result<T>[] results)
-        {
-            return Combine(", ", results);
-        }
+        public static Result Combine<T>(params Result<T>[] results) => Combine(", ", results);
 
         [DebuggerStepThrough]
         public static Result Combine<T>(string errorMessagesSeparator, params Result<T>[] results)
@@ -173,9 +152,7 @@ namespace GitlabCmd.Console.Utilities
             _value = value;
         }
 
-        public static implicit operator Result(Result<T> result)
-        {
-            return result.IsSuccess ? Result.Ok() : Result.Fail(result.Error);
-        }
+        public static implicit operator Result(Result<T> result) =>
+            result.IsSuccess ? Result.Ok() : Result.Fail(result.Error);
     }
 }
