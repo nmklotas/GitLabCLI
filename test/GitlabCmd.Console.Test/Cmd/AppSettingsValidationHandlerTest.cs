@@ -10,10 +10,12 @@ namespace GitlabCmd.Console.Test.Cmd
         [Fact]
         public void SettingsWithoutHostUrlAreNotValid()
         {
-            var appSettings = new AppSettings();
-            appSettings.DefaultGitLabProject = "test-project";
-            appSettings.GitLabAccessToken = "access-token";
-            appSettings.DefaultIssueLabel = "parsed-issue-label";
+            var appSettings = new AppSettings
+            {
+                DefaultGitLabProject = "test-project",
+                GitLabAccessToken = "access-token",
+                DefaultIssueLabel = "parsed-issue-label"
+            };
 
             var sut = new AppSettingsValidationHandler(appSettings, new OutputPresenter());
             sut.Validate().Should().BeFalse();

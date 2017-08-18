@@ -8,9 +8,6 @@ namespace GitlabCmd.Console.App
 {
     public class LaunchHandler
     {
-        private const int SuccessExitCode = 0;
-        private const int InvalidArgumentsExitCode = 1;
-
         private readonly Parser _parser;
         private readonly ParametersHandler _parametersHandler;
         private readonly GitLabIssueHandler _issueHandler;
@@ -48,22 +45,22 @@ namespace GitlabCmd.Console.App
                 await _issueHandler.AddIssue(parameters.Value);
             }
 
-            return SuccessExitCode;
+            return ExitCode.Success;
         }
 
         private Task<int> Configure(GitlabCmdConfigurationOptions options)
         {
-            return Task.FromResult(SuccessExitCode);
+            return Task.FromResult(ExitCode.Success);
         }
 
         private Task<int> CreateMergeRequest(CreateMergeRequestOptions options)
         {
-            return Task.FromResult(SuccessExitCode);
+            return Task.FromResult(ExitCode.Success);
         }
 
         private Task<int> HandleErrors(IEnumerable<Error> errors)
         {
-            return Task.FromResult(InvalidArgumentsExitCode);
+            return Task.FromResult(ExitCode.InvalidArguments);
         }
     }
 }

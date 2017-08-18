@@ -10,10 +10,9 @@ namespace GitlabCmd.Console
             var appSettingsValidator = container.Resolve<AppSettingsValidationHandler>();
             var launcHandler = container.Resolve<LaunchHandler>();
 
-            if (!appSettingsValidator.Validate())
-                return 1;
-
-            return launcHandler.Launch(args).Result;
+            return appSettingsValidator.Validate() ? 
+                launcHandler.Launch(args).Result : 
+                ExitCode.InvalidConfiguration;
         }
     }
 }
