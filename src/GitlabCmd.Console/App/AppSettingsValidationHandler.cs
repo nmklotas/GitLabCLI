@@ -1,4 +1,6 @@
-﻿using GitlabCmd.Console.Configuration;
+﻿using System;
+using GitlabCmd.Console.Configuration;
+using GitlabCmd.Console.Utilities;
 
 namespace GitlabCmd.Console.App
 {
@@ -17,13 +19,39 @@ namespace GitlabCmd.Console.App
 
         public bool Validate()
         {
+            if (!ValidateHostUrl())
+                return false;
+
+            if (!ValidateAuthorizationSettings())
+                return false;
+
+            return true;
+        }
+
+        private bool ValidateHostUrl()
+        {
             if (string.IsNullOrEmpty(_settings.GitLabHostUrl))
             {
-                _outputPresenter.Info("GitLabHostUrl is not set");
+                _outputPresenter.Info("GitLab host url is not set");
                 return false;
             }
 
             return true;
+        }
+
+        private bool ValidateAuthorizationSettings()
+        {
+            bool tokenExits = _settings.GitLabAccessToken.IsNotEmpty();
+            bool credentialsExits = _settings.GitLabUserName.IsNotEmpty() || _settings.GitLabPassword.IsNotEmpty();
+            if (tokenExits || credentialsExits)
+            {
+                return true;
+            }
+            else
+            {
+                _outputPresenter.Info("GitLab authorization options are not set");
+                return false;
+            }
         }
     }
 }
