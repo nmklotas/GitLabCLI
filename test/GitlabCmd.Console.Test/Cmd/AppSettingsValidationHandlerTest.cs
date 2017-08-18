@@ -1,4 +1,5 @@
-﻿using FluentAssertions;
+﻿using System;
+using FluentAssertions;
 using GitlabCmd.Console.App;
 using GitlabCmd.Console.Configuration;
 using Xunit;
@@ -7,6 +8,9 @@ namespace GitlabCmd.Console.Test.Cmd
 {
     public class AppSettingsValidationHandlerTest
     {
+        private readonly Func<AppSettings, AppSettingsValidationHandler> _sutFactory =
+            s => new AppSettingsValidationHandler(s, new OutputPresenter());
+
         [Fact]
         public void SettingsWithoutHostUrlAreNotValid()
         {
@@ -17,8 +21,45 @@ namespace GitlabCmd.Console.Test.Cmd
                 DefaultIssueLabel = "parsed-issue-label"
             };
 
-            var sut = new AppSettingsValidationHandler(appSettings, new OutputPresenter());
-            sut.Validate().Should().BeFalse();
+            _sutFactory(appSettings).Validate().Should().BeFalse();
+        }
+
+        [Fact]
+        public void SettingsWithoutAuthorizationSetAreNotValid()
+        {
+            var appSettings = new AppSettings
+            {
+                GitLabHostUrl = "https://test.com",
+                DefaultGitLabProject = "test-project",
+                DefaultIssueLabel = "parsed-issue-label"
+            };
+
+            _sutFactory(appSettings).Validate().Should().BeFalse();
+        }
+
+        [Fact]
+        public void SettingsWithUsernameAndPasswordAuthorizationAreValid()
+        {
+            var appSettings = new AppSettings
+            {
+                GitLabHostUrl = "https://test.com",
+                GitLabUserName = "username",
+                GitLabPassword = "password"
+            };
+
+            _sutFactory(appSettings).Validate().Should().BeTrue();
+        }
+
+        [Fact]
+        public void SettingsWithTokenAuthorizationAreValid()
+        {
+            var appSettings = new AppSettings
+            {
+                GitLabHostUrl = "https://test.com",
+                GitLabAccessToken = "test-token"
+            };
+
+            _sutFactory(appSettings).Validate().Should().BeTrue();
         }
     }
 }

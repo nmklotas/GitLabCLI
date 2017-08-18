@@ -11,59 +11,59 @@ namespace GitlabCmd.Console.GitLab
 {
     public class GitLabFacade
     {
-        private readonly Lazy<GitLabClientEx> _client;
+        private readonly GitLabClientFactory _clientFactory;
 
-        public GitLabFacade(Lazy<GitLabClientEx> client) => _client = client;
+        public GitLabFacade(GitLabClientFactory clientFactory) => _clientFactory = clientFactory;
 
         public async Task<Result<int>> AddIssue(
             string title,
             string description,
             string projectName,
             string assigneeName = null,
-            IEnumerable<string> labels = null)
+            IEnumerable<string> labels = null) => await SafeGetResult(async () =>
         {
-            return await SafeGetResult(async () =>
-            {
-                if (assigneeName.IsEmpty())
-                    return await InnerAddIssue(title, description, projectName, null, labels);
+            var client = await _clientFactory.Create();
 
-                User assignee = await _client.Value.GetUserByNameAsync(assigneeName);
-                return await InnerAddIssue(title, description, projectName, assignee?.Id, labels);
-            });
-        }
+            if (assigneeName.IsEmpty())
+                return await InnerAddIssue(client, title, description, projectName, null, labels);
+
+            User assignee = await client.GetUserByNameAsync(assigneeName);
+            return await InnerAddIssue(client, title, description, projectName, assignee?.Id, labels);
+        });
 
         public async Task<Result<int>> AddIssueForCurrentUser(
             string title,
             string description,
             string projectName,
-            IEnumerable<string> labels = null)
+            IEnumerable<string> labels = null) => await SafeGetResult(async () =>
         {
-            return await SafeGetResult(
-                async () => await InnerAddIssue(title, description, projectName, _client.Value.Users.Current.Id, labels));
-        }
+            var client = await _clientFactory.Create();
+            return await InnerAddIssue(client, title, description, projectName, client.Users.Current.Id, labels);
+        });
 
         public async Task<Result<int>> CreateMergeRequest(
             string projectName,
             string title,
             string sourceBranch,
-            string targetBranch)
+            string targetBranch) => await SafeGetResult(async () =>
         {
-            return await SafeGetResult(
-                () => InnerCreateMergeRequest(projectName, title, sourceBranch, targetBranch));
-        }
+            var client = await _clientFactory.Create();
+            return await InnerCreateMergeRequest(client, projectName, title, sourceBranch, targetBranch);
+        });
 
         private async Task<Result<int>> InnerCreateMergeRequest(
+            GitLabClientEx client,
             string projectName,
             string title,
             string sourceBranch,
             string targetBranch)
         {
-            var allProjects = await _client.Value.Projects.Accessible();
+            var allProjects = await client.Projects.Accessible();
             var project = allProjects.FirstOrDefault(p => p.Name.EqualsIgnoringCase(projectName));
             if (project == null)
                 return Result.Fail<int>($"Project {projectName} was not found");
 
-            IMergeRequestClient mergeRequestClient = _client.Value.GetMergeRequest(project.Id);
+            IMergeRequestClient mergeRequestClient = client.GetMergeRequest(project.Id);
 
             var createdMergeRequest = await mergeRequestClient.CreateAsync(new MergeRequestCreate
             {
@@ -76,18 +76,19 @@ namespace GitlabCmd.Console.GitLab
         }
 
         private async Task<Result<int>> InnerAddIssue(
+            GitLabClientEx client,
             string title,
             string description,
             string projectName,
             int? assigneeId,
             IEnumerable<string> labels)
         {
-            var allProjects = await _client.Value.Projects.Accessible();
+            var allProjects = await client.Projects.Accessible();
             var project = allProjects.FirstOrDefault(p => p.Name.EqualsIgnoringCase(projectName));
             if (project == null)
                 return Result.Fail<int>($"Project {projectName} was not found");
 
-            var createdIssue = await _client.Value.Issues.CreateAsync(new IssueCreate
+            var createdIssue = await client.Issues.CreateAsync(new IssueCreate
             {
                 ProjectId = project.Id,
                 Title = title,

@@ -1,6 +1,6 @@
-﻿using System;
-using System.Threading.Tasks;
+﻿using System.Threading.Tasks;
 using FluentAssertions;
+using GitlabCmd.Console.Configuration;
 using GitlabCmd.Console.GitLab;
 using Xunit;
 using static GitlabCmd.Console.Test.GitLab.GitLabApiHelper;
@@ -9,8 +9,11 @@ namespace GitlabCmd.Console.Test.GitLab
 {
     public class GitLabFacadeTest
     {
-        private readonly GitLabFacade _sut = new GitLabFacade(
-            new Lazy<GitLabClientEx>(Client));
+        private readonly GitLabFacade _sut = new GitLabFacade(new GitLabClientFactory(new AppSettings
+        {
+            GitLabAccessToken = "KZKSRcxxHi82r4D4p_aJ",
+            GitLabHostUrl = "https://gitlab.com/api/v3"
+        }));
 
         [Fact]
         public async Task AddIssueCreatesIssue()

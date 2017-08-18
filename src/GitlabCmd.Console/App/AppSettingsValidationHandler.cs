@@ -1,5 +1,4 @@
-﻿using System;
-using GitlabCmd.Console.Configuration;
+﻿using GitlabCmd.Console.Configuration;
 using GitlabCmd.Console.Utilities;
 
 namespace GitlabCmd.Console.App
@@ -42,16 +41,15 @@ namespace GitlabCmd.Console.App
         private bool ValidateAuthorizationSettings()
         {
             bool tokenExits = _settings.GitLabAccessToken.IsNotEmpty();
-            bool credentialsExits = _settings.GitLabUserName.IsNotEmpty() || _settings.GitLabPassword.IsNotEmpty();
+            bool credentialsExits = _settings.GitLabUserName.IsNotEmpty() || 
+                _settings.GitLabPassword.IsNotEmpty();
             if (tokenExits || credentialsExits)
             {
                 return true;
             }
-            else
-            {
-                _outputPresenter.Info("GitLab authorization options are not set");
-                return false;
-            }
+
+            _outputPresenter.Info("GitLab authorization options are not set");
+            return false;
         }
     }
 }

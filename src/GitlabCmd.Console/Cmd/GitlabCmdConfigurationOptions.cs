@@ -10,5 +10,11 @@ namespace GitlabCmd.Console.Cmd
 
         [Option('h', "host", HelpText = "GitLab host url")]
         public string Host { get; set; }
+
+        [Option('u', "username", HelpText = "GitLab username")]
+        public string Username { get; set; }
+
+        [Option('p', "password", HelpText = "GitLab user password")]
+        public string Password { get; set;}
     }
 }

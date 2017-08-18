@@ -10,7 +10,9 @@ namespace GitlabCmd.Console.Configuration
 
         public string DefaultGitLabProjectForMergeRequests { get; set; }
 
-        public string DefaultGitLabUserName { get; set; }
+        public string GitLabUserName { get; set; }
+
+        public string GitLabPassword { get; set; }
 
         public string DefaultIssueLabel { get; set; }
 

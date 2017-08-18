@@ -15,6 +15,7 @@ namespace GitlabCmd.Console.App
         public LaunchHandler(
             Parser parser, 
             ParametersHandler parametersHandler,
+            ConfigurationHandler configurationHandler,
             GitLabIssueHandler issueHandler)
         {
             _parser = parser;
