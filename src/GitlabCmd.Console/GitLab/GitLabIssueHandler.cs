@@ -1,6 +1,4 @@
-﻿using System.Runtime.CompilerServices;
-using System.Threading;
-using System.Threading.Tasks;
+﻿using System.Threading.Tasks;
 using GitlabCmd.Console.App;
 using GitlabCmd.Console.Utilities;
 

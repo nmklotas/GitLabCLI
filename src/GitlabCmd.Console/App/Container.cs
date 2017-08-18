@@ -23,11 +23,11 @@ namespace GitlabCmd.Console.App
             container.Register(Component.For<MergeRequestsHandler>());
             container.Register(Component.For<AppSettingsValidationHandler>());
 
-            container.Register(Component.For<Lazy<GitLabClient>>().
-                UsingFactoryMethod(c => new Lazy<GitLabClient>(() =>
+            container.Register(Component.For<Lazy<GitLabClientEx>>().
+                UsingFactoryMethod(c => new Lazy<GitLabClientEx>(() =>
                 {
                     var settings = c.Resolve<AppSettings>();
-                    return new GitLabClient(settings.GitLabHostUrl, settings.GitLabAccessToken);
+                    return new GitLabClientEx(settings.GitLabHostUrl, settings.GitLabAccessToken);
                 })));
 
             RegisterAppSettings(container);

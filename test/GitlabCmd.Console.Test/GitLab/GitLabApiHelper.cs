@@ -2,24 +2,24 @@
 using System.Linq;
 using System.Threading.Tasks;
 using FluentAssertions;
+using GitlabCmd.Console.GitLab;
 using GitlabCmd.Console.Utilities;
-using NGitLab;
 using NGitLab.Models;
 
 namespace GitlabCmd.Console.Test.GitLab
 {
     public static class GitLabApiHelper
     {
-        private static GitLabClient _client;
+        private static GitLabClientEx _client;
 
         public static string ProjectName => "testproject";
 
-        public static string UserName => "nmklotas";
+        public static string UserName => Client.Users.Current.Username;
 
         public static string NonExistingProjectName => Guid.NewGuid().ToString();
 
-        public static GitLabClient Client =>
-            _client ?? (_client = new GitLabClient("https://gitlab.com/api/v3", "KZKSRcxxHi82r4D4p_aJ"));
+        public static GitLabClientEx Client =>
+            _client ?? (_client = new GitLabClientEx("https://gitlab.com/api/v3", "KZKSRcxxHi82r4D4p_aJ"));
 
         public static async Task ShouldHaveIssue(
             string projectName, 

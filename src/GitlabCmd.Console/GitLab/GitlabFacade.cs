@@ -11,9 +11,9 @@ namespace GitlabCmd.Console.GitLab
 {
     public class GitLabFacade
     {
-        private readonly Lazy<GitLabClient> _client;
+        private readonly Lazy<GitLabClientEx> _client;
 
-        public GitLabFacade(Lazy<GitLabClient> client) => _client = client;
+        public GitLabFacade(Lazy<GitLabClientEx> client) => _client = client;
 
         public async Task<Result<int>> AddIssue(
             string title,
@@ -27,8 +27,7 @@ namespace GitlabCmd.Console.GitLab
                 if (assigneeName.IsEmpty())
                     return await InnerAddIssue(title, description, projectName, null, labels);
 
-                var users = await _client.Value.Users.All();
-                User assignee = users.FirstOrDefault(u => u.Username.EqualsIgnoringCase(assigneeName));
+                User assignee = await _client.Value.GetUserByNameAsync(assigneeName);
                 return await InnerAddIssue(title, description, projectName, assignee?.Id, labels);
             });
         }
