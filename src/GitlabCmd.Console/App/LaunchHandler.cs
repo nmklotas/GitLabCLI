@@ -68,7 +68,7 @@ namespace GitlabCmd.Console.App
         private Task<int> Configure(GitlabCmdConfigurationOptions options)
         {
             var parameters = _parametersHandler.GetConfigurationParameters(options);
-            _configurationHandler.Handle(parameters);
+            _configurationHandler.StoreParameters(parameters);
             return Task.FromResult(ExitCode.Success);
         }
 

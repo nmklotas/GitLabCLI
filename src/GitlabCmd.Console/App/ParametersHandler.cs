@@ -54,8 +54,12 @@ namespace GitlabCmd.Console.App
             return Result.Ok(parameters);
         }
 
-        public ConfigurationParameters GetConfigurationParameters(GitlabCmdConfigurationOptions options)
-            => null;
+        public ConfigurationParameters GetConfigurationParameters(GitlabCmdConfigurationOptions options) 
+            => new ConfigurationParameters(
+                options.Token, 
+                options.Host, 
+                options.Username,
+                options.Password);
 
         private Result<string> GetProjectName(ProjectOptions options)
         {
