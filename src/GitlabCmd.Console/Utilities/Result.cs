@@ -2,6 +2,7 @@ using System;
 using System.Collections.Generic;
 using System.Diagnostics;
 using System.Linq;
+using NGitLab.Models;
 
 namespace GitlabCmd.Console.Utilities
 {
@@ -68,7 +69,10 @@ namespace GitlabCmd.Console.Utilities
         public static Result<T> Ok<T>(T value) => new Result<T>(false, value, null);
 
         [DebuggerStepThrough]
-        public static Result<T> Fail<T>(string error) => new Result<T>(true, default(T), error);
+        public static Result<T> Fail<T>(string error) => new Result<T>(true, default, error);
+
+        [DebuggerStepThrough]
+        public static Result<T> Fail<T>(Result result) => new Result<T>(true, default, result.Error);
 
         /// <summary>
         /// Returns first failure in the list of <paramref name="results"/>. If there is no failure returns success.

@@ -18,7 +18,7 @@ namespace GitlabCmd.Console.Test.Cmd
             {
                 DefaultGitLabProject = "test-project",
                 GitLabAccessToken = "access-token",
-                DefaultIssueLabel = "parsed-issue-label"
+                DefaulGitLabIssueLabel = "parsed-issue-label"
             };
 
             _sutFactory(appSettings).Validate().Should().BeFalse();
@@ -31,7 +31,7 @@ namespace GitlabCmd.Console.Test.Cmd
             {
                 GitLabHostUrl = "https://test.com",
                 DefaultGitLabProject = "test-project",
-                DefaultIssueLabel = "parsed-issue-label"
+                DefaulGitLabIssueLabel = "parsed-issue-label"
             };
 
             _sutFactory(appSettings).Validate().Should().BeFalse();

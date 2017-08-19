@@ -15,7 +15,7 @@ namespace GitlabCmd.Console.Test.App
             var settings = new AppSettings
             {
                 DefaultGitLabProject = "test-project",
-                DefaultIssueLabel = "test-issue-label",
+                DefaulGitLabIssueLabel = "test-issue-label",
                 GitLabAccessToken = "test-access-token",
                 GitLabHostUrl = "https://test-gitlab.com"
             };
@@ -26,7 +26,7 @@ namespace GitlabCmd.Console.Test.App
         [Fact]
         public void NotProvidedProjectNameTakenFromSettings()
         {
-            var parameter = _sut.GetAddIssueParameters(new CreateIssueOptions
+            var parameter = _sut.NegotiateAddIssueParameters(new CreateIssueOptions
             {
                 Description = "parsed-description",
                 Labels = new[] { "parsed-label" },

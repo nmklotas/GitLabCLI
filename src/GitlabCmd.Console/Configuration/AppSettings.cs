@@ -14,7 +14,7 @@ namespace GitlabCmd.Console.Configuration
 
         public string GitLabPassword { get; set; }
 
-        public string DefaultIssueLabel { get; set; }
+        public string DefaulGitLabIssueLabel { get; set; }
 
         public string GitLabAccessToken { get; set; }
     }

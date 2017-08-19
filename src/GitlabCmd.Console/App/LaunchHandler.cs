@@ -28,18 +28,34 @@ namespace GitlabCmd.Console.App
         public async Task<int> Launch(string[] args) => await _parser.
             ParseVerbs<
                 CreateOptions,
+                IssueOptions,
                 GitlabCmdConfigurationOptions,
                 Task<int>>(args).
             MapResult(
                 (CreateOptions options) => Create(options),
+                (IssueOptions options) => HandleIssueOptions(options),
                 (GitlabCmdConfigurationOptions options) => Configure(options),
                 HandleErrors);
+
+        private async Task<int> HandleIssueOptions(IssueOptions options)
+        {
+            if (options is ListIssuesOptions listIssueOptions)
+            {
+                var parameters = _parametersHandler.NegotiateListIssuesParameters(listIssueOptions);
+                if (parameters.IsSuccess)
+                {
+                    await _issueHandler.ListIssues(parameters.Value);
+                }
+            }
+
+            return ExitCode.Success;
+        }
 
         private async Task<int> Create(CreateOptions options)
         {
             if (options is CreateIssueOptions createIssueOptions)
             {
-                var parameters = _parametersHandler.GetAddIssueParameters(createIssueOptions);
+                var parameters = _parametersHandler.NegotiateAddIssueParameters(createIssueOptions);
                 if (parameters.IsSuccess)
                 {
                     await _issueHandler.AddIssue(parameters.Value);

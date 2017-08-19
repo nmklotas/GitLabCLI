@@ -73,6 +73,26 @@ namespace GitlabCmd.Console.Test.Cmd
                 s.Project == "testProject");
         }
 
+        [Theory]
+        [InlineData(
+            "issue", "ls",
+            "--assigned-to-me",
+            "-l", "testlabel1")]
+        [InlineData(
+            "issue", "ls",
+            "--assigned-to-me",
+            "--labels", "testlabel1")]
+        public void ListIssuesParsedAsListIssueOptions(params string[] args)
+        {
+            //act
+            _sut.Parse(args);
+
+            //assert
+            _sut.Options.Should().Match<ListIssuesOptions>(
+                s => s.AssignedToMe &&
+                     s.Labels.SequenceEqual(new[] { "testlabel1" }));
+        }
+
         private class ParserSpy
         {
             private readonly Parser _parser;
@@ -82,9 +102,11 @@ namespace GitlabCmd.Console.Test.Cmd
             public void Parse(string[] args) => _parser.
                 ParseVerbs<
                     CreateOptions,
+                    IssueOptions,
                     GitlabCmdConfigurationOptions>(args).
                 MapResult(
                     (CreateOptions options) => Options = options,
+                    (IssueOptions options) => Options = options,
                     (GitlabCmdConfigurationOptions options) => Options = options,
                     errors => Errors = errors);
 

@@ -1,4 +1,6 @@
-﻿using System.Threading.Tasks;
+﻿using System;
+using System.Linq;
+using System.Threading.Tasks;
 using FluentAssertions;
 using GitlabCmd.Console.Configuration;
 using GitlabCmd.Console.GitLab;
@@ -65,6 +67,78 @@ namespace GitlabCmd.Console.Test.GitLab
                 NonExistingProjectName);
 
             result.IsSuccess.Should().BeFalse();
+        }
+
+        [Fact]
+        public async Task ListIssuesForNonExistingProjectReturnsFailedResult()
+        {
+            var result = await _sut.ListIssues(
+                NonExistingProjectName);
+
+            result.IsSuccess.Should().BeFalse();
+        }
+
+        [Fact]
+        public async Task ListIssuesGetsIssues()
+        {
+            //arrange
+            string randomIssueTitle = $"title{Guid.NewGuid()}";
+
+            await _sut.AddIssue(
+                randomIssueTitle,
+                "description1",
+                ProjectName,
+                UserName);
+
+            //act
+            var result = await _sut.ListIssues(ProjectName, UserName);
+
+            //assert
+            result.IsSuccess.Should().BeTrue();
+            result.Value.Should().ContainSingle(i => i.Title == randomIssueTitle);
+        }
+
+        [Fact]
+        public async Task ListIssuesGetsFilteredByLabel()
+        {
+            //arrange
+            string randomIssueLabel = $"label{Guid.NewGuid()}";
+
+            await _sut.AddIssue(
+                "title1",
+                "description1",
+                ProjectName,
+                UserName, 
+                new[] { randomIssueLabel });
+
+            //act
+            var result = await _sut.ListIssues(ProjectName, UserName, new[] { randomIssueLabel });
+
+            //assert
+            result.IsSuccess.Should().BeTrue();
+            result.Value.Should().HaveCount(1);
+            result.Value.Should().ContainSingle(i => i.Labels.Contains(randomIssueLabel));
+        }
+
+        [Fact]
+        public async Task ListIssuesForCurrentUser()
+        {
+            //arrange
+            string randomIssueTitle = $"title{Guid.NewGuid()}";
+
+            //arrange
+            await _sut.AddIssue(
+                randomIssueTitle,
+                "description1",
+                ProjectName,
+                UserName);
+
+            //act
+            var result = await _sut.ListIssuesForCurrentUser(ProjectName);
+
+            //assert
+            result.IsSuccess.Should().BeTrue();
+            result.Value.Should().ContainSingle(i => i.Title == randomIssueTitle);
         }
     }
 }

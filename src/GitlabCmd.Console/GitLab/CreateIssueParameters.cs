@@ -3,9 +3,9 @@ using System.Linq;
 
 namespace GitlabCmd.Console.GitLab
 {
-    public class AddIssueParameters
+    public class CreateIssueParameters
     {
-        public AddIssueParameters(
+        public CreateIssueParameters(
             string title, 
             string description, 
             string projectName,
