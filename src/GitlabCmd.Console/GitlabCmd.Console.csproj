@@ -6,6 +6,9 @@
     <NoWarn>$(NoWarn);1701</NoWarn>
     <RuntimeIdentifiers>win10-x64</RuntimeIdentifiers>
   </PropertyGroup>
+  <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Debug|AnyCPU'">
+    <LangVersion>7.1</LangVersion>
+  </PropertyGroup>
   <ItemGroup>
     <PackageReference Include="Castle.Windsor" Version="4.0.0" />
     <PackageReference Include="CommandLineParser" Version="2.1.1-beta" />

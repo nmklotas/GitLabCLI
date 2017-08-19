@@ -36,9 +36,6 @@ namespace GitlabCmd.Console.App
             return Result.Ok(parameters);
         }
 
-        public ConfigurationParameters GetConfigurationParameters(GitlabCmdConfigurationOptions options)
-        {
-
-        }
+        public ConfigurationParameters GetConfigurationParameters(GitlabCmdConfigurationOptions options) => null;
     }
 }
