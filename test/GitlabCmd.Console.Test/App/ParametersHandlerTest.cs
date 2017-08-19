@@ -8,12 +8,11 @@ namespace GitlabCmd.Console.Test.App
 {
     public class ParametersHandlerTest
     {
-        private readonly AppSettings _settings;
         private readonly ParametersHandler _sut;
 
         public ParametersHandlerTest()
         {
-            _settings = new AppSettings
+            var settings = new AppSettings
             {
                 DefaultGitLabProject = "test-project",
                 DefaultIssueLabel = "test-issue-label",
@@ -21,13 +20,13 @@ namespace GitlabCmd.Console.Test.App
                 GitLabHostUrl = "https://test-gitlab.com"
             };
 
-            _sut = new ParametersHandler(_settings);
+            _sut = new ParametersHandler(settings);
         }
 
         [Fact]
         public void NotProvidedProjectNameTakenFromSettings()
         {
-            var parameter = _sut.GetAddIssueParameters(new AddIssueOptions
+            var parameter = _sut.GetAddIssueParameters(new CreateIssueOptions
             {
                 Description = "parsed-description",
                 Labels = new[] { "parsed-label" },

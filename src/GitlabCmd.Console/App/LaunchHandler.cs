@@ -26,23 +26,24 @@ namespace GitlabCmd.Console.App
         }
 
         public async Task<int> Launch(string[] args) => await _parser.
-            ParseArguments<
-                AddIssueOptions,
+            ParseVerbs<
+                CreateOptions,
                 GitlabCmdConfigurationOptions,
-                CreateMergeRequestOptions,
                 Task<int>>(args).
             MapResult(
-                (AddIssueOptions options) => AddIssue(options),
+                (CreateOptions options) => Create(options),
                 (GitlabCmdConfigurationOptions options) => Configure(options),
-                (CreateMergeRequestOptions options) => CreateMergeRequest(options),
                 HandleErrors);
 
-        private async Task<int> AddIssue(AddIssueOptions options)
+        private async Task<int> Create(CreateOptions options)
         {
-            var parameters = _parametersHandler.GetAddIssueParameters(options);
-            if (parameters.IsSuccess)
+            if (options is CreateIssueOptions createIssueOptions)
             {
-                await _issueHandler.AddIssue(parameters.Value);
+                var parameters = _parametersHandler.GetAddIssueParameters(createIssueOptions);
+                if (parameters.IsSuccess)
+                {
+                    await _issueHandler.AddIssue(parameters.Value);
+                }
             }
 
             return ExitCode.Success;
@@ -54,9 +55,6 @@ namespace GitlabCmd.Console.App
             _configurationHandler.Handle(parameters);
             return Task.FromResult(ExitCode.Success);
         }
-             
-        private Task<int> CreateMergeRequest(CreateMergeRequestOptions options) 
-            => Task.FromResult(ExitCode.Success);
 
         private Task<int> HandleErrors(IEnumerable<Error> errors) 
             => Task.FromResult(ExitCode.InvalidArguments);

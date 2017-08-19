@@ -12,10 +12,10 @@ namespace GitlabCmd.Console.App
 
         public ParametersHandler(AppSettings settings) => _settings = settings;
 
-        public Result<AddIssueParameters> GetAddIssueParameters(AddIssueOptions options)
+        public Result<AddIssueParameters> GetAddIssueParameters(CreateIssueOptions options)
         {
-            string projectName = options.ProjectName.IsNotEmpty() ? 
-                options.ProjectName : _settings.DefaultGitLabProject;
+            string projectName = options.Project.IsNotEmpty() ? 
+                options.Project : _settings.DefaultGitLabProject;
 
             if (projectName.IsEmpty())
                 return Result.Fail<AddIssueParameters>("Project name is not provided and default is not set");
@@ -36,6 +36,7 @@ namespace GitlabCmd.Console.App
             return Result.Ok(parameters);
         }
 
-        public ConfigurationParameters GetConfigurationParameters(GitlabCmdConfigurationOptions options) => null;
+        public ConfigurationParameters GetConfigurationParameters(GitlabCmdConfigurationOptions options) 
+            => null;
     }
 }
