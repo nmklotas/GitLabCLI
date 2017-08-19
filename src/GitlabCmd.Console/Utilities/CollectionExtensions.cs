@@ -10,5 +10,8 @@ namespace GitlabCmd.Console.Utilities
 
         public static IReadOnlyCollection<T> SafeEnumerate<T>(this IEnumerable<T> sequence) 
             => sequence == null ? new List<T>() : sequence.ToList();
+
+        public static IEnumerable<string> Normalize(this IEnumerable<string> sequence)
+            => sequence.Select(s => s ?? "").Select(s => s.Trim());
     }
 }

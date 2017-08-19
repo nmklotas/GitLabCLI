@@ -20,7 +20,7 @@ namespace GitlabCmd.Console.App
             if (projectName.IsFailure)
                 return Result.Fail<CreateIssueParameters>(projectName);
 
-            var labels = GetLabels(options);
+            var labels = GetLabels(options.Labels);
 
             var parameters = new CreateIssueParameters(
                 options.Title,
@@ -41,7 +41,7 @@ namespace GitlabCmd.Console.App
             if (projectName.IsFailure)
                 return Result.Fail<ListIssuesParameters>(projectName);
 
-            var labels = GetLabels(options);
+            var labels = GetLabels(options.Labels);
 
             var parameters = new ListIssuesParameters(
                 options.Assignee,
@@ -67,10 +67,10 @@ namespace GitlabCmd.Console.App
                 Result.Ok(projectName);
         }
 
-        private IEnumerable<string> GetLabels(CreateIssueOptions options) =>
-            options.Labels.Any() ? options.Labels : new[] { _settings.DefaulGitLabIssueLabel };
-
-        private IEnumerable<string> GetLabels(ListIssuesOptions options) =>
-            options.Labels.Any() ? options.Labels : new[] { _settings.DefaulGitLabIssueLabel };
+        private IEnumerable<string> GetLabels(IEnumerable<string> labels)
+        {
+            var inputLabels = labels.ToList();
+            return inputLabels.Any() ? inputLabels.Normalize() : new[] { _settings.DefaulGitLabIssueLabel };
+        }
     }
 }
