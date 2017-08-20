@@ -55,7 +55,7 @@ namespace GitlabCmd.Console.App
             return Result.Ok(parameters);
         }
 
-        public ConfigurationParameters GetConfigurationParameters(GitlabCmdConfigurationOptions options) => 
+        public ConfigurationParameters GetConfigurationParameters(ConfigurationOptions options) => 
             new ConfigurationParameters
             {
                 Token = options.Token,

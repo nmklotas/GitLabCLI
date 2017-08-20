@@ -3,7 +3,7 @@
 namespace GitlabCmd.Console.Cmd
 {
     [Verb("config")]
-    public sealed class GitlabCmdConfigurationOptions
+    public sealed class ConfigurationOptions
     {
         [Option('t', "token", HelpText = "Authorization token of GitLab host")]
         public string Token { get; set; }
@@ -17,7 +17,7 @@ namespace GitlabCmd.Console.Cmd
         [Option('p', "password", HelpText = "GitLab user password")]
         public string Password { get; set; }
 
-        [Option('p', "default-project", 
+        [Option('d', "default-project", 
             HelpText = 
                 "Default GitLab project name." + 
                 "Used for issues and merges.")]

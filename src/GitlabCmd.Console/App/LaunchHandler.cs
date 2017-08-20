@@ -29,12 +29,12 @@ namespace GitlabCmd.Console.App
             ParseVerbs<
                 CreateOptions,
                 IssueOptions,
-                GitlabCmdConfigurationOptions,
+                ConfigurationOptions,
                 Task<int>>(args).
             MapResult(
                 (CreateOptions options) => Create(options),
                 (IssueOptions options) => HandleIssueOptions(options),
-                (GitlabCmdConfigurationOptions options) => Configure(options),
+                (ConfigurationOptions options) => Configure(options),
                 ReturnInvalidArgsExitCode);
 
         private async Task<int> HandleIssueOptions(IssueOptions options)
@@ -71,7 +71,7 @@ namespace GitlabCmd.Console.App
             return ExitCode.Success;
         }
 
-        private Task<int> Configure(GitlabCmdConfigurationOptions options)
+        private Task<int> Configure(ConfigurationOptions options)
         {
             var parameters = _parametersHandler.GetConfigurationParameters(options);
             _configurationHandler.StoreConfiguration(parameters);

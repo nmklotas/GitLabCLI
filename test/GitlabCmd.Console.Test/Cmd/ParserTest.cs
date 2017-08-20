@@ -93,6 +93,44 @@ namespace GitlabCmd.Console.Test.Cmd
                      s.Labels.SequenceEqual(new[] { "testlabel1" }));
         }
 
+        [Theory]
+        [InlineData(
+            "config",
+            "-t", "testtoken",
+            "-h", "testhost",
+            "-u", "testusername",
+            "-p", "testpassword",
+            "-d", "testproject",
+            "-i", "testdefaultissuesproject",
+            "-m", "testdefaultmergesproject",
+            "-l", "testdefaultissuelabel")]
+        [InlineData(
+            "config",
+            "--token", "testtoken",
+            "--host", "testhost",
+            "--username", "testusername",
+            "--password", "testpassword",
+            "--default-project", "testproject",
+            "--default-issues-project", "testdefaultissuesproject",
+            "--default-merges-project", "testdefaultmergesproject",
+            "--default-issues-label", "testdefaultissuelabel")]
+        public void ConfigCommandParsedAConfigurationOptions(params string[] args)
+        {
+            //act
+            _sut.Parse(args);
+
+            //assert
+            _sut.Options.Should().Match<ConfigurationOptions>(s =>
+                s.Token == "testtoken" &&
+                s.Host == "testhost" &&
+                s.Username == "testusername" &&
+                s.Password == "testpassword" &&
+                s.DefaultProject == "testproject" &&
+                s.DefaultIssuesProject == "testdefaultissuesproject" &&
+                s.DefaultMergesProject == "testdefaultmergesproject" &&
+                s.DefaulIssueLabel == "testdefaultissuelabel");
+        }
+
         private class ParserSpy
         {
             private readonly Parser _parser;
@@ -103,11 +141,11 @@ namespace GitlabCmd.Console.Test.Cmd
                 ParseVerbs<
                     CreateOptions,
                     IssueOptions,
-                    GitlabCmdConfigurationOptions>(args).
+                    ConfigurationOptions>(args).
                 MapResult(
                     (CreateOptions options) => Options = options,
                     (IssueOptions options) => Options = options,
-                    (GitlabCmdConfigurationOptions options) => Options = options,
+                    (ConfigurationOptions options) => Options = options,
                     errors => Errors = errors);
 
             public object Options { get; set; }
