@@ -4,6 +4,7 @@ using GitlabCmd.Console.Cmd;
 using GitlabCmd.Console.Configuration;
 using GitlabCmd.Console.GitLab;
 using GitlabCmd.Console.Utilities;
+using NGitLab.Models;
 using Result = GitlabCmd.Console.Utilities.Result;
 
 namespace GitlabCmd.Console.App
@@ -54,17 +55,23 @@ namespace GitlabCmd.Console.App
             return Result.Ok(parameters);
         }
 
-        public ConfigurationParameters GetConfigurationParameters(GitlabCmdConfigurationOptions options) 
-            => new ConfigurationParameters(
-                options.Token, 
-                options.Host, 
-                options.Username,
-                options.Password);
+        public ConfigurationParameters GetConfigurationParameters(GitlabCmdConfigurationOptions options) => 
+            new ConfigurationParameters
+            {
+                Token = options.Token,
+                Host = options.Token,
+                DefaulIssuesLabel = options.DefaulIssueLabel,
+                DefaultIssuesProject = options.DefaultIssuesProject,
+                DefaultMergesProject = options.DefaultMergesProject,
+                DefaultProject = options.DefaultProject,
+                Password = options.Password,
+                Username = options.Username
+            };
 
         private Result<string> GetProjectName(ProjectOptions options)
         {
             string projectName = options.Project.IsNotEmpty() ?
-                options.Project : _settings.DefaultGitLabProject;
+                options.Project : _settings.DefaultProject;
 
             return projectName.IsEmpty() ?
                 Result.Fail<string>("Project name is not provided and default is not set") :
@@ -74,7 +81,7 @@ namespace GitlabCmd.Console.App
         private IEnumerable<string> GetLabels(IEnumerable<string> labels)
         {
             var inputLabels = labels.ToList();
-            return inputLabels.Any() ? inputLabels.Normalize() : new[] { _settings.DefaulGitLabIssueLabel };
+            return inputLabels.Any() ? inputLabels.Normalize() : new[] { _settings.DefaulIssuesLabel };
         }
     }
 }

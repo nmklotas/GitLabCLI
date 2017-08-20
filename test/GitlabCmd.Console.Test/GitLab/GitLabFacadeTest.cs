@@ -1,9 +1,9 @@
 ﻿using System;
-using System.Linq;
 using System.Threading.Tasks;
 using FluentAssertions;
 using GitlabCmd.Console.Configuration;
 using GitlabCmd.Console.GitLab;
+using GitlabCmd.Console.Utilities;
 using Xunit;
 using static GitlabCmd.Console.Test.GitLab.GitLabApiHelper;
 
@@ -102,22 +102,22 @@ namespace GitlabCmd.Console.Test.GitLab
         public async Task ListIssuesGetsFilteredByLabel()
         {
             //arrange
-            string randomIssueLabel = $"label{Guid.NewGuid()}";
+            string[] randomIssueLabels = { $"label{Guid.NewGuid()}" };
 
             await _sut.AddIssue(
                 "title1",
                 "description1",
                 ProjectName,
-                UserName, 
-                new[] { randomIssueLabel });
+                UserName,
+                randomIssueLabels);
 
             //act
-            var result = await _sut.ListIssues(ProjectName, UserName, new[] { randomIssueLabel });
+            var result = await _sut.ListIssues(ProjectName, UserName, randomIssueLabels);
 
             //assert
             result.IsSuccess.Should().BeTrue();
             result.Value.Should().HaveCount(1);
-            result.Value.Should().ContainSingle(i => i.Labels.Contains(randomIssueLabel));
+            result.Value.Should().ContainSingle(i => i.Labels.Contains(randomIssueLabels));
         }
 
         [Fact]

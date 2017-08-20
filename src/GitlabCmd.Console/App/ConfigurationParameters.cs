@@ -2,20 +2,20 @@
 {
     public class ConfigurationParameters
     {
-        public ConfigurationParameters(string token, string host, string username, string password)
-        {
-            Token = token;
-            Host = host;
-            Username = username;
-            Password = password;
-        }
+        public string Token { get; set; }
 
-        public string Token { get; }
+        public string Host { get; set; }
 
-        public string Host { get; }
+        public string Username { get; set; }
 
-        public string Username { get; }
+        public string Password { get; set; }
 
-        public string Password { get; }
+        public string DefaultProject { get; set; }
+
+        public string DefaultIssuesProject { get; set; }
+
+        public string DefaultMergesProject { get; set; }
+
+        public string DefaulIssuesLabel { get; set; }
     }
 }

@@ -3,7 +3,9 @@ using Castle.Windsor;
 using CommandLine;
 using GitlabCmd.Console.Configuration;
 using GitlabCmd.Console.GitLab;
-using Microsoft.Extensions.Configuration;
+using GitlabCmd.Console.Utilities;
+using Newtonsoft.Json;
+using Newtonsoft.Json.Serialization;
 
 namespace GitlabCmd.Console.App
 {
@@ -23,22 +25,18 @@ namespace GitlabCmd.Console.App
             container.Register(Component.For<AppSettingsValidationHandler>());
             container.Register(Component.For<GitLabClientFactory>());
 
-            RegisterAppSettings(container);
-            return container;
-        }
-
-        private static void RegisterAppSettings(WindsorContainer container)
-        {
-            var builder = new ConfigurationBuilder().
-                AddJsonFile("appsettings.json", optional: true, reloadOnChange: true).
-                AddEnvironmentVariables();
-
-            container.Register(Component.For<AppSettings>().UsingFactoryMethod(c =>
+            container.Register(Component.For<JsonSerializer>().UsingFactoryMethod(c => JsonSerializer.CreateDefault(new JsonSerializerSettings
             {
-                var appSettings = new AppSettings();
-                builder.Build().GetSection("appConfiguration").Bind(appSettings);
-                return appSettings;
-            }));
+                ContractResolver = new CamelCasePropertyNamesContractResolver()
+            })));
+
+            container.Register(Component.For<AppSettingsStorage>().UsingFactoryMethod(
+                c => new AppSettingsStorage(c.Resolve<JsonSerializer>(), "gitlab".GetLocalAppDataFolder())));
+
+            container.Register(Component.For<AppSettings>().UsingFactoryMethod(
+                c => c.Resolve<AppSettingsStorage>().Load()));
+
+            return container;
         }
     }
 }

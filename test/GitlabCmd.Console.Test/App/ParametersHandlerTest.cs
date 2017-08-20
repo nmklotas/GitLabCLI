@@ -14,8 +14,8 @@ namespace GitlabCmd.Console.Test.App
         {
             var settings = new AppSettings
             {
-                DefaultGitLabProject = "test-project",
-                DefaulGitLabIssueLabel = "test-issue-label",
+                DefaultProject = "test-project",
+                DefaulIssuesLabel = "test-issue-label",
                 GitLabAccessToken = "test-access-token",
                 GitLabHostUrl = "https://test-gitlab.com"
             };

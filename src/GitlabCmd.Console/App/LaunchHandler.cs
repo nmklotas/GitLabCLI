@@ -35,10 +35,13 @@ namespace GitlabCmd.Console.App
                 (CreateOptions options) => Create(options),
                 (IssueOptions options) => HandleIssueOptions(options),
                 (GitlabCmdConfigurationOptions options) => Configure(options),
-                HandleErrors);
+                ReturnInvalidArgsExitCode);
 
         private async Task<int> HandleIssueOptions(IssueOptions options)
         {
+            if (!_configurationHandler.IsConfigurationValid())
+                return ExitCode.InvalidConfiguration;
+
             if (options is ListIssuesOptions listIssueOptions)
             {
                 var parameters = _parametersHandler.NegotiateListIssuesParameters(listIssueOptions);
@@ -53,6 +56,9 @@ namespace GitlabCmd.Console.App
 
         private async Task<int> Create(CreateOptions options)
         {
+            if (!_configurationHandler.IsConfigurationValid())
+                return ExitCode.InvalidConfiguration;
+
             if (options is CreateIssueOptions createIssueOptions)
             {
                 var parameters = _parametersHandler.NegotiateAddIssueParameters(createIssueOptions);
@@ -68,11 +74,11 @@ namespace GitlabCmd.Console.App
         private Task<int> Configure(GitlabCmdConfigurationOptions options)
         {
             var parameters = _parametersHandler.GetConfigurationParameters(options);
-            _configurationHandler.StoreParameters(parameters);
+            _configurationHandler.StoreConfiguration(parameters);
             return Task.FromResult(ExitCode.Success);
         }
 
-        private Task<int> HandleErrors(IEnumerable<Error> errors) 
+        private static Task<int> ReturnInvalidArgsExitCode(IEnumerable<Error> errors)
             => Task.FromResult(ExitCode.InvalidArguments);
     }
 }

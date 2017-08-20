@@ -10,12 +10,12 @@ namespace GitlabCmd.Console.Configuration
 
         public string GitLabAccessToken { get; set; }
 
-        public string DefaultGitLabProject { get; set; }
+        public string DefaultProject { get; set; }
 
-        public string DefaultGitLabProjectForIssues { get; set; }
+        public string DefaultIssuesProject { get; set; }
 
-        public string DefaultGitLabProjectForMergeRequests { get; set; }
+        public string DefaultMergesProject { get; set; }
 
-        public string DefaulGitLabIssueLabel { get; set; }
+        public string DefaulIssuesLabel { get; set; }
     }
 }
