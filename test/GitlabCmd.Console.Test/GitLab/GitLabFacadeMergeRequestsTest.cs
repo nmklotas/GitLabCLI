@@ -3,6 +3,7 @@ using System.Threading.Tasks;
 using FluentAssertions;
 using GitlabCmd.Console.Configuration;
 using GitlabCmd.Console.GitLab;
+using NGitLab.Models;
 using Xunit;
 using static GitlabCmd.Console.Test.GitLab.GitLabApiHelper;
 
@@ -32,14 +33,12 @@ namespace GitlabCmd.Console.Test.GitLab
 
             await ShouldHaveMergeRequest(
                 ProjectName,
-                result.Value, issue =>
-                {
-                    issue.Title.Should().Be(randomTitle);
-                    issue.Assignee.Username.Should().Be(UserName);
-                    issue.SourceBranch.Should().Be("develop");
-                    issue.TargetBranch.Should().Be("master");
-                    issue.State.Should().BeEquivalentTo("opened");
-                });
+                result.Value,
+                m => m.Title == randomTitle &&
+                     m.Assignee.Username == UserName &&
+                     m.SourceBranch == "develop" &&
+                     m.TargetBranch == "master" &&
+                     m.State == "opened");
         }
 
         [Fact]
@@ -57,14 +56,12 @@ namespace GitlabCmd.Console.Test.GitLab
 
             await ShouldHaveMergeRequest(
                 ProjectName,
-                result.Value, issue =>
-                {
-                    issue.Title.Should().Be(randomTitle);
-                    issue.Assignee.Username.Should().Be(UserName);
-                    issue.SourceBranch.Should().Be("develop");
-                    issue.TargetBranch.Should().Be("master");
-                    issue.State.Should().BeEquivalentTo("opened");
-                });
+                result.Value, 
+                m => m.Title == randomTitle &&
+                    m.Assignee.Username == UserName &&
+                    m.SourceBranch == "develop" &&
+                    m.TargetBranch == "master" &&
+                    m.State == "opened");
         }
 
         [Fact]

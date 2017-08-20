@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Linq;
+using System.Linq.Expressions;
 using System.Threading.Tasks;
 using FluentAssertions;
 using GitlabCmd.Console.GitLab;
@@ -37,7 +38,7 @@ namespace GitlabCmd.Console.Test.GitLab
         public static async Task ShouldHaveMergeRequest(
             string projectName,
             int mergeRequestId,
-            Action<MergeRequest> mergeRequestAction)
+            Expression<Func<MergeRequest, bool>> predicate)
         {
             var projects = await _client.Projects.Accessible();
 
@@ -47,7 +48,7 @@ namespace GitlabCmd.Console.Test.GitLab
             var mergeRequests = await _client.GetMergeRequest(project.Id).All();
             var mergeRequest = mergeRequests.FirstOrDefault(s => s.Id == mergeRequestId);
             mergeRequest.Should().NotBeNull($"Merge request {mergeRequestId} does not exists");
-            mergeRequestAction(mergeRequest);
+            mergeRequest.Should().Match(predicate);
         }
 
         public static async Task DeleteAllMergeRequests(string projectName)
