@@ -44,5 +44,8 @@ namespace GitlabCmd.Console.Cmd
 
         [Option('a', "assignee")]
         public string Assignee { get; set; }
+
+        [Option("assign-myself")]
+        public bool AssignMyself { get; set; }
     }
 }

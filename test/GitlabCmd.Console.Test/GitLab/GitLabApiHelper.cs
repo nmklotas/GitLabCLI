@@ -33,5 +33,33 @@ namespace GitlabCmd.Console.Test.GitLab
             issue.Should().NotBeNull($"Issue {issueId} does not exists");
             issueAction(issue);
         }
+
+        public static async Task ShouldHaveMergeRequest(
+            string projectName,
+            int mergeRequestId,
+            Action<MergeRequest> mergeRequestAction)
+        {
+            var projects = await _client.Projects.Accessible();
+
+            var project = projects.FirstOrDefault(p => p.Name.EqualsIgnoringCase(projectName)) ??
+                          throw new InvalidOperationException($"project {projectName} does not exists");
+
+            var mergeRequests = await _client.GetMergeRequest(project.Id).All();
+            var mergeRequest = mergeRequests.FirstOrDefault(s => s.Id == mergeRequestId);
+            mergeRequest.Should().NotBeNull($"Merge request {mergeRequestId} does not exists");
+            mergeRequestAction(mergeRequest);
+        }
+
+        public static async Task DeleteAllMergeRequests(string projectName)
+        {
+            var projects = await _client.Projects.Accessible();
+
+            var project = projects.FirstOrDefault(p => p.Name.EqualsIgnoringCase(projectName)) ??
+                          throw new InvalidOperationException($"project {projectName} does not exists");
+
+            var mergeRequests = await _client.GetMergeRequest(project.Id).All();
+            await Task.WhenAll(mergeRequests.Select(
+                m => _client.DeleteMergeRequest(project.Id, m.Id)));
+        }
     }
 }

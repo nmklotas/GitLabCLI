@@ -4,7 +4,6 @@ using GitlabCmd.Console.Cmd;
 using GitlabCmd.Console.Configuration;
 using GitlabCmd.Console.GitLab;
 using GitlabCmd.Console.Utilities;
-using NGitLab.Models;
 using Result = GitlabCmd.Console.Utilities.Result;
 
 namespace GitlabCmd.Console.App
@@ -55,7 +54,27 @@ namespace GitlabCmd.Console.App
             return Result.Ok(parameters);
         }
 
-        public ConfigurationParameters GetConfigurationParameters(ConfigurationOptions options) => 
+        public Result<CreateMergeRequestParameters> NegotiateCreateMergeRequestParameters(CreateMergeRequestOptions options)
+        {
+            var projectName = GetProjectName(options);
+            if (projectName.IsFailure)
+                return Result.Fail<CreateMergeRequestParameters>(projectName);
+
+            var parameters = new CreateMergeRequestParameters(
+                projectName.Value,
+                options.Source,
+                options.Destination,
+                options.Title,
+                "", //TODO: description is not supported currently..
+                options.Assignee)
+            {
+                AssignedToCurrentUser = options.AssignMyself
+            };
+
+            return Result.Ok(parameters);
+        }
+
+        public ConfigurationParameters NegotiateConfigurationParameters(ConfigurationOptions options) => 
             new ConfigurationParameters
             {
                 Token = options.Token,

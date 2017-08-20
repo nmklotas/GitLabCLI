@@ -3,7 +3,7 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
 using GitlabCmd.Console.Utilities;
-using NGitLab;
+using Newtonsoft.Json;
 using NGitLab.Impl;
 using NGitLab.Models;
 
@@ -63,36 +63,30 @@ namespace GitlabCmd.Console.GitLab
             return await InnerListIssues(client, projectName, client.Users.Current.Id, labels);
         });
 
-        private async Task<Result<IReadOnlyList<Issue>>> InnerListIssues(
-            GitLabClientEx client,
-            string projectName,
-            int? assigneeId,
-            IEnumerable<string> labels = null)
-        {
-            var allProjects = await client.Projects.Accessible();
-            var project = allProjects.FirstOrDefault(p => p.Name.EqualsIgnoringCase(projectName));
-            if (project == null)
-                return Result.Fail<IReadOnlyList<Issue>>($"Project {projectName} was not found");
-
-            var issues = await client.Issues.ForProject(project.Id);
-            if (assigneeId.HasValue)
-                issues = issues.Where(i => i.Assignee?.Id == assigneeId);
-
-            var inputLabels = labels.SafeEnumerate();
-            if (inputLabels.Any())
-                issues = issues.Where(i => i.Labels != null && i.Labels.Contains(inputLabels));
-
-            return Result.Ok<IReadOnlyList<Issue>>(issues.ToList());
-        }
-
         public async Task<Result<int>> CreateMergeRequest(
+            string projectName,
+            string title,
+            string sourceBranch,
+            string targetBranch,
+            string assigneeName = null) => await SafeGetResult(async () =>
+        {
+            var client = await _clientFactory.Create();
+
+            if (assigneeName.IsEmpty())
+                return await InnerCreateMergeRequest(client, projectName, title, sourceBranch, targetBranch, null);
+
+            User assignee = await client.GetUserByNameAsync(assigneeName);
+            return await InnerCreateMergeRequest(client, projectName, title, sourceBranch, targetBranch, assignee?.Id);
+        });
+
+        public async Task<Result<int>> CreateMergeRequestForCurrentUser(
             string projectName,
             string title,
             string sourceBranch,
             string targetBranch) => await SafeGetResult(async () =>
         {
             var client = await _clientFactory.Create();
-            return await InnerCreateMergeRequest(client, projectName, title, sourceBranch, targetBranch);
+            return await InnerCreateMergeRequest(client, projectName, title, sourceBranch, targetBranch, client.Users.Current.Id);
         });
 
         private async Task<Result<int>> InnerCreateMergeRequest(
@@ -100,20 +94,21 @@ namespace GitlabCmd.Console.GitLab
             string projectName,
             string title,
             string sourceBranch,
-            string targetBranch)
+            string targetBranch,
+            int? assigneeId)
         {
             var allProjects = await client.Projects.Accessible();
             var project = allProjects.FirstOrDefault(p => p.Name.EqualsIgnoringCase(projectName));
             if (project == null)
                 return Result.Fail<int>($"Project {projectName} was not found");
 
-            IMergeRequestClient mergeRequestClient = client.GetMergeRequest(project.Id);
-
-            var createdMergeRequest = await mergeRequestClient.CreateAsync(new MergeRequestCreate
+            var createdMergeRequest = await client.GetMergeRequest(project.Id).CreateAsync(new MergeRequestCreate
             {
                 SourceBranch = sourceBranch,
                 TargetBranch = targetBranch,
-                Title = title
+                Title = title,
+                AssigneeId = assigneeId,
+                TargetProjectId = project.Id
             });
 
             return Result.Ok(createdMergeRequest.Id);
@@ -142,6 +137,28 @@ namespace GitlabCmd.Console.GitLab
             });
 
             return Result.Ok(createdIssue.Id);
+        }
+
+        private async Task<Result<IReadOnlyList<Issue>>> InnerListIssues(
+            GitLabClientEx client,
+            string projectName,
+            int? assigneeId,
+            IEnumerable<string> labels = null)
+        {
+            var allProjects = await client.Projects.Accessible();
+            var project = allProjects.FirstOrDefault(p => p.Name.EqualsIgnoringCase(projectName));
+            if (project == null)
+                return Result.Fail<IReadOnlyList<Issue>>($"Project {projectName} was not found");
+
+            var issues = await client.Issues.ForProject(project.Id);
+            if (assigneeId.HasValue)
+                issues = issues.Where(i => i.Assignee?.Id == assigneeId);
+
+            var inputLabels = labels.SafeEnumerate();
+            if (inputLabels.Any())
+                issues = issues.Where(i => i.Labels != null && i.Labels.Contains(inputLabels));
+
+            return Result.Ok<IReadOnlyList<Issue>>(issues.ToList());
         }
 
         private static async Task<Result<T>> SafeGetResult<T>(Func<Task<Result<T>>> resultDelegate)

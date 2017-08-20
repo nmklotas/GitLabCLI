@@ -21,10 +21,10 @@ namespace GitlabCmd.Console.Test.GitLab
         public async Task AddIssueCreatesIssue()
         {
             var result = await _sut.AddIssue(
-                "title1", "description1", 
-                ProjectName, 
+                "title1", "description1",
+                ProjectName,
                 UserName,
-                new[] {"label1", "label2"});
+                new[] { "label1", "label2" });
 
             result.IsSuccess.Should().BeTrue();
 
@@ -44,7 +44,7 @@ namespace GitlabCmd.Console.Test.GitLab
         public async Task AddIssueForCurrentUserCreatesIssueForCurrentUser()
         {
             var result = await _sut.AddIssueForCurrentUser(
-                "title1", 
+                "title1",
                 "description1",
                 ProjectName);
 

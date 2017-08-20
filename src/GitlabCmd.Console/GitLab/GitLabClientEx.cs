@@ -13,6 +13,7 @@ namespace GitlabCmd.Console.GitLab
     /// </summary>
     public sealed class GitLabClientEx : GitLabClient
     {
+        private const string _privateToken = "PRIVATE-TOKEN";
         private readonly HttpRequestor _requestor;
 
         public GitLabClientEx(string hostUrl, string privateToken = "") : base(hostUrl, privateToken)
@@ -22,7 +23,7 @@ namespace GitlabCmd.Console.GitLab
                 BaseAddress = new Uri(hostUrl)
             };
 
-            client.DefaultRequestHeaders.Add("PRIVATE-TOKEN", privateToken);
+            client.DefaultRequestHeaders.Add(_privateToken, privateToken);
 
             _requestor = new HttpRequestor
             {
@@ -42,5 +43,19 @@ namespace GitlabCmd.Console.GitLab
                 return null;
             }
         }
+
+        public new async Task<Session> LoginAsync(string username, string password)
+        {
+            var session = await base.LoginAsync(username, password);
+
+            if (_requestor.Client.DefaultRequestHeaders.Contains(_privateToken))
+                _requestor.Client.DefaultRequestHeaders.Remove(_privateToken);
+
+            _requestor.Client.DefaultRequestHeaders.Add(_privateToken, session.PrivateToken);
+            return session;
+        }
+
+        public async Task DeleteMergeRequest(int projectId, int mergeRequestId) => 
+            await _requestor.Delete($"/projects/{projectId}/merge_requests/{mergeRequestId}");
     }
 }

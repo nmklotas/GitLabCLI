@@ -7,14 +7,18 @@
             string sourceBranch,
             string targetBranch,
             string title, 
-            string description)
+            string description,
+            string assignee = null)
         {
             ProjectName = projectName;
             SourceBranch = sourceBranch;
             TargetBranch = targetBranch;
             Title = title;
+            Assignee = assignee ?? "";
             Description = description;
         }
+
+        public bool AssignedToCurrentUser { get; set; }
 
         public string TargetBranch { get; }
 
@@ -23,6 +27,8 @@
         public string SourceBranch { get; }
 
         public string Title { get; }
+
+        public string Assignee { get; }
 
         public string Description { get; }
     }
