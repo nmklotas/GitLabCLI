@@ -8,12 +8,13 @@
   </PropertyGroup>
   <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Debug|AnyCPU'">
     <LangVersion>7.1</LangVersion>
-    <OutputPath>..\bin\Debug\netcoreapp2.0\</OutputPath>
+    <OutputPath>..\bin\Debug\</OutputPath>
     <WarningsAsErrors></WarningsAsErrors>
     <TreatWarningsAsErrors>false</TreatWarningsAsErrors>
   </PropertyGroup>
   <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Release|AnyCPU'">
     <LangVersion>7.1</LangVersion>
+	<OutputPath>..\bin\Release\</OutputPath>
   </PropertyGroup>
   <ItemGroup>
     <PackageReference Include="Castle.Windsor" Version="4.0.0">
