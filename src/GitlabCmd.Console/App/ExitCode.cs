@@ -2,7 +2,7 @@
 {
     public static class ExitCode
     {
-        public static int Success { get; } = 1;
+        public static int Success { get; } = 0;
 
         public static int InvalidArguments { get; } = 1;
 

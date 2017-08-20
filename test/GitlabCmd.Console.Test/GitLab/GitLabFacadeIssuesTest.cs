@@ -9,7 +9,7 @@ using static GitlabCmd.Console.Test.GitLab.GitLabApiHelper;
 
 namespace GitlabCmd.Console.Test.GitLab
 {
-    public class GitLabFacadeTest
+    public class GitLabFacadeIssuesTest
     {
         private readonly GitLabFacade _sut = new GitLabFacade(new GitLabClientFactory(new AppSettings
         {
