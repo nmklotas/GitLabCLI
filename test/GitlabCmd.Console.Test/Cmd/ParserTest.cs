@@ -13,7 +13,7 @@ namespace GitlabCmd.Console.Test.Cmd
 
         [Theory]
         [InlineData(
-            "create", "issue",
+            "issue", "create",
             "-t", "test title",
             "-d", "test description",
             "-a", "testUser",
@@ -21,7 +21,7 @@ namespace GitlabCmd.Console.Test.Cmd
             "-p", "testProject", 
             "--assign-myself")]
         [InlineData(
-            "create", "issue",
+            "issue", "create",
             "--title", "test title",
             "--description", "test description",
             "--assignee", "testUser",
@@ -45,14 +45,14 @@ namespace GitlabCmd.Console.Test.Cmd
 
         [Theory]
         [InlineData(
-            "create", "merge",
+            "merge", "create",
             "-a", "testUser",
             "-t", "testtitle",
             "-s", "testSourceBranch",
             "-d", "testDestinationBranch",
             "-p", "testProject")]
         [InlineData(
-            "create", "merge",
+            "merge", "create",
             "--assignee", "testUser",
             "--title", "testtitle",
             "--source", "testSourceBranch",
@@ -75,7 +75,7 @@ namespace GitlabCmd.Console.Test.Cmd
 
         [Theory]
         [InlineData(
-            "issue", "ls",
+            "issue", "list",
             "--assigned-to-me",
             "-l", "testlabel1")]
         [InlineData(
@@ -165,12 +165,10 @@ namespace GitlabCmd.Console.Test.Cmd
 
             public void Parse(string[] args) => _parser.
                 ParseVerbs<
-                    CreateOptions,
                     IssueOptions,
                     MergeOptions,
                     ConfigurationOptions>(args).
                 MapResult(
-                    (CreateOptions o) => Options = o,
                     (IssueOptions o) => Options = o,
                     (MergeOptions o) => Options = o,
                     (ConfigurationOptions o) => Options = o,

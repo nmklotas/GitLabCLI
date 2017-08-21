@@ -30,13 +30,11 @@ namespace GitlabCmd.Console.App
 
         public async Task<int> Launch(string[] args) => await _parser.
             ParseVerbs<
-                CreateOptions,
                 IssueOptions,
                 MergeOptions,
                 ConfigurationOptions,
                 Task<int>>(args).
             MapResult(
-                (CreateOptions o) => Handle(o),
                 (IssueOptions o) => Handle(o),
                 (MergeOptions o) => Handle(o),
                 (ConfigurationOptions o) => Handle(o),
@@ -46,6 +44,15 @@ namespace GitlabCmd.Console.App
         {
             if (!_configurationHandler.IsConfigurationValid())
                 return ExitCode.InvalidConfiguration;
+
+            if (options is CreateIssueOptions createIssueOptions)
+            {
+                var parameters = _parametersHandler.NegotiateAddIssueParameters(createIssueOptions);
+                if (parameters.IsSuccess)
+                {
+                    await _issueHandler.AddIssue(parameters.Value);
+                }
+            }
 
             if (options is ListIssuesOptions listIssueOptions)
             {
@@ -64,38 +71,21 @@ namespace GitlabCmd.Console.App
             if (!_configurationHandler.IsConfigurationValid())
                 return ExitCode.InvalidConfiguration;
 
-            if (options is ListMergesOptions listMergesOptions)
-            {
-                var parameters = _parametersHandler.NegotiateListMergesParameters(listMergesOptions);
-                if (parameters.IsSuccess)
-                {
-                    await _mergeRequestHandler.ListMerges(parameters.Value);
-                }
-            }
-
-            return ExitCode.Success;
-        }
-
-        private async Task<int> Handle(CreateOptions options)
-        {
-            if (!_configurationHandler.IsConfigurationValid())
-                return ExitCode.InvalidConfiguration;
-
-            if (options is CreateIssueOptions createIssueOptions)
-            {
-                var parameters = _parametersHandler.NegotiateAddIssueParameters(createIssueOptions);
-                if (parameters.IsSuccess)
-                {
-                    await _issueHandler.AddIssue(parameters.Value);
-                }
-            }
-
             if (options is CreateMergeRequestOptions createMergeRequestOptions)
             {
                 var parameters = _parametersHandler.NegotiateCreateMergeRequestParameters(createMergeRequestOptions);
                 if (parameters.IsSuccess)
                 {
                     await _mergeRequestHandler.CreateMergeRequest(parameters.Value);
+                }
+            }
+
+            if (options is ListMergesOptions listMergesOptions)
+            {
+                var parameters = _parametersHandler.NegotiateListMergesParameters(listMergesOptions);
+                if (parameters.IsSuccess)
+                {
+                    await _mergeRequestHandler.ListMerges(parameters.Value);
                 }
             }
 
