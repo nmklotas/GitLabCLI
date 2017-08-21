@@ -114,7 +114,7 @@ namespace GitlabCmd.Console.Test.Cmd
             "--default-issues-project", "testdefaultissuesproject",
             "--default-merges-project", "testdefaultmergesproject",
             "--default-issues-label", "testdefaultissuelabel")]
-        public void ConfigCommandParsedAConfigurationOptions(params string[] args)
+        public void ConfigCommandParsedConfigurationOptions(params string[] args)
         {
             //act
             _sut.Parse(args);
@@ -131,6 +131,32 @@ namespace GitlabCmd.Console.Test.Cmd
                 s.DefaulIssueLabel == "testdefaultissuelabel");
         }
 
+        [Theory]
+        [InlineData(
+            "merge", "list",
+            "opened",
+            "--assigned-to-me", "testUser",
+            "-a", "testuser",
+            "-p", "testproject")]
+        [InlineData(
+            "merge", "list",
+            "opened",
+            "--assigned-to-me", "testUser",
+            "--assignee", "testuser",
+            "--default-project", "testproject")]
+        public void MergeListCommandParsedConfigurationOptions(params string[] args)
+        {
+            //act
+            _sut.Parse(args);
+
+            //assert
+            _sut.Options.Should().Match<ListMergesOptions>(
+                s => s.State == MergeRequestState.Opened &&
+                     s.AssignedToMe &&
+                     s.Assignee == "testUser" &&
+                     s.Project == "testProject");
+        }
+
         private class ParserSpy
         {
             private readonly Parser _parser;
@@ -141,11 +167,13 @@ namespace GitlabCmd.Console.Test.Cmd
                 ParseVerbs<
                     CreateOptions,
                     IssueOptions,
+                    MergeOptions,
                     ConfigurationOptions>(args).
                 MapResult(
-                    (CreateOptions options) => Options = options,
-                    (IssueOptions options) => Options = options,
-                    (ConfigurationOptions options) => Options = options,
+                    (CreateOptions o) => Options = o,
+                    (IssueOptions o) => Options = o,
+                    (MergeOptions o) => Options = o,
+                    (ConfigurationOptions o) => Options = o,
                     errors => Errors = errors);
 
             public object Options { get; set; }

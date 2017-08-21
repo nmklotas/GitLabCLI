@@ -1,6 +1,8 @@
 ﻿using System;
+using System.Linq;
 using System.Threading.Tasks;
 using FluentAssertions;
+using FluentAssertions.Common;
 using GitlabCmd.Console.Configuration;
 using GitlabCmd.Console.GitLab;
 using GitlabCmd.Console.Utilities;
@@ -23,21 +25,19 @@ namespace GitlabCmd.Console.Test.GitLab
             var result = await _sut.AddIssue(
                 "title1", "description1",
                 ProjectName,
-                UserName,
+                CurrentUser,
                 new[] { "label1", "label2" });
 
             result.IsSuccess.Should().BeTrue();
 
             await ShouldHaveIssue(
                 ProjectName,
-                result.Value, issue =>
-                {
-                    issue.Title.Should().Be("title1");
-                    issue.Description.Should().Be("description1");
-                    issue.Assignee.Username.Should().Be(UserName);
-                    issue.Labels.Should().BeEquivalentTo("label1", "label2");
-                    issue.State.Should().BeEquivalentTo("opened");
-                });
+                result.Value, 
+                i => i.Title == "title1" &&
+                    i.Description == "description1" &&
+                    i.Assignee.Username == CurrentUser &&
+                    i.Labels.SequenceEqual(new [] { "label1", "label2" }) &&
+                    i.State == "opened");
         }
 
         [Fact]
@@ -52,10 +52,8 @@ namespace GitlabCmd.Console.Test.GitLab
 
             await ShouldHaveIssue(
                 ProjectName,
-                result.Value, issue =>
-                {
-                    issue.Assignee.Username.Should().Be(UserName);
-                });
+                result.Value, 
+                i => i.Assignee.Username == CurrentUser);
         }
 
         [Fact]
@@ -88,10 +86,10 @@ namespace GitlabCmd.Console.Test.GitLab
                 randomIssueTitle,
                 "description1",
                 ProjectName,
-                UserName);
+                CurrentUser);
 
             //act
-            var result = await _sut.ListIssues(ProjectName, UserName);
+            var result = await _sut.ListIssues(ProjectName, CurrentUser);
 
             //assert
             result.IsSuccess.Should().BeTrue();
@@ -108,11 +106,11 @@ namespace GitlabCmd.Console.Test.GitLab
                 "title1",
                 "description1",
                 ProjectName,
-                UserName,
+                CurrentUser,
                 randomIssueLabels);
 
             //act
-            var result = await _sut.ListIssues(ProjectName, UserName, randomIssueLabels);
+            var result = await _sut.ListIssues(ProjectName, CurrentUser, randomIssueLabels);
 
             //assert
             result.IsSuccess.Should().BeTrue();
@@ -131,7 +129,7 @@ namespace GitlabCmd.Console.Test.GitLab
                 randomIssueTitle,
                 "description1",
                 ProjectName,
-                UserName);
+                CurrentUser);
 
             //act
             var result = await _sut.ListIssuesForCurrentUser(ProjectName);

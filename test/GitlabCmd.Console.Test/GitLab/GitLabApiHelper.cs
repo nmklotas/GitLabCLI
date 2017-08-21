@@ -16,14 +16,14 @@ namespace GitlabCmd.Console.Test.GitLab
 
         public static string ProjectName => "testproject";
 
-        public static string UserName => _client.Users.Current.Username;
+        public static string CurrentUser => _client.Users.Current.Username;
 
         public static string NonExistingProjectName => Guid.NewGuid().ToString();
 
         public static async Task ShouldHaveIssue(
             string projectName, 
             int issueId,
-            Action<Issue> issueAction)
+            Expression<Func<Issue, bool>> predicate)
         {
             var projects = await _client.Projects.Accessible();
 
@@ -32,7 +32,7 @@ namespace GitlabCmd.Console.Test.GitLab
 
             var issue = await _client.Issues.GetAsync(project.Id, issueId);
             issue.Should().NotBeNull($"Issue {issueId} does not exists");
-            issueAction(issue);
+            issue.Should().Match(predicate);
         }
 
         public static async Task ShouldHaveMergeRequest(

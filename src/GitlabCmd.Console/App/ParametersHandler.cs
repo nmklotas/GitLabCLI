@@ -1,4 +1,5 @@
-﻿using System.Collections.Generic;
+﻿using System;
+using System.Collections.Generic;
 using System.Linq;
 using GitlabCmd.Console.Cmd;
 using GitlabCmd.Console.Configuration;
@@ -72,6 +73,40 @@ namespace GitlabCmd.Console.App
             };
 
             return Result.Ok(parameters);
+        }
+
+        public Result<ListMergesParameters> NegotiateListMergesParameters(ListMergesOptions options)
+        {
+            var projectName = GetProjectName(options);
+            if (projectName.IsFailure)
+                return Result.Fail<ListMergesParameters>(projectName);
+
+            var mappedState = Map(options.State);
+
+            var parameters = new ListMergesParameters(
+                projectName.Value,
+                options.Assignee,
+                mappedState)
+            {
+                AssignedToCurrentUser = options.AssignedToMe
+            };
+            
+            return Result.Ok(parameters);
+
+            NGitLab.Models.MergeRequestState Map(MergeRequestState state)
+            {
+                switch (state)
+                {
+                    case MergeRequestState.Opened:
+                        return NGitLab.Models.MergeRequestState.opened;
+                    case MergeRequestState.Closed:
+                        return NGitLab.Models.MergeRequestState.closed;
+                    case MergeRequestState.Merged:
+                        return NGitLab.Models.MergeRequestState.merged;
+                    default:
+                        throw new NotSupportedException();
+                }
+            }
         }
 
         public ConfigurationParameters NegotiateConfigurationParameters(ConfigurationOptions options) => 

@@ -35,12 +35,13 @@ namespace GitlabCmd.Console.App
                 ConfigurationOptions,
                 Task<int>>(args).
             MapResult(
-                (CreateOptions o) => Create(o),
-                (IssueOptions o) => HandleIssueOptions(o),
-                (ConfigurationOptions o) => Configure(o),
-                ReturnInvalidArgsExitCode);
+                (CreateOptions o) => Handle(o),
+                (IssueOptions o) => Handle(o),
+                (MergeOptions o) => Handle(o),
+                (ConfigurationOptions o) => Handle(o),
+                Handle);
 
-        private async Task<int> HandleIssueOptions(IssueOptions options)
+        private async Task<int> Handle(IssueOptions options)
         {
             if (!_configurationHandler.IsConfigurationValid())
                 return ExitCode.InvalidConfiguration;
@@ -57,7 +58,24 @@ namespace GitlabCmd.Console.App
             return ExitCode.Success;
         }
 
-        private async Task<int> Create(CreateOptions options)
+        private async Task<int> Handle(MergeOptions options)
+        {
+            if (!_configurationHandler.IsConfigurationValid())
+                return ExitCode.InvalidConfiguration;
+
+            if (options is ListMergesOptions listMergesOptions)
+            {
+                var parameters = _parametersHandler.NegotiateListMergesParameters(listMergesOptions);
+                if (parameters.IsSuccess)
+                {
+                    await _mergeRequestHandler.ListMerges(parameters.Value);
+                }
+            }
+
+            return ExitCode.Success;
+        }
+
+        private async Task<int> Handle(CreateOptions options)
         {
             if (!_configurationHandler.IsConfigurationValid())
                 return ExitCode.InvalidConfiguration;
@@ -83,14 +101,14 @@ namespace GitlabCmd.Console.App
             return ExitCode.Success;
         }
 
-        private Task<int> Configure(ConfigurationOptions options)
+        private Task<int> Handle(ConfigurationOptions options)
         {
             var parameters = _parametersHandler.NegotiateConfigurationParameters(options);
             _configurationHandler.StoreConfiguration(parameters);
             return Task.FromResult(ExitCode.Success);
         }
 
-        private static Task<int> ReturnInvalidArgsExitCode(IEnumerable<Error> errors)
-            => Task.FromResult(ExitCode.InvalidArguments);
+        private Task<int> Handle(IEnumerable<Error> errors) =>
+            Task.FromResult(ExitCode.InvalidArguments);
     }
 }

@@ -24,14 +24,11 @@ namespace GitlabCmd.Console.GitLab
             var issueResult = await InnerAddIssue(parameters);
             if (issueResult.IsFailure)
             {
-                _presenter.Info("-------------------------");
-                _presenter.Info("Failed to create issue");
-                _presenter.Error($"{issueResult.Error}");
+                _presenter.FailureResult("Failed to create issue", issueResult.Error);
                 return;
             }
 
-            _presenter.Info("-------------------------");
-            _presenter.Info($"Successfully created issue #{issueResult.Value}");
+            _presenter.SuccessResult($"Successfully created issue #{issueResult.Value}");
         }
 
         public async Task ListIssues(ListIssuesParameters parameters)
@@ -39,9 +36,7 @@ namespace GitlabCmd.Console.GitLab
             var issueResult = await InnerListIssues(parameters);
             if (issueResult.IsFailure)
             {
-                _presenter.Info("-------------------------");
-                _presenter.Info("Failed to retrieve issues");
-                _presenter.Error($"{issueResult.Error}");
+                _presenter.FailureResult("Failed to retrieve issues", issueResult.Error);
                 return;
             }
 
