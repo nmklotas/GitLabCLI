@@ -82,21 +82,26 @@ namespace GitlabCmd.Console.App
                 return Result.Fail<ListMergesParameters>(projectName);
 
             var mappedState = Map(options.State);
+            if (!mappedState.HasValue)
+                return Result.Fail<ListMergesParameters>($"State parameter: {options.State} is not supported." +
+                                                          "Supported values are: opened|closed|merged");
 
             var parameters = new ListMergesParameters(
                 projectName.Value,
                 options.Assignee,
-                mappedState)
+                mappedState.Value)
             {
                 AssignedToCurrentUser = options.AssignedToMe
             };
 
             return Result.Ok(parameters);
 
-            NGitLab.Models.MergeRequestState Map(string state)
+            NGitLab.Models.MergeRequestState? Map(string state)
             {
                 switch (state.NormalizeSpaces().ToUpperInvariant())
                 {
+                    case "":
+                        return NGitLab.Models.MergeRequestState.opened;
                     case "OPENED":
                         return NGitLab.Models.MergeRequestState.opened;
                     case "CLOSED":
@@ -104,7 +109,7 @@ namespace GitlabCmd.Console.App
                     case "MERGED":
                         return NGitLab.Models.MergeRequestState.merged;
                     default:
-                        throw new NotSupportedException();
+                        return null;
                 }
             }
         }

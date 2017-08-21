@@ -11,7 +11,11 @@ namespace GitlabCmd.Console.Cmd
     [Verb("list", HelpText = "Lists merge requests")]
     public sealed class ListMergesOptions : MergeOptions
     {
-        [Value(0, MetaName = "State", HelpText = "Merge request state. Can be opened|merged|closed")]
+        [Value(
+            0, 
+            MetaName = "State", 
+            Default = "opened",
+            HelpText = "Merge request state. Can be opened|merged|closed.")]
         public string State { get; set; }
 
         [Option("assigned-to-me")]
