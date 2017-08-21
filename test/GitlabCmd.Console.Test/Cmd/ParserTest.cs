@@ -79,7 +79,7 @@ namespace GitlabCmd.Console.Test.Cmd
             "--assigned-to-me",
             "-l", "testlabel1")]
         [InlineData(
-            "issue", "ls",
+            "issue", "list",
             "--assigned-to-me",
             "--labels", "testlabel1")]
         public void CommandIssueListParsedAsListIssueOptions(params string[] args)
