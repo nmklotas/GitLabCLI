@@ -1,4 +1,5 @@
 ﻿using System.Collections.Generic;
+using System.Linq;
 using System.Threading.Tasks;
 using GitlabCmd.Console.App;
 using GitlabCmd.Console.Utilities;
@@ -41,12 +42,11 @@ namespace GitlabCmd.Console.GitLab
             }
 
             var issues = issueResult.Value;
-            _presenter.Info("-------------------------");
-            _presenter.Info($"Issues ({issues.Count})");
-            foreach (var issue in issues)
-            {
-                _presenter.Info($"#{issue.Id} - {issue.Title} - {issue.Description}");
-            }
+
+            _presenter.GridResult(
+                $"Issues ({issues.Count})", 
+                new[] { "Issue Id", "Title", "Description"},
+                issues.Select(s => new object[] { s.IssueId, s.Title, s.Description }));
         }
 
         private async Task<Result<IReadOnlyList<Issue>>> InnerListIssues(ListIssuesParameters parameters)
