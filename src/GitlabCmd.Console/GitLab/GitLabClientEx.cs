@@ -2,6 +2,7 @@
 using System.Linq;
 using System.Net.Http;
 using System.Threading.Tasks;
+using Newtonsoft.Json;
 using NGitLab;
 using NGitLab.Impl;
 using NGitLab.Models;
@@ -41,6 +42,19 @@ namespace GitlabCmd.Console.GitLab
             catch (GitLabException)
             {
                 return null;
+            }
+        }
+
+        public async Task<MergeRequest> CreateMergeAsync(int projectId, MergeRequestCreate mergeRequest)
+        {
+            try
+            {
+                return await GetMergeRequest(projectId).CreateAsync(mergeRequest);
+            }
+            catch (JsonException)
+            {
+                throw new GitLabException(
+                    "Failed to create merge request. Ensure if the merge requests does not already exists");
             }
         }
 
