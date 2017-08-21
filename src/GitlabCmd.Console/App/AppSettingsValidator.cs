@@ -3,12 +3,12 @@ using GitlabCmd.Console.Utilities;
 
 namespace GitlabCmd.Console.App
 {
-    public class AppSettingsValidationHandler
+    public class AppSettingsValidator
     {
         private readonly AppSettings _settings;
         private readonly OutputPresenter _outputPresenter;
 
-        public AppSettingsValidationHandler(
+        public AppSettingsValidator(
             AppSettings settings, 
             OutputPresenter outputPresenter)
         {

@@ -8,8 +8,8 @@ namespace GitlabCmd.Console.Test.Cmd
 {
     public class AppSettingsValidationHandlerTest
     {
-        private readonly Func<AppSettings, AppSettingsValidationHandler> _sutFactory =
-            s => new AppSettingsValidationHandler(s, new OutputPresenter());
+        private readonly Func<AppSettings, AppSettingsValidator> _sutFactory =
+            s => new AppSettingsValidator(s, new OutputPresenter());
 
         [Fact]
         public void SettingsWithoutHostUrlAreNotValid()

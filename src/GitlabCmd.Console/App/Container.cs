@@ -23,7 +23,7 @@ namespace GitlabCmd.Console.App
             container.Register(Component.For<ConfigurationHandler>());
             container.Register(Component.For<GitLabIssueHandler>());
             container.Register(Component.For<GitLabMergeRequestsHandler>());
-            container.Register(Component.For<AppSettingsValidationHandler>());
+            container.Register(Component.For<AppSettingsValidator>());
             container.Register(Component.For<GitLabClientFactory>());
 
             container.Register(Component.For<JsonSerializer>().UsingFactoryMethod(c => JsonSerializer.CreateDefault(new JsonSerializerSettings

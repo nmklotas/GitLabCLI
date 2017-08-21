@@ -17,6 +17,9 @@
 	<OutputPath>..\bin\Release\</OutputPath>
   </PropertyGroup>
   <ItemGroup>
+    <None Include="App\AppSettingsValidator.cs" />
+  </ItemGroup>
+  <ItemGroup>
     <PackageReference Include="Castle.Windsor" Version="4.0.0">
       <NoWarn>NU1603</NoWarn>
     </PackageReference>

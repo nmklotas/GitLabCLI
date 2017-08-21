@@ -5,15 +5,15 @@ namespace GitlabCmd.Console.App
     public class ConfigurationHandler
     {
         private readonly AppSettingsStorage _storage;
-        private readonly AppSettingsValidationHandler _validationHander;
+        private readonly AppSettingsValidator _validator;
 
-        public ConfigurationHandler(AppSettingsStorage storage, AppSettingsValidationHandler validationHandler)
+        public ConfigurationHandler(AppSettingsStorage storage, AppSettingsValidator validator)
         {
             _storage = storage;
-            _validationHander = validationHandler;
+            _validator = validator;
         }
 
-        public bool IsConfigurationValid() => _validationHander.Validate();
+        public bool IsConfigurationValid() => _validator.Validate();
 
         public void StoreConfiguration(ConfigurationParameters parameters)
         {
