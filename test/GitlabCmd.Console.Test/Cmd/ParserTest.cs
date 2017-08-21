@@ -135,15 +135,15 @@ namespace GitlabCmd.Console.Test.Cmd
         [InlineData(
             "merge", "list",
             "opened",
-            "--assigned-to-me", "testUser",
+            "--assigned-to-me",
             "-a", "testuser",
             "-p", "testproject")]
         [InlineData(
             "merge", "list",
             "opened",
-            "--assigned-to-me", "testUser",
+            "--assigned-to-me",
             "--assignee", "testuser",
-            "--default-project", "testproject")]
+            "--project", "testproject")]
         public void MergeListCommandParsedConfigurationOptions(params string[] args)
         {
             //act
@@ -151,10 +151,10 @@ namespace GitlabCmd.Console.Test.Cmd
 
             //assert
             _sut.Options.Should().Match<ListMergesOptions>(
-                s => s.State == MergeRequestState.Opened &&
+                s => s.State == "opened" &&
                      s.AssignedToMe &&
-                     s.Assignee == "testUser" &&
-                     s.Project == "testProject");
+                     s.Assignee == "testuser" &&
+                     s.Project == "testproject");
         }
 
         private class ParserSpy

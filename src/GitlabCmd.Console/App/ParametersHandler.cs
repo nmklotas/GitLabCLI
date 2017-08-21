@@ -93,15 +93,15 @@ namespace GitlabCmd.Console.App
 
             return Result.Ok(parameters);
 
-            NGitLab.Models.MergeRequestState Map(MergeRequestState state)
+            NGitLab.Models.MergeRequestState Map(string state)
             {
-                switch (state)
+                switch (state.NormalizeSpaces().ToUpperInvariant())
                 {
-                    case MergeRequestState.Opened:
+                    case "OPENED":
                         return NGitLab.Models.MergeRequestState.opened;
-                    case MergeRequestState.Closed:
+                    case "CLOSED":
                         return NGitLab.Models.MergeRequestState.closed;
-                    case MergeRequestState.Merged:
+                    case "MERGED":
                         return NGitLab.Models.MergeRequestState.merged;
                     default:
                         throw new NotSupportedException();

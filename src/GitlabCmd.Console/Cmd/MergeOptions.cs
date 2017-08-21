@@ -2,7 +2,7 @@
 
 namespace GitlabCmd.Console.Cmd
 {
-    [Verb("merge", HelpText = "Commands: ls. Run merge [command] to learn more.")]
+    [Verb("merge", HelpText = "Commands: list. Run merge [command] to learn more.")]
     [SubVerbs(typeof(ListMergesOptions))]
     public abstract class MergeOptions : ProjectOptions
     {
@@ -11,8 +11,8 @@ namespace GitlabCmd.Console.Cmd
     [Verb("list", HelpText = "Lists merge requests")]
     public sealed class ListMergesOptions : MergeOptions
     {
-        [Value(0)]
-        public MergeRequestState State { get; set; }
+        [Value(0, MetaName = "State", HelpText = "Merge request state. Can be opened|merged|closed")]
+        public string State { get; set; }
 
         [Option("assigned-to-me")]
         public bool AssignedToMe { get; set; }
