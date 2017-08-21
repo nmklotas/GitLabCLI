@@ -20,8 +20,13 @@ namespace GitlabCmd.Console.Configuration
             if (_settings != null)
                 return _settings;
 
+            EnsureSettingsDirectoryExists();
+
             if (!File.Exists(_settingsFile))
+            {
                 _settings = new AppSettings();
+                return _settings;
+            }
 
             using (var file = File.OpenText(_settingsFile))
             using (var reader = new JsonTextReader(file))
@@ -32,6 +37,8 @@ namespace GitlabCmd.Console.Configuration
 
         public void Save(AppSettings settings)
         {
+            EnsureSettingsDirectoryExists();
+
             using (var fs = File.OpenWrite(_settingsFile))
             using (var sw = new StreamWriter(fs))
             using (var jw = new JsonTextWriter(sw))
@@ -39,6 +46,14 @@ namespace GitlabCmd.Console.Configuration
                 jw.Formatting = Formatting.Indented;
                 _serializer.Serialize(jw, settings);
             }
+
+            _settings = settings;
+        }
+
+        private void EnsureSettingsDirectoryExists()
+        {
+            string settingsDirectory = Path.GetDirectoryName(_settingsFile);
+            Directory.CreateDirectory(settingsDirectory);
         }
     }
 }

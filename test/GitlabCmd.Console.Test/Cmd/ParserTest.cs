@@ -128,7 +128,7 @@ namespace GitlabCmd.Console.Test.Cmd
                 s.DefaultProject == "testproject" &&
                 s.DefaultIssuesProject == "testdefaultissuesproject" &&
                 s.DefaultMergesProject == "testdefaultmergesproject" &&
-                s.DefaulIssueLabel == "testdefaultissuelabel");
+                s.DefaulIssuesLabel == "testdefaultissuelabel");
         }
 
         [Theory]

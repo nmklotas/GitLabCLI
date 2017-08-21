@@ -1,9 +1,10 @@
+using System;
+using System.IO;
 using Castle.MicroKernel.Registration;
 using Castle.Windsor;
 using CommandLine;
 using GitlabCmd.Console.Configuration;
 using GitlabCmd.Console.GitLab;
-using GitlabCmd.Console.Utilities;
 using Newtonsoft.Json;
 using Newtonsoft.Json.Serialization;
 
@@ -31,12 +32,22 @@ namespace GitlabCmd.Console.App
             })));
 
             container.Register(Component.For<AppSettingsStorage>().UsingFactoryMethod(
-                c => new AppSettingsStorage(c.Resolve<JsonSerializer>(), "gitlab".GetLocalAppDataFolder())));
+                c => new AppSettingsStorage(
+                    c.Resolve<JsonSerializer>(),
+                    GetSettingsFile())));
 
             container.Register(Component.For<AppSettings>().UsingFactoryMethod(
                 c => c.Resolve<AppSettingsStorage>().Load()));
 
             return container;
+        }
+
+        private static string GetSettingsFile()
+        {
+            string localAppDataFolder = Environment.GetFolderPath(
+                Environment.SpecialFolder.LocalApplicationData);
+
+            return Path.Combine(localAppDataFolder, "gitlab", "appsettings.json");
         }
     }
 }

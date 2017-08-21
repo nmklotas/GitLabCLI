@@ -32,6 +32,7 @@ namespace GitlabCmd.Console.App
             ParseVerbs<
                 CreateOptions,
                 IssueOptions,
+                MergeOptions,
                 ConfigurationOptions,
                 Task<int>>(args).
             MapResult(

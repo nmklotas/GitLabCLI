@@ -113,8 +113,8 @@ namespace GitlabCmd.Console.App
             new ConfigurationParameters
             {
                 Token = options.Token,
-                Host = options.Token,
-                DefaulIssuesLabel = options.DefaulIssueLabel,
+                Host = options.Host,
+                DefaulIssuesLabel = options.DefaulIssuesLabel,
                 DefaultIssuesProject = options.DefaultIssuesProject,
                 DefaultMergesProject = options.DefaultMergesProject,
                 DefaultProject = options.DefaultProject,

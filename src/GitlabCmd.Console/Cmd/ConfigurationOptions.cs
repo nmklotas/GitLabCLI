@@ -37,6 +37,6 @@ namespace GitlabCmd.Console.Cmd
 
         [Option('l', "default-issues-label",
             HelpText = "Default GitLab issue labels. Used when creating & listing issues.")]
-        public string DefaulIssueLabel { get; set; }
+        public string DefaulIssuesLabel { get; set; }
     }
 }
