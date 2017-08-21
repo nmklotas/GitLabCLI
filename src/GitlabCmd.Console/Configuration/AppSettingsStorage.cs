@@ -1,4 +1,5 @@
 ﻿using System.IO;
+using GitlabCmd.Console.Utilities;
 using Newtonsoft.Json;
 
 namespace GitlabCmd.Console.Configuration
@@ -53,6 +54,9 @@ namespace GitlabCmd.Console.Configuration
         private void EnsureSettingsDirectoryExists()
         {
             string settingsDirectory = Path.GetDirectoryName(_settingsFile);
+            if (settingsDirectory.IsEmpty())
+                return;
+
             Directory.CreateDirectory(settingsDirectory);
         }
     }

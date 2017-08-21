@@ -1,4 +1,5 @@
-﻿using System.IO;
+﻿using System;
+using System.IO;
 using FluentAssertions;
 using GitlabCmd.Console.Configuration;
 using Newtonsoft.Json;
@@ -8,34 +9,35 @@ namespace GitlabCmd.Console.Test.Configuration
 {
     public class AppSettingsStorageTest
     {
+        private readonly Func<string, AppSettingsStorage> _sut = p => new AppSettingsStorage(
+            JsonSerializer.CreateDefault(), p);
+
+        private readonly AppSettings _settings = new AppSettings
+        {
+            GitLabHostUrl = "testhost",
+            GitLabUserName = "testusername",
+            GitLabPassword = "testpassword",
+            GitLabAccessToken = "testtoken",
+            DefaultProject = "testproject",
+            DefaultIssuesProject = "testdefaultissuesproject",
+            DefaultMergesProject = "testdefaultmergesproject",
+            DefaulIssuesLabel = "testdefaultissueslabel"
+        };
+
         [Fact]
         public void SavedSettingsCanBeLoaded()
         {
-            var sut = new AppSettingsStorage(
-                JsonSerializer.CreateDefault(), 
-                Path.GetRandomFileName());
+            var sut = _sut(Path.GetRandomFileName());
+            sut.Save(_settings);
+            sut.Load().ShouldBeEquivalentTo(_settings);
+        }
 
-            sut.Save(new AppSettings
-            {
-                GitLabHostUrl = "testhost",
-                GitLabUserName = "testusername",
-                GitLabPassword = "testpassword",
-                GitLabAccessToken = "testtoken",
-                DefaultProject = "testproject",
-                DefaultIssuesProject = "testdefaultissuesproject",
-                DefaultMergesProject = "testdefaultmergesproject",
-                DefaulIssuesLabel = "testdefaultissueslabel"
-            });
-
-            sut.Load().Should().Match<AppSettings>(s =>
-                s.GitLabHostUrl == "testhost" &&
-                s.GitLabUserName == "testusername" &&
-                s.GitLabPassword == "testpassword" &&
-                s.GitLabAccessToken == "testtoken" &&
-                s.DefaultProject == "testproject" &&
-                s.DefaultIssuesProject == "testdefaultissuesproject" &&
-                s.DefaultMergesProject == "testdefaultmergesproject" &&
-                s.DefaulIssuesLabel == "testdefaultissueslabel");
+        [Fact]
+        public void SavedSettingsCanBeLoadedFromDisk()
+        {
+            string fileName = Path.GetRandomFileName();
+            _sut(fileName).Save(_settings);
+            _sut(fileName).Load().ShouldBeEquivalentTo(_settings);
         }
     }
 }

@@ -24,11 +24,4 @@ namespace GitlabCmd.Console.Cmd
         [Option('a', "assignee")]
         public string Assignee { get; set; }
     }
-
-    public enum MergeRequestState
-    {
-        Opened,
-        Closed,
-        Merged
-    }
 }
