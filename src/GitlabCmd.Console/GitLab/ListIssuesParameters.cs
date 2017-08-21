@@ -7,11 +7,11 @@ namespace GitlabCmd.Console.GitLab
     {
         public ListIssuesParameters(
             string assignee, 
-            string projectName,
+            string project,
             IEnumerable<string> labels = null)
         {
             Assignee = assignee;
-            ProjectName = projectName;
+            Project = project;
             Labels = labels != null ? labels.ToList() : new List<string>();
         }
 
@@ -19,7 +19,7 @@ namespace GitlabCmd.Console.GitLab
 
         public string Assignee { get;  }
 
-        public string ProjectName { get; }
+        public string Project { get; }
 
         public IReadOnlyList<string> Labels { get; }
     }

@@ -42,9 +42,14 @@ namespace GitlabCmd.Console.GitLab
             }
 
             var issues = issueResult.Value;
+            if (issues.Count == 0)
+            {
+                _presenter.SuccessResult($"No issues found in project {parameters.Project}");
+                return;
+            }
 
             _presenter.GridResult(
-                $"Issues ({issues.Count})", 
+                $"Found ({issues.Count}) issues in project {parameters.Project}", 
                 new[] { "Issue Id", "Title", "Description"},
                 issues.Select(s => new object[] { s.IssueId, s.Title, s.Description }));
         }
@@ -54,12 +59,12 @@ namespace GitlabCmd.Console.GitLab
             if (parameters.AssignedToCurrentUser)
             {
                 return await _gitLabFacade.ListIssuesForCurrentUser(
-                    parameters.ProjectName, 
+                    parameters.Project, 
                     parameters.Labels);
             }
 
             return await _gitLabFacade.ListIssues(
-                parameters.ProjectName,
+                parameters.Project,
                 parameters.Assignee,
                 parameters.Labels);
         }

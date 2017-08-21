@@ -45,7 +45,7 @@ namespace GitlabCmd.Console.App
             var columnWidths = new List<int>();
             for (int i = 0; i < columnHeaders.Length; i++)
             {
-                int maxTextLength = inputRows.Select(r => r[i].SafeToString().Length).Max();
+                int maxTextLength = inputRows.Select(r => r[i].SafeToString().Length).DefaultIfEmpty().Max();
                 int columnHeaderLength = columnHeaders[i].Length;
                 int columnLength = Math.Max(maxTextLength, columnHeaderLength);
 

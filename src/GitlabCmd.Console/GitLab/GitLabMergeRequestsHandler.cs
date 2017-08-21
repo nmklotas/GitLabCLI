@@ -1,4 +1,5 @@
 ﻿using System.Collections.Generic;
+using System.Linq;
 using System.Threading.Tasks;
 using GitlabCmd.Console.App;
 using GitlabCmd.Console.Utilities;
@@ -31,20 +32,24 @@ namespace GitlabCmd.Console.GitLab
 
         public async Task ListMerges(ListMergesParameters parameters)
         {
-            var issueResult = await InnerListMerges(parameters);
-            if (issueResult.IsFailure)
+            var mergesResult = await InnerListMerges(parameters);
+            if (mergesResult.IsFailure)
             {
-                _presenter.FailureResult("Failed to retrieve merge requests", issueResult.Error);
+                _presenter.FailureResult("Failed to retrieve merge requests", mergesResult.Error);
                 return;
             }
 
-            var issues = issueResult.Value;
-            _presenter.Info("-------------------------");
-            _presenter.Info($"Merge requests ({issues.Count})");
-            foreach (var issue in issues)
+            var merges = mergesResult.Value;
+            if (merges.Count == 0)
             {
-                _presenter.Info($"#{issue.Id} - {issue.Title} - {issue.Description}");
+                _presenter.SuccessResult($"No merge requests found in project {parameters.Project}");
+                return;
             }
+
+            _presenter.GridResult(
+                $"Found ({merges.Count}) merge requests in project {parameters.Project}",
+                new[] { "Issue Id", "Title", "Assignee" },
+                merges.Select(s => new object[] { s.Id, s.Title, s.Assignee }));
         }
 
         private async Task<Result<int>> InnerCreateMergeRequest(CreateMergeRequestParameters parameters)
