@@ -90,7 +90,7 @@ namespace GitlabCmd.Console.App
             {
                 AssignedToCurrentUser = options.AssignedToMe
             };
-            
+
             return Result.Ok(parameters);
 
             NGitLab.Models.MergeRequestState Map(MergeRequestState state)
@@ -109,7 +109,7 @@ namespace GitlabCmd.Console.App
             }
         }
 
-        public ConfigurationParameters NegotiateConfigurationParameters(ConfigurationOptions options) => 
+        public ConfigurationParameters NegotiateConfigurationParameters(ConfigurationOptions options) =>
             new ConfigurationParameters
             {
                 Token = options.Token,
@@ -134,8 +134,15 @@ namespace GitlabCmd.Console.App
 
         private IEnumerable<string> GetLabels(IEnumerable<string> labels)
         {
-            var inputLabels = labels.ToList();
-            return inputLabels.Any() ? inputLabels.Normalize() : new[] { _settings.DefaulIssuesLabel };
+            var inputLabels = labels.NormalizeSpaces().ToList();
+            if (inputLabels.Any(l => l.IsNotEmpty()))
+                return inputLabels;
+
+            string normalizedDefaultLabel = _settings.DefaulIssuesLabel.NormalizeSpaces();
+            if (normalizedDefaultLabel.IsNotEmpty())
+                return new List<string> { normalizedDefaultLabel };
+
+            return new List<string>();
         }
     }
 }

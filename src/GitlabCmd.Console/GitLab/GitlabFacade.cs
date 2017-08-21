@@ -90,7 +90,7 @@ namespace GitlabCmd.Console.GitLab
 
         public async Task<Result<IReadOnlyList<MergeRequest>>> ListMergeRequests(
             string projectName,
-            NGitLab.Models.MergeRequestState? state,
+            MergeRequestState? state,
             string assigneeName = null) => await SafeGetResult(async () =>
         {
             var client = await _clientFactory.Create();
@@ -104,7 +104,7 @@ namespace GitlabCmd.Console.GitLab
 
         public async Task<Result<IReadOnlyList<MergeRequest>>> ListMergeRequestsForCurrentUser(
             string projectName,
-            NGitLab.Models.MergeRequestState? state) => await SafeGetResult(async () =>
+            MergeRequestState? state) => await SafeGetResult(async () =>
         {
             var client = await _clientFactory.Create();
             return await InnerListMerges(client, projectName, client.Users.Current.Id, state);
@@ -123,7 +123,7 @@ namespace GitlabCmd.Console.GitLab
             if (project == null)
                 return Result.Fail<int>($"Project {projectName} was not found");
 
-            var createdMergeRequest = await client.GetMergeRequest(project.Id).CreateAsync(new MergeRequestCreate
+            var createdMergeRequest = await client.CreateMergeAsync(project.Id, new MergeRequestCreate
             {
                 SourceBranch = sourceBranch,
                 TargetBranch = targetBranch,
@@ -186,7 +186,7 @@ namespace GitlabCmd.Console.GitLab
             GitLabClientEx client,
             string projectName,
             int? assigneeId,
-            NGitLab.Models.MergeRequestState? state)
+            MergeRequestState? state)
         {
             var allProjects = await client.Projects.Accessible();
             var project = allProjects.FirstOrDefault(p => p.Name.EqualsIgnoringCase(projectName));

@@ -10,5 +10,7 @@ namespace GitlabCmd.Console.Utilities
         public static bool IsNotEmpty(this string value) => !string.IsNullOrEmpty(value);
 
         public static bool IsEmpty(this string value) => string.IsNullOrEmpty(value);
+
+        public static string NormalizeSpaces(this string value) => (value ?? "").Trim();
     }
 }
