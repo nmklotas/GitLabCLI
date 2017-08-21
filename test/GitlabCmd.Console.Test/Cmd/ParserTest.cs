@@ -28,7 +28,7 @@ namespace GitlabCmd.Console.Test.Cmd
             "--labels", "testlabel1,testlabel2",
             "--project", "testProject",
             "--assign-myself")]
-        public void CreateIssueWithShortArgsParsedAsCreateIssueOptions(params string[] args)
+        public void CommandIssueCreateParsedAsCreateIssueOptions(params string[] args)
         {
             //act
             _sut.Parse(args);
@@ -58,7 +58,7 @@ namespace GitlabCmd.Console.Test.Cmd
             "--source", "testSourceBranch",
             "--destination", "testDestinationBranch",
             "--project", "testProject")]
-        public void AddMergeCallsCreateIsuesWithDescriptionHavingSpaces(params string[] args)
+        public void CommandMergeCreateParsedAsCreateMergeRequestOptions(params string[] args)
         {
             //act
             _sut.Parse(args);
@@ -82,7 +82,7 @@ namespace GitlabCmd.Console.Test.Cmd
             "issue", "ls",
             "--assigned-to-me",
             "--labels", "testlabel1")]
-        public void ListIssuesParsedAsListIssueOptions(params string[] args)
+        public void CommandIssueListParsedAsListIssueOptions(params string[] args)
         {
             //act
             _sut.Parse(args);
@@ -114,7 +114,7 @@ namespace GitlabCmd.Console.Test.Cmd
             "--default-issues-project", "testdefaultissuesproject",
             "--default-merges-project", "testdefaultmergesproject",
             "--default-issues-label", "testdefaultissuelabel")]
-        public void ConfigCommandParsedConfigurationOptions(params string[] args)
+        public void CommandConfigParsedAsConfigurationOptions(params string[] args)
         {
             //act
             _sut.Parse(args);
@@ -144,7 +144,7 @@ namespace GitlabCmd.Console.Test.Cmd
             "--assigned-to-me",
             "--assignee", "testuser",
             "--project", "testproject")]
-        public void MergeListCommandParsedConfigurationOptions(params string[] args)
+        public void MergeListCommandParsedAsListMergesOptions(params string[] args)
         {
             //act
             _sut.Parse(args);

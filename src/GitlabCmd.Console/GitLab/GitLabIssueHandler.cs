@@ -68,14 +68,14 @@ namespace GitlabCmd.Console.GitLab
         {
             if (parameters.AssignToCurrentUser)
             {
-                return await _gitLabFacade.AddIssueForCurrentUser(
+                return await _gitLabFacade.CreateIssueForCurrentUser(
                     parameters.Title,
                     parameters.Description,
                     parameters.ProjectName,
                     parameters.Labels);
             }
 
-            return await _gitLabFacade.AddIssue(
+            return await _gitLabFacade.CreateIssue(
                 parameters.Title,
                 parameters.Description,
                 parameters.ProjectName,

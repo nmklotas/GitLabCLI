@@ -14,7 +14,7 @@ namespace GitlabCmd.Console.GitLab
 
         public GitLabFacade(GitLabClientFactory clientFactory) => _clientFactory = clientFactory;
 
-        public async Task<Result<int>> AddIssue(
+        public async Task<Result<int>> CreateIssue(
             string title,
             string description,
             string projectName,
@@ -24,20 +24,20 @@ namespace GitlabCmd.Console.GitLab
             var client = await _clientFactory.Create();
 
             if (assigneeName.IsEmpty())
-                return await InnerAddIssue(client, title, description, projectName, null, labels);
+                return await InnerCreateIssue(client, title, description, projectName, null, labels);
 
             User assignee = await client.GetUserByNameAsync(assigneeName);
-            return await InnerAddIssue(client, title, description, projectName, assignee?.Id, labels);
+            return await InnerCreateIssue(client, title, description, projectName, assignee?.Id, labels);
         });
 
-        public async Task<Result<int>> AddIssueForCurrentUser(
+        public async Task<Result<int>> CreateIssueForCurrentUser(
             string title,
             string description,
             string projectName,
             IEnumerable<string> labels = null) => await SafeGetResult(async () =>
         {
             var client = await _clientFactory.Create();
-            return await InnerAddIssue(client, title, description, projectName, client.Users.Current.Id, labels);
+            return await InnerCreateIssue(client, title, description, projectName, client.Users.Current.Id, labels);
         });
 
         public async Task<Result<IReadOnlyList<Issue>>> ListIssues(
@@ -135,7 +135,7 @@ namespace GitlabCmd.Console.GitLab
             return Result.Ok(createdMergeRequest.Id);
         }
 
-        private async Task<Result<int>> InnerAddIssue(
+        private async Task<Result<int>> InnerCreateIssue(
             GitLabClientEx client,
             string title,
             string description,

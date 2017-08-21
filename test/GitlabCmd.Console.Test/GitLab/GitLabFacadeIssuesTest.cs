@@ -20,9 +20,9 @@ namespace GitlabCmd.Console.Test.GitLab
         }));
 
         [Fact]
-        public async Task AddIssueCreatesIssue()
+        public async Task CreatesIssue()
         {
-            var result = await _sut.AddIssue(
+            var result = await _sut.CreateIssue(
                 "title1", "description1",
                 ProjectName,
                 CurrentUser,
@@ -41,9 +41,9 @@ namespace GitlabCmd.Console.Test.GitLab
         }
 
         [Fact]
-        public async Task AddIssueForCurrentUserCreatesIssueForCurrentUser()
+        public async Task CreatesIssueForCurrentUser()
         {
-            var result = await _sut.AddIssueForCurrentUser(
+            var result = await _sut.CreateIssueForCurrentUser(
                 "title1",
                 "description1",
                 ProjectName);
@@ -57,9 +57,9 @@ namespace GitlabCmd.Console.Test.GitLab
         }
 
         [Fact]
-        public async Task AddIssueForNonExistingProjectReturnsFailedResult()
+        public async Task CreateIssueForNonExistingProjectReturnsFailedResult()
         {
-            var result = await _sut.AddIssueForCurrentUser(
+            var result = await _sut.CreateIssueForCurrentUser(
                 "title1",
                 "description1",
                 NonExistingProjectName);
@@ -68,7 +68,7 @@ namespace GitlabCmd.Console.Test.GitLab
         }
 
         [Fact]
-        public async Task ListIssuesForNonExistingProjectReturnsFailedResult()
+        public async Task ListsIssuesForNonExistingProjectReturnsFailedResult()
         {
             var result = await _sut.ListIssues(
                 NonExistingProjectName);
@@ -82,7 +82,7 @@ namespace GitlabCmd.Console.Test.GitLab
             //arrange
             string randomIssueTitle = $"title{Guid.NewGuid()}";
 
-            await _sut.AddIssue(
+            await _sut.CreateIssue(
                 randomIssueTitle,
                 "description1",
                 ProjectName,
@@ -97,12 +97,12 @@ namespace GitlabCmd.Console.Test.GitLab
         }
 
         [Fact]
-        public async Task ListIssuesGetsFilteredByLabel()
+        public async Task ListsIssuesFilteredByLabel()
         {
             //arrange
             string[] randomIssueLabels = { $"label{Guid.NewGuid()}" };
 
-            await _sut.AddIssue(
+            await _sut.CreateIssue(
                 "title1",
                 "description1",
                 ProjectName,
@@ -119,13 +119,13 @@ namespace GitlabCmd.Console.Test.GitLab
         }
 
         [Fact]
-        public async Task ListIssuesForCurrentUser()
+        public async Task ListsIssuesForCurrentUser()
         {
             //arrange
             string randomIssueTitle = $"title{Guid.NewGuid()}";
 
             //arrange
-            await _sut.AddIssue(
+            await _sut.CreateIssue(
                 randomIssueTitle,
                 "description1",
                 ProjectName,
