@@ -45,7 +45,7 @@ namespace GitlabCmd.Console.App
             var columnWidths = new List<int>();
             for (int i = 0; i < columnHeaders.Length; i++)
             {
-                int maxTextLength = inputRows.Select(row => row[i].SafeToString().Length).Max();
+                int maxTextLength = inputRows.Select(r => r[i].SafeToString().Length).Max();
                 int columnHeaderLength = columnHeaders[i].Length;
                 int columnLength = Math.Max(maxTextLength, columnHeaderLength);
 
@@ -64,20 +64,21 @@ namespace GitlabCmd.Console.App
                 mainRows.Add(mainRow);
             }
 
-            WriteLine(mainHeader);
-            WriteLine(underlineHeader);
+            WriteLine(mainHeader.TrimStart());
+            WriteLine(underlineHeader.TrimStart());
             foreach (string mainRow in mainRows)
-                WriteLine(mainRow);
+                WriteLine(mainRow.TrimStart());
         }
 
-        private static string EnsureLength(string text, int length)
+        private static string EnsureLength(string text, int length, int maxLength = 50)
         {
-            if (text.Length == length)
+            int finalLength = Math.Min(length, maxLength);
+            if (text.Length == finalLength)
                 return text;
 
-            return text.Length < length ?
-                text.PadRight(length) :
-                text.Substring(0, length);
+            return text.Length < finalLength ?
+                text.PadRight(finalLength) :
+                text.Substring(0, finalLength);
         }
 
         private void WriteLine(string text)
