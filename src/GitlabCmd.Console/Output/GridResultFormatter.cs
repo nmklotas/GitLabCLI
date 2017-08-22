@@ -3,7 +3,7 @@ using System.Collections.Generic;
 using System.Linq;
 using GitlabCmd.Console.Utilities;
 
-namespace GitlabCmd.Console.App
+namespace GitlabCmd.Console.Output
 {
     public sealed class GridResultFormatter
     {

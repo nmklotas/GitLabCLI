@@ -1,6 +1,6 @@
 using CommandLine;
 
-namespace GitlabCmd.Console.Cmd
+namespace GitlabCmd.Console.Parsing
 {
     public abstract class ProjectOptions
     {

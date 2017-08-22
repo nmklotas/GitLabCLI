@@ -1,4 +1,4 @@
-﻿namespace GitlabCmd.Console.App
+﻿namespace GitlabCmd.Console
 {
     public static class ExitCode
     {

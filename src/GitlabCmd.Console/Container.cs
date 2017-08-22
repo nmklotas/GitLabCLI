@@ -5,10 +5,11 @@ using Castle.Windsor;
 using CommandLine;
 using GitlabCmd.Console.Configuration;
 using GitlabCmd.Console.GitLab;
+using GitlabCmd.Console.Output;
 using Newtonsoft.Json;
 using Newtonsoft.Json.Serialization;
 
-namespace GitlabCmd.Console.App
+namespace GitlabCmd.Console
 {
     public static class Container
     {
@@ -24,7 +25,7 @@ namespace GitlabCmd.Console.App
             container.Register(Component.For<GitLabIssueHandler>());
             container.Register(Component.For<GitLabMergeRequestsHandler>());
             container.Register(Component.For<AppSettingsValidator>());
-            container.Register(Component.For<GitLabClientFactory>());
+            container.Register(Component.For<GitLabClientExFactory>());
             container.Register(Component.For<GridResultFormatter>());
             container.Register(Component.For<LaunchOptionsVisitor>());
 

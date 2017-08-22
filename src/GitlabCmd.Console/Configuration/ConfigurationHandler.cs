@@ -1,6 +1,4 @@
-﻿using GitlabCmd.Console.Configuration;
-
-namespace GitlabCmd.Console.App
+﻿namespace GitlabCmd.Console.Configuration
 {
     public class ConfigurationHandler
     {

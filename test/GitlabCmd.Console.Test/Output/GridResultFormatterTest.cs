@@ -1,5 +1,5 @@
 ﻿using FluentAssertions;
-using GitlabCmd.Console.App;
+using GitlabCmd.Console.Output;
 using Xunit;
 
 namespace GitlabCmd.Console.Test.App

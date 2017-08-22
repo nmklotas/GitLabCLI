@@ -1,12 +1,12 @@
 ﻿using System.Collections.Generic;
 using System.Linq;
-using GitlabCmd.Console.Cmd;
 using GitlabCmd.Console.Configuration;
+using GitlabCmd.Console.Parsing;
 using GitlabCmd.Console.GitLab;
 using GitlabCmd.Console.Utilities;
 using Result = GitlabCmd.Console.Utilities.Result;
 
-namespace GitlabCmd.Console.App
+namespace GitlabCmd.Console
 {
     public class ParametersHandler
     {

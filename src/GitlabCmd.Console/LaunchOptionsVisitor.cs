@@ -1,8 +1,8 @@
 ﻿using System.Threading.Tasks;
-using GitlabCmd.Console.Cmd;
-using GitlabCmd.Console.GitLab;
+using GitlabCmd.Console.Configuration;
+using GitlabCmd.Console.Parsing;
 
-namespace GitlabCmd.Console.App
+namespace GitlabCmd.Console
 {
     public sealed class LaunchOptionsVisitor
     {

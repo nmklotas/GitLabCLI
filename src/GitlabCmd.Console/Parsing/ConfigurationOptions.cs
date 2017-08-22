@@ -1,8 +1,7 @@
 ﻿using System.Threading.Tasks;
 using CommandLine;
-using GitlabCmd.Console.App;
 
-namespace GitlabCmd.Console.Cmd
+namespace GitlabCmd.Console.Parsing
 {
     [Verb("config")]
     public sealed class ConfigurationOptions : IVisitableOption

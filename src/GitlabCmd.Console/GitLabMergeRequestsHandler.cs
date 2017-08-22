@@ -1,11 +1,12 @@
 ﻿using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
-using GitlabCmd.Console.App;
+using GitlabCmd.Console.GitLab;
+using GitlabCmd.Console.Output;
 using GitlabCmd.Console.Utilities;
 using NGitLab.Models;
 
-namespace GitlabCmd.Console.GitLab
+namespace GitlabCmd.Console
 {
     public class GitLabMergeRequestsHandler
     {

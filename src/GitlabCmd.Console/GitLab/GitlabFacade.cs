@@ -10,9 +10,9 @@ namespace GitlabCmd.Console.GitLab
 {
     public class GitLabFacade
     {
-        private readonly GitLabClientFactory _clientFactory;
+        private readonly GitLabClientExFactory _clientFactory;
 
-        public GitLabFacade(GitLabClientFactory clientFactory) => _clientFactory = clientFactory;
+        public GitLabFacade(GitLabClientExFactory clientFactory) => _clientFactory = clientFactory;
 
         public async Task<Result<int>> CreateIssue(
             string title,

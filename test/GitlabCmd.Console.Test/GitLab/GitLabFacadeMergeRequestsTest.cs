@@ -11,7 +11,7 @@ namespace GitlabCmd.Console.Test.GitLab
 {
     public class GitLabFacadeMergeRequestsTest : IAsyncLifetime
     {
-        private readonly GitLabFacade _sut = new GitLabFacade(new GitLabClientFactory(new AppSettings
+        private readonly GitLabFacade _sut = new GitLabFacade(new GitLabClientExFactory(new AppSettings
         {
             GitLabAccessToken = "KZKSRcxxHi82r4D4p_aJ",
             GitLabHostUrl = "https://gitlab.com/api/v3"

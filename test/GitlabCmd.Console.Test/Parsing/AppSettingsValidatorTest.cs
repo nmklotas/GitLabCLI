@@ -1,7 +1,7 @@
 ﻿using System;
 using FluentAssertions;
-using GitlabCmd.Console.App;
 using GitlabCmd.Console.Configuration;
+using GitlabCmd.Console.Output;
 using Xunit;
 
 namespace GitlabCmd.Console.Test.Cmd

@@ -4,12 +4,12 @@ using GitlabCmd.Console.Utilities;
 
 namespace GitlabCmd.Console.GitLab
 {
-    public sealed class GitLabClientFactory
+    public sealed class GitLabClientExFactory
     {
         private readonly AppSettings _settings;
         private GitLabClientEx _client;
 
-        public GitLabClientFactory(AppSettings settings) => _settings = settings;
+        public GitLabClientExFactory(AppSettings settings) => _settings = settings;
 
         public async Task<GitLabClientEx> Create()
         {

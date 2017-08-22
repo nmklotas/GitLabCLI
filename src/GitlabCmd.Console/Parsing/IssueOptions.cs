@@ -1,9 +1,8 @@
 ﻿using System.Collections.Generic;
 using System.Threading.Tasks;
 using CommandLine;
-using GitlabCmd.Console.App;
 
-namespace GitlabCmd.Console.Cmd
+namespace GitlabCmd.Console.Parsing
 {
     [Verb("issue", HelpText = "Commands: create, list. Run issue [command] to learn more.")]
     [SubVerbs(typeof(CreateIssueOptions), typeof(ListIssuesOptions))]
