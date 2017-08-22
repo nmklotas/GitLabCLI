@@ -4,7 +4,7 @@ using System.Linq.Expressions;
 using System.Threading.Tasks;
 using FluentAssertions;
 using GitlabCmd.Console.GitLab;
-using GitlabCmd.Console.Utilities;
+using GitlabCmd.Utilities;
 using NGitLab.Models;
 
 namespace GitlabCmd.Console.Test.GitLab

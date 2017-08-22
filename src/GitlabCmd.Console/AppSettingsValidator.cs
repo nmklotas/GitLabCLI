@@ -1,6 +1,6 @@
 ﻿using GitlabCmd.Console.Configuration;
 using GitlabCmd.Console.Output;
-using GitlabCmd.Console.Utilities;
+using GitlabCmd.Utilities;
 
 namespace GitlabCmd.Console
 {

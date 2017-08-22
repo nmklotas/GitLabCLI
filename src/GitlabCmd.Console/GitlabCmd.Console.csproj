@@ -26,4 +26,7 @@
     <PackageReference Include="CommandLineParser" Version="2.1.1-beta" />
     <PackageReference Include="NGitLab" Version="2.0.0-beta-0065" />
   </ItemGroup>
+  <ItemGroup>
+    <ProjectReference Include="..\GitlabCmd.Utilities\GitlabCmd.Utilities.csproj" />
+  </ItemGroup>
 </Project>

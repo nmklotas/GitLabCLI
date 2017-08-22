@@ -3,7 +3,7 @@ using System.Linq;
 using System.Threading.Tasks;
 using FluentAssertions;
 using GitlabCmd.Console.GitLab;
-using GitlabCmd.Console.Utilities;
+using GitlabCmd.Utilities;
 using Xunit;
 using static GitlabCmd.Console.Test.GitLab.GitLabApiHelper;
 

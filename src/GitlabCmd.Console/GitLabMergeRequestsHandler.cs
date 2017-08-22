@@ -3,7 +3,7 @@ using System.Linq;
 using System.Threading.Tasks;
 using GitlabCmd.Console.GitLab;
 using GitlabCmd.Console.Output;
-using GitlabCmd.Console.Utilities;
+using GitlabCmd.Utilities;
 using NGitLab.Models;
 
 namespace GitlabCmd.Console

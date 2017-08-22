@@ -16,6 +16,7 @@
   </ItemGroup>
   <ItemGroup>
     <ProjectReference Include="..\..\src\GitlabCmd.Console\GitlabCmd.Console.csproj" />
+    <ProjectReference Include="..\..\src\GitlabCmd.Utilities\GitlabCmd.Utilities.csproj" />
   </ItemGroup>
   <ItemGroup>
     <None Update="xunit.runner.json">

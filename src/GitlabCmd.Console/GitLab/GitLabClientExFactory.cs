@@ -1,5 +1,5 @@
 ﻿using System.Threading.Tasks;
-using GitlabCmd.Console.Utilities;
+using GitlabCmd.Utilities;
 
 namespace GitlabCmd.Console.GitLab
 {

@@ -1,5 +1,5 @@
 ﻿using System.IO;
-using GitlabCmd.Console.Utilities;
+using GitlabCmd.Utilities;
 using Newtonsoft.Json;
 
 namespace GitlabCmd.Console.Configuration

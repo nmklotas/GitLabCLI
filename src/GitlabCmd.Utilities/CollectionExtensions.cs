@@ -1,7 +1,7 @@
 ﻿using System.Collections.Generic;
 using System.Linq;
 
-namespace GitlabCmd.Console.Utilities
+namespace GitlabCmd.Utilities
 {
     public static class CollectionExtensions
     {

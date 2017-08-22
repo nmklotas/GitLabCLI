@@ -2,7 +2,7 @@ using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
-using GitlabCmd.Console.Utilities;
+using GitlabCmd.Utilities;
 using NGitLab.Impl;
 using NGitLab.Models;
 
