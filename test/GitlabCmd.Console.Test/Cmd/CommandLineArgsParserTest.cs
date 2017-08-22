@@ -1,5 +1,4 @@
-﻿using System.Collections.Generic;
-using System.Linq;
+﻿using System.Linq;
 using CommandLine;
 using FluentAssertions;
 using GitlabCmd.Console.Cmd;
@@ -7,9 +6,9 @@ using Xunit;
 
 namespace GitlabCmd.Console.Test.Cmd
 {
-    public class LaunchHandlerParsingTest
+    public class CommandLineArgsParserTest
     {
-        private readonly ParserSpy _sut = new ParserSpy(Parser.Default);
+        private readonly CommandLineArgsParser _sut = new CommandLineArgsParser(Parser.Default);
 
         [Theory]
         [InlineData(
@@ -30,11 +29,7 @@ namespace GitlabCmd.Console.Test.Cmd
             "--assign-myself")]
         public void CommandIssueCreateParsedAsCreateIssueOptions(params string[] args)
         {
-            //act
-            _sut.Parse(args);
-
-            //assert
-            _sut.Options.Should().Match<CreateIssueOptions>(
+            _sut.Parse(args).Should().Match<CreateIssueOptions>(
                 s => s.Title == "test title" && 
                 s.Description == "test description" && 
                 s.Assignee == "testUser" &&
@@ -60,11 +55,7 @@ namespace GitlabCmd.Console.Test.Cmd
             "--project", "testProject")]
         public void CommandMergeCreateParsedAsCreateMergeRequestOptions(params string[] args)
         {
-            //act
-            _sut.Parse(args);
-
-            //assert
-            _sut.Options.Should().Match<CreateMergeRequestOptions>(
+            _sut.Parse(args).Should().Match<CreateMergeRequestOptions>(
                 s => s
                 .Title == "testtitle" && 
                 s.Destination == "testDestinationBranch" &&
@@ -84,11 +75,7 @@ namespace GitlabCmd.Console.Test.Cmd
             "--labels", "testlabel1")]
         public void CommandIssueListParsedAsListIssueOptions(params string[] args)
         {
-            //act
-            _sut.Parse(args);
-
-            //assert
-            _sut.Options.Should().Match<ListIssuesOptions>(
+            _sut.Parse(args).Should().Match<ListIssuesOptions>(
                 s => s.AssignedToMe &&
                      s.Labels.SequenceEqual(new[] { "testlabel1" }));
         }
@@ -116,11 +103,7 @@ namespace GitlabCmd.Console.Test.Cmd
             "--default-issues-label", "testdefaultissuelabel")]
         public void CommandConfigParsedAsConfigurationOptions(params string[] args)
         {
-            //act
-            _sut.Parse(args);
-
-            //assert
-            _sut.Options.Should().Match<ConfigurationOptions>(s =>
+            _sut.Parse(args).Should().Match<ConfigurationOptions>(s =>
                 s.Token == "testtoken" &&
                 s.Host == "testhost" &&
                 s.Username == "testusername" &&
@@ -146,37 +129,11 @@ namespace GitlabCmd.Console.Test.Cmd
             "--project", "testproject")]
         public void MergeListCommandParsedAsListMergesOptions(params string[] args)
         {
-            //act
-            _sut.Parse(args);
-
-            //assert
-            _sut.Options.Should().Match<ListMergesOptions>(
+            _sut.Parse(args).Should().Match<ListMergesOptions>(
                 s => s.State == "opened" &&
                      s.AssignedToMe &&
                      s.Assignee == "testuser" &&
                      s.Project == "testproject");
-        }
-
-        private class ParserSpy
-        {
-            private readonly Parser _parser;
-
-            public ParserSpy(Parser parser) => _parser = parser;
-
-            public void Parse(string[] args) => _parser.
-                ParseVerbs<
-                    IssueOptions,
-                    MergeOptions,
-                    ConfigurationOptions>(args).
-                MapResult(
-                    (IssueOptions o) => Options = o,
-                    (MergeOptions o) => Options = o,
-                    (ConfigurationOptions o) => Options = o,
-                    errors => Errors = errors);
-
-            public object Options { get; set; }
-
-            public IEnumerable<Error> Errors { get; set; }
         }
     }
 }

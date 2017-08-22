@@ -13,7 +13,7 @@ namespace GitlabCmd.Console.App
             _validator = validator;
         }
 
-        public bool IsConfigurationValid() => _validator.Validate();
+        public bool Validate() => _validator.Validate();
 
         public void StoreConfiguration(ConfigurationParameters parameters)
         {

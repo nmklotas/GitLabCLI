@@ -1,5 +1,4 @@
-﻿using System;
-using System.Collections.Generic;
+﻿using System.Collections.Generic;
 using System.Linq;
 using GitlabCmd.Console.Cmd;
 using GitlabCmd.Console.Configuration;

@@ -1,10 +1,14 @@
-﻿using CommandLine;
+﻿using System.Threading.Tasks;
+using CommandLine;
+using GitlabCmd.Console.App;
 
 namespace GitlabCmd.Console.Cmd
 {
     [Verb("config")]
-    public sealed class ConfigurationOptions
+    public sealed class ConfigurationOptions : IVisitableOption
     {
+        public Task Accept(LaunchOptionsVisitor visitor) => visitor.Visit(this);
+
         [Option('t', "token", HelpText = "Authorization token of GitLab host")]
         public string Token { get; set; }
 

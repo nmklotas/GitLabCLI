@@ -1,11 +1,14 @@
-﻿using CommandLine;
+﻿using System.Threading.Tasks;
+using CommandLine;
+using GitlabCmd.Console.App;
 
 namespace GitlabCmd.Console.Cmd
 {
     [Verb("merge", HelpText = "Commands: create, list. Run merge [command] to learn more.")]
     [SubVerbs(typeof(CreateMergeRequestOptions), typeof(ListMergesOptions))]
-    public abstract class MergeOptions : ProjectOptions
+    public abstract class MergeOptions : ProjectOptions, IVisitableOption
     {
+        public Task Accept(LaunchOptionsVisitor visitor) => visitor.Visit(this);
     }
 
     [Verb("create", HelpText = "Creates merge request")]

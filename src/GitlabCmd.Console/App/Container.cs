@@ -26,6 +26,7 @@ namespace GitlabCmd.Console.App
             container.Register(Component.For<AppSettingsValidator>());
             container.Register(Component.For<GitLabClientFactory>());
             container.Register(Component.For<GridResultFormatter>());
+            container.Register(Component.For<LaunchOptionsVisitor>());
 
             container.Register(Component.For<JsonSerializer>().UsingFactoryMethod(c => JsonSerializer.CreateDefault(new JsonSerializerSettings
             {

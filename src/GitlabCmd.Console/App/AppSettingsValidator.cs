@@ -3,7 +3,7 @@ using GitlabCmd.Console.Utilities;
 
 namespace GitlabCmd.Console.App
 {
-    public class AppSettingsValidator
+    public sealed class AppSettingsValidator
     {
         private readonly AppSettings _settings;
         private readonly OutputPresenter _outputPresenter;

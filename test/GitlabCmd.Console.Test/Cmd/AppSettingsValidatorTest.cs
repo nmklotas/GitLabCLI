@@ -6,7 +6,7 @@ using Xunit;
 
 namespace GitlabCmd.Console.Test.Cmd
 {
-    public class AppSettingsValidationHandlerTest
+    public class AppSettingsValidatorTest
     {
         private readonly Func<AppSettings, AppSettingsValidator> _sutFactory =
             s => new AppSettingsValidator(s, new OutputPresenter(new GridResultFormatter()));

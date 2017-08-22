@@ -1,12 +1,15 @@
 ﻿using System.Collections.Generic;
+using System.Threading.Tasks;
 using CommandLine;
+using GitlabCmd.Console.App;
 
 namespace GitlabCmd.Console.Cmd
 {
     [Verb("issue", HelpText = "Commands: create, list. Run issue [command] to learn more.")]
     [SubVerbs(typeof(CreateIssueOptions), typeof(ListIssuesOptions))]
-    public abstract class IssueOptions : ProjectOptions
+    public abstract class IssueOptions : ProjectOptions, IVisitableOption
     {
+        public Task Accept(LaunchOptionsVisitor visitor) => visitor.Visit(this);
     }
 
     [Verb("create", HelpText = "Creates new issue")]

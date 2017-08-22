@@ -1,1 +1,0 @@
-docker run --detach --publish 443:443 --publish 8929:80 --publish 2289:22 --name gitlab --restart always gitlab/gitlab-ce
