@@ -2,7 +2,7 @@
 using GitlabCmd.Console.Output;
 using Xunit;
 
-namespace GitlabCmd.Console.Test.App
+namespace GitlabCmd.Console.Test.Output
 {
     public class GridResultFormatterTest
     {

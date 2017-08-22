@@ -1,7 +1,6 @@
 ﻿using System;
 using System.Threading.Tasks;
 using FluentAssertions;
-using GitlabCmd.Console.Configuration;
 using GitlabCmd.Console.GitLab;
 using NGitLab.Models;
 using Xunit;
@@ -11,7 +10,7 @@ namespace GitlabCmd.Console.Test.GitLab
 {
     public class GitLabFacadeMergeRequestsTest : IAsyncLifetime
     {
-        private readonly GitLabFacade _sut = new GitLabFacade(new GitLabClientExFactory(new AppSettings
+        private readonly GitLabFacade _sut = new GitLabFacade(new GitLabClientExFactory(new GitLabSettings
         {
             GitLabAccessToken = "KZKSRcxxHi82r4D4p_aJ",
             GitLabHostUrl = "https://gitlab.com/api/v3"

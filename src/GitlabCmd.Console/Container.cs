@@ -1,4 +1,5 @@
 using System;
+using System.Data;
 using System.IO;
 using Castle.MicroKernel.Registration;
 using Castle.Windsor;
@@ -39,8 +40,11 @@ namespace GitlabCmd.Console
                     c.Resolve<JsonSerializer>(),
                     GetSettingsFile())));
 
-            container.Register(Component.For<AppSettings>().UsingFactoryMethod(
-                c => c.Resolve<AppSettingsStorage>().Load()));
+            container.Register(Component.For<AppSettings>().UsingFactoryMethod
+                (c => c.Resolve<AppSettingsStorage>().Load()));
+
+            container.Register(Component.For<GitLabSettings>().UsingFactoryMethod
+                (c => Map(c.Resolve<AppSettings>())));
 
             return container;
         }
@@ -51,6 +55,17 @@ namespace GitlabCmd.Console
                 Environment.SpecialFolder.LocalApplicationData);
 
             return Path.Combine(localAppDataFolder, "gitlab", "appsettings.json");
+        }
+
+        private static GitLabSettings Map(AppSettings settings)
+        {
+            return new GitLabSettings
+            {
+                GitLabAccessToken = settings.GitLabAccessToken,
+                GitLabHostUrl = settings.GitLabHostUrl,
+                GitLabPassword = settings.GitLabPassword,
+                GitLabUserName = settings.GitLabUserName
+            };
         }
     }
 }

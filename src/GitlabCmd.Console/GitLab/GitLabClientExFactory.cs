@@ -1,15 +1,14 @@
 ﻿using System.Threading.Tasks;
-using GitlabCmd.Console.Configuration;
 using GitlabCmd.Console.Utilities;
 
 namespace GitlabCmd.Console.GitLab
 {
     public sealed class GitLabClientExFactory
     {
-        private readonly AppSettings _settings;
+        private readonly GitLabSettings _settings;
         private GitLabClientEx _client;
 
-        public GitLabClientExFactory(AppSettings settings) => _settings = settings;
+        public GitLabClientExFactory(GitLabSettings settings) => _settings = settings;
 
         public async Task<GitLabClientEx> Create()
         {

@@ -4,7 +4,7 @@ using GitlabCmd.Console.Configuration;
 using GitlabCmd.Console.Output;
 using Xunit;
 
-namespace GitlabCmd.Console.Test.Cmd
+namespace GitlabCmd.Console.Test.Parsing
 {
     public class AppSettingsValidatorTest
     {
