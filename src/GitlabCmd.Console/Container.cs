@@ -5,6 +5,7 @@ using Castle.Windsor;
 using CommandLine;
 using GitLabCmd.Console.Configuration;
 using GitLabCmd.Console.Output;
+using GitLabCmd.Console.Parsing;
 using GitLabCmd.Core.GitLab;
 using GitLabCmd.GitLab;
 using Newtonsoft.Json;
@@ -28,6 +29,7 @@ namespace GitLabCmd.Console
         private static void RegisterApplicationServices(WindsorContainer container)
         {
             container.Register(Component.For<Parser>().UsingFactoryMethod(c => Parser.Default));
+            container.Register(Component.For<CommandLineArgsParser>());
             container.Register(Component.For<LaunchHandler>());
             container.Register(Component.For<ParametersHandler>());
             container.Register(Component.For<OutputPresenter>());

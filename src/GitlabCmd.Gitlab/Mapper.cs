@@ -15,7 +15,7 @@ namespace GitLabCmd.GitLab
         {
             return result.Map<IReadOnlyList<Issue>>(r => r.Select(i => new Issue
             {
-                Assignee = i.Assignee.Name,
+                Assignee = i.Assignee?.Name,
                 Description = i.Description,
                 Id = i.Id,
                 Title = i.Title
@@ -28,7 +28,7 @@ namespace GitLabCmd.GitLab
         {
             return result.Map<IReadOnlyList<MergeRequest>>(r => r.Select(i => new MergeRequest
             {
-                Assignee = i.Assignee.Name,
+                Assignee = i.Assignee?.Name,
                 Id = i.Id,
                 Title = i.Title
             })

@@ -2,7 +2,7 @@
   "profiles": {
     "GitLabCmd.Console": {
       "commandName": "Project",
-      "commandLineArgs": "issue ls"
+      "commandLineArgs": "issue list"
     }
   }
 }
