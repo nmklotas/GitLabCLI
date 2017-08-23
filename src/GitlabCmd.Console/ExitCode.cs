@@ -7,5 +7,7 @@
         public static int InvalidArguments { get; } = 1;
 
         public static int InvalidConfiguration { get; } = 2;
+
+        public static int UnexpectedFailure { get; } = 3;
     }
 }
