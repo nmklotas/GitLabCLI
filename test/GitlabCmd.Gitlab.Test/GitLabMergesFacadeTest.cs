@@ -9,11 +9,13 @@ namespace GitlabCmd.Gitlab.Test
 {
     public class GitLabFacadeMergeRequestsTest : IAsyncLifetime
     {
-        private readonly GitlabMergesFacade _sut = new GitlabMergesFacade(new GitLabClientExFactory(new GitLabSettings
-        {
-            GitLabAccessToken = "KZKSRcxxHi82r4D4p_aJ",
-            GitLabHostUrl = "https://gitlab.com/api/v3"
-        }));
+        private readonly GitlabMergesFacade _sut = new GitlabMergesFacade(
+            new GitLabClientExFactory(new GitLabSettings
+            {
+                GitLabAccessToken = "KZKSRcxxHi82r4D4p_aJ",
+                GitLabHostUrl = "https://gitlab.com/api/v3"
+            }), 
+            new Mapper());
 
         [Fact]
         public async Task CreatesMergeRequest()

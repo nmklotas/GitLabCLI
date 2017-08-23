@@ -13,8 +13,13 @@ namespace GitlabCmd.Gitlab
     public sealed class GitlabMergesFacade
     {
         private readonly GitLabClientExFactory _clientFactory;
+        private readonly Mapper _mapper;
 
-        public GitlabMergesFacade(GitLabClientExFactory clientFactory) => _clientFactory = clientFactory;
+        public GitlabMergesFacade(GitLabClientExFactory clientFactory, Mapper mapper)
+        {
+            _clientFactory = clientFactory;
+            _mapper = mapper;
+        }
 
         public async Task<Result<int>> CreateMergeRequest(
             string projectName,
@@ -101,7 +106,7 @@ namespace GitlabCmd.Gitlab
                 return Result.Fail<IReadOnlyList<MergeRequest>>($"Project {projectName} was not found");
 
             var issues = state.HasValue ?
-                await client.GetMergeRequest(project.Id).AllInState(Map(state.Value)) :
+                await client.GetMergeRequest(project.Id).AllInState(_mapper.Map(state.Value)) :
                 await client.GetMergeRequest(project.Id).All();
 
             if (assigneeId.HasValue)
@@ -123,21 +128,6 @@ namespace GitlabCmd.Gitlab
             catch (GitLabException ex)
             {
                 return Result.Fail<T>($"Request failed. {ex.Message}");
-            }
-        }
-
-        private static NGitLab.Models.MergeRequestState Map(MergeRequestState state)
-        {
-            switch (state)
-            {
-                case MergeRequestState.Opened:
-                    return NGitLab.Models.MergeRequestState.opened;
-                case MergeRequestState.Merged:
-                    return NGitLab.Models.MergeRequestState.merged;
-                case MergeRequestState.Closed:
-                    return NGitLab.Models.MergeRequestState.closed;
-                default:
-                    throw new NotSupportedException($"State {state} is not supported");
             }
         }
     }
