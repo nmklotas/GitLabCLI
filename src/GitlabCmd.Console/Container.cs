@@ -1,5 +1,4 @@
 using System;
-using System.Data;
 using System.IO;
 using Castle.MicroKernel.Registration;
 using Castle.Windsor;

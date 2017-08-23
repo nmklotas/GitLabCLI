@@ -1,7 +1,7 @@
 ﻿using System.Collections.Generic;
 using System.Linq;
 
-namespace GitlabCmd.Core.Gitlab
+namespace GitlabCmd.Core.Gitlab.Issues
 {
     public class ListIssuesParameters
     {

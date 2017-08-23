@@ -6,7 +6,7 @@ using GitlabCmd.Core;
 using GitlabCmd.Utilities;
 using NGitLab.Impl;
 using NGitLab.Models;
-using MergeRequestState = GitlabCmd.Core.Gitlab.MergeRequestState;
+using MergeRequestState = GitlabCmd.Core.Gitlab.Merges.MergeRequestState;
 
 namespace GitlabCmd.Gitlab
 {

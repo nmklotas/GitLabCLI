@@ -2,6 +2,7 @@
 using System.Threading.Tasks;
 using GitlabCmd.Console.Output;
 using GitlabCmd.Core.Gitlab;
+using GitlabCmd.Core.Gitlab.Merges;
 
 namespace GitlabCmd.Console
 {

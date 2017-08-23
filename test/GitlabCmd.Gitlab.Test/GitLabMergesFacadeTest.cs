@@ -3,7 +3,7 @@ using System.Threading.Tasks;
 using FluentAssertions;
 using Xunit;
 using static GitlabCmd.Gitlab.Test.GitLabApiHelper;
-using MergeRequestState = GitlabCmd.Core.Gitlab.MergeRequestState;
+using MergeRequestState = GitlabCmd.Core.Gitlab.Merges.MergeRequestState;
 
 namespace GitlabCmd.Gitlab.Test
 {

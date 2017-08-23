@@ -2,9 +2,9 @@
 using System.Collections.Generic;
 using System.Linq;
 using GitlabCmd.Core;
-using MergeRequestState = GitlabCmd.Core.Gitlab.MergeRequestState;
-using Issue = GitlabCmd.Core.Gitlab.Issue;
-using MergeRequest = GitlabCmd.Core.Gitlab.MergeRequest;
+using MergeRequestState = GitlabCmd.Core.Gitlab.Merges.MergeRequestState;
+using Issue = GitlabCmd.Core.Gitlab.Issues.Issue;
+using MergeRequest = GitlabCmd.Core.Gitlab.Merges.MergeRequest;
 
 namespace GitlabCmd.Gitlab
 {
@@ -35,7 +35,7 @@ namespace GitlabCmd.Gitlab
             .ToList());
         }
 
-        internal NGitLab.Models.MergeRequestState Map(MergeRequestState state)
+        public NGitLab.Models.MergeRequestState Map(MergeRequestState state)
         {
             switch (state)
             {

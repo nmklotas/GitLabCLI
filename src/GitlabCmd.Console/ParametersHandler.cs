@@ -3,7 +3,8 @@ using System.Linq;
 using GitlabCmd.Console.Configuration;
 using GitlabCmd.Console.Parsing;
 using GitlabCmd.Core;
-using GitlabCmd.Core.Gitlab;
+using GitlabCmd.Core.Gitlab.Issues;
+using GitlabCmd.Core.Gitlab.Merges;
 using GitlabCmd.Utilities;
 
 namespace GitlabCmd.Console

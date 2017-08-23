@@ -1,5 +1,7 @@
 ﻿using System.Collections.Generic;
 using System.Threading.Tasks;
+using GitlabCmd.Core.Gitlab.Issues;
+using GitlabCmd.Core.Gitlab.Merges;
 
 namespace GitlabCmd.Core.Gitlab
 {

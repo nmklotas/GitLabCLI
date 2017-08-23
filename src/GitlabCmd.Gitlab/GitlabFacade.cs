@@ -2,6 +2,8 @@ using System.Collections.Generic;
 using System.Threading.Tasks;
 using GitlabCmd.Core;
 using GitlabCmd.Core.Gitlab;
+using GitlabCmd.Core.Gitlab.Issues;
+using GitlabCmd.Core.Gitlab.Merges;
 
 namespace GitlabCmd.Gitlab
 {
@@ -40,7 +42,7 @@ namespace GitlabCmd.Gitlab
                 parameters.Assignee);
         }
 
-        public async Task<Result<IReadOnlyList<Core.Gitlab.MergeRequest>>> ListMergeRequests(ListMergesParameters parameters)
+        public async Task<Result<IReadOnlyList<MergeRequest>>> ListMergeRequests(ListMergesParameters parameters)
         {
             if (parameters.AssignedToCurrentUser)
             {

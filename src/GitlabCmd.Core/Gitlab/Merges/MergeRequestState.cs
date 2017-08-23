@@ -1,4 +1,4 @@
-﻿namespace GitlabCmd.Core.Gitlab
+﻿namespace GitlabCmd.Core.Gitlab.Merges
 {
     public enum MergeRequestState
     {
