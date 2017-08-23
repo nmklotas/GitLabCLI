@@ -5,6 +5,7 @@ using Castle.Windsor;
 using CommandLine;
 using GitlabCmd.Console.Configuration;
 using GitlabCmd.Console.Output;
+using GitlabCmd.Core.Gitlab;
 using GitlabCmd.Gitlab;
 using Newtonsoft.Json;
 using Newtonsoft.Json.Serialization;
@@ -16,27 +17,44 @@ namespace GitlabCmd.Console
         public static WindsorContainer Build()
         {
             var container = new WindsorContainer();
+
+            RegisterApplicationServices(container);
+            RegisterGitlabServices(container);
+            RegisterSettingsServices(container);
+
+            return container;
+        }
+
+        private static void RegisterApplicationServices(WindsorContainer container)
+        {
             container.Register(Component.For<Parser>().UsingFactoryMethod(c => Parser.Default));
-            container.Register(Component.For<GitLabFacade>());
-            container.Register(Component.For<GitlabIssuesFacade>());
-            container.Register(Component.For<GitlabMergesFacade>());
-            container.Register(Component.For<Mapper>());
             container.Register(Component.For<LaunchHandler>());
             container.Register(Component.For<ParametersHandler>());
             container.Register(Component.For<OutputPresenter>());
             container.Register(Component.For<ConfigurationHandler>());
-            container.Register(Component.For<GitLabIssueHandler>());
-            container.Register(Component.For<GitLabMergeRequestsHandler>());
             container.Register(Component.For<AppSettingsValidator>());
-            container.Register(Component.For<GitLabClientExFactory>());
             container.Register(Component.For<GridResultFormatter>());
             container.Register(Component.For<LaunchOptionsVisitor>());
+        }
+
+        private static void RegisterGitlabServices(WindsorContainer container)
+        {
+            container.Register(Component.For<IGitLabFacade>().ImplementedBy<GitLabFacade>());
+            container.Register(Component.For<GitLabClientExFactory>());
+            container.Register(Component.For<GitlabIssuesFacade>());
+            container.Register(Component.For<GitlabMergesFacade>());
+            container.Register(Component.For<GitLabIssueHandler>());
+            container.Register(Component.For<GitLabMergeRequestsHandler>());
+            container.Register(Component.For<Mapper>());
 
             container.Register(Component.For<JsonSerializer>().UsingFactoryMethod(c => JsonSerializer.CreateDefault(new JsonSerializerSettings
             {
                 ContractResolver = new CamelCasePropertyNamesContractResolver()
             })));
+        }
 
+        private static void RegisterSettingsServices(WindsorContainer container)
+        {
             container.Register(Component.For<AppSettingsStorage>().UsingFactoryMethod(
                 c => new AppSettingsStorage(
                     c.Resolve<JsonSerializer>(),
@@ -47,8 +65,6 @@ namespace GitlabCmd.Console
 
             container.Register(Component.For<GitLabSettings>().UsingFactoryMethod
                 (c => Map(c.Resolve<AppSettings>())));
-
-            return container;
         }
 
         private static string GetSettingsFile()
