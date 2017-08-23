@@ -1,4 +1,4 @@
-namespace GitlabCmd.Console.Configuration
+namespace GitLabCmd.Console.Configuration
 {
     public sealed class AppSettings
     {

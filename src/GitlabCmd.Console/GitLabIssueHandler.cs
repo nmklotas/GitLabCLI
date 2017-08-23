@@ -1,10 +1,10 @@
 ﻿using System.Linq;
 using System.Threading.Tasks;
-using GitlabCmd.Console.Output;
-using GitlabCmd.Core.Gitlab;
-using GitlabCmd.Core.Gitlab.Issues;
+using GitLabCmd.Console.Output;
+using GitLabCmd.Core.GitLab;
+using GitLabCmd.Core.GitLab.Issues;
 
-namespace GitlabCmd.Console
+namespace GitLabCmd.Console
 {
     public class GitLabIssueHandler
     {

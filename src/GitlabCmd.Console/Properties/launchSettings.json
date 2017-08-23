@@ -1,6 +1,6 @@
 {
   "profiles": {
-    "GitlabCmd.Console": {
+    "GitLabCmd.Console": {
       "commandName": "Project",
       "commandLineArgs": "issue ls"
     }

@@ -4,7 +4,7 @@ using System.Linq;
 using System.Reflection;
 using CommandLine;
 
-namespace GitlabCmd.Console.Parsing
+namespace GitLabCmd.Console.Parsing
 {
     public sealed class CommandLineArgsParser
     {

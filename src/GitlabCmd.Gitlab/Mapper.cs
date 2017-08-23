@@ -1,12 +1,12 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Linq;
-using GitlabCmd.Core;
-using MergeRequestState = GitlabCmd.Core.Gitlab.Merges.MergeRequestState;
-using Issue = GitlabCmd.Core.Gitlab.Issues.Issue;
-using MergeRequest = GitlabCmd.Core.Gitlab.Merges.MergeRequest;
+using GitLabCmd.Core;
+using MergeRequestState = GitLabCmd.Core.GitLab.Merges.MergeRequestState;
+using Issue = GitLabCmd.Core.GitLab.Issues.Issue;
+using MergeRequest = GitLabCmd.Core.GitLab.Merges.MergeRequest;
 
-namespace GitlabCmd.Gitlab
+namespace GitLabCmd.GitLab
 {
     public sealed class Mapper
     {

@@ -1,8 +1,8 @@
 ﻿using System.IO;
-using GitlabCmd.Utilities;
+using GitLabCmd.Utilities;
 using Newtonsoft.Json;
 
-namespace GitlabCmd.Console.Configuration
+namespace GitLabCmd.Console.Configuration
 {
     public sealed class AppSettingsStorage
     {

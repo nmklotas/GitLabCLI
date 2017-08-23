@@ -1,19 +1,19 @@
 ﻿using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
-using GitlabCmd.Core;
-using GitlabCmd.Core.Gitlab.Issues;
-using GitlabCmd.Utilities;
+using GitLabCmd.Core;
+using GitLabCmd.Core.GitLab.Issues;
+using GitLabCmd.Utilities;
 using NGitLab.Models;
 using Issue = NGitLab.Models.Issue;
 
-namespace GitlabCmd.Gitlab
+namespace GitLabCmd.GitLab
 {
-    public sealed class GitlabIssuesFacade
+    public sealed class GitLabIssuesFacade
     {
         private readonly GitLabClientExFactory _clientFactory;
 
-        public GitlabIssuesFacade(GitLabClientExFactory clientFactory) => _clientFactory = clientFactory;
+        public GitLabIssuesFacade(GitLabClientExFactory clientFactory) => _clientFactory = clientFactory;
 
         public async Task<Result<int>> CreateIssue(CreateIssueParameters parameters)
         {

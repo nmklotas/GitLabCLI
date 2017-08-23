@@ -1,6 +1,6 @@
 ﻿using System.Threading.Tasks;
 
-namespace GitlabCmd.Console.Parsing
+namespace GitLabCmd.Console.Parsing
 {
     public interface IVisitableOption
     {

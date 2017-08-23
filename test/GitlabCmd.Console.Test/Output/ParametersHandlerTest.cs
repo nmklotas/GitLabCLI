@@ -1,9 +1,9 @@
 ﻿using FluentAssertions;
-using GitlabCmd.Console.Configuration;
-using GitlabCmd.Console.Parsing;
+using GitLabCmd.Console.Configuration;
+using GitLabCmd.Console.Parsing;
 using Xunit;
 
-namespace GitlabCmd.Console.Test.Output
+namespace GitLabCmd.Console.Test.Output
 {
     public class ParametersHandlerTest
     {

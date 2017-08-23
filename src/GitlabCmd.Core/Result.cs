@@ -2,7 +2,7 @@ using System;
 using System.Diagnostics;
 using System.Linq;
 
-namespace GitlabCmd.Core
+namespace GitLabCmd.Core
 {
     public sealed class ResultCommonLogic
     {

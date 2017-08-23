@@ -1,10 +1,10 @@
 ﻿using System.Linq;
 using CommandLine;
 using FluentAssertions;
-using GitlabCmd.Console.Parsing;
+using GitLabCmd.Console.Parsing;
 using Xunit;
 
-namespace GitlabCmd.Console.Test.Parsing
+namespace GitLabCmd.Console.Test.Parsing
 {
     public class CommandLineArgsParserTest
     {

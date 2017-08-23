@@ -1,8 +1,8 @@
 ﻿using FluentAssertions;
-using GitlabCmd.Console.Output;
+using GitLabCmd.Console.Output;
 using Xunit;
 
-namespace GitlabCmd.Console.Test.Output
+namespace GitLabCmd.Console.Test.Output
 {
     public class GridResultFormatterTest
     {
@@ -32,3 +32,4 @@ namespace GitlabCmd.Console.Test.Output
         }
     }
 }
+

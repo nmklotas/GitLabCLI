@@ -1,6 +1,6 @@
 using System;
 
-namespace GitlabCmd.Console.Parsing
+namespace GitLabCmd.Console.Parsing
 {
     [AttributeUsage(AttributeTargets.Class, Inherited = false)]
     public sealed class SubVerbsAttribute : Attribute

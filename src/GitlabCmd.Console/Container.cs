@@ -3,14 +3,14 @@ using System.IO;
 using Castle.MicroKernel.Registration;
 using Castle.Windsor;
 using CommandLine;
-using GitlabCmd.Console.Configuration;
-using GitlabCmd.Console.Output;
-using GitlabCmd.Core.Gitlab;
-using GitlabCmd.Gitlab;
+using GitLabCmd.Console.Configuration;
+using GitLabCmd.Console.Output;
+using GitLabCmd.Core.GitLab;
+using GitLabCmd.GitLab;
 using Newtonsoft.Json;
 using Newtonsoft.Json.Serialization;
 
-namespace GitlabCmd.Console
+namespace GitLabCmd.Console
 {
     public static class Container
     {
@@ -19,7 +19,7 @@ namespace GitlabCmd.Console
             var container = new WindsorContainer();
 
             RegisterApplicationServices(container);
-            RegisterGitlabServices(container);
+            RegisterGitLabServices(container);
             RegisterSettingsServices(container);
 
             return container;
@@ -37,12 +37,12 @@ namespace GitlabCmd.Console
             container.Register(Component.For<LaunchOptionsVisitor>());
         }
 
-        private static void RegisterGitlabServices(WindsorContainer container)
+        private static void RegisterGitLabServices(WindsorContainer container)
         {
             container.Register(Component.For<IGitLabFacade>().ImplementedBy<GitLabFacade>());
             container.Register(Component.For<GitLabClientExFactory>());
-            container.Register(Component.For<GitlabIssuesFacade>());
-            container.Register(Component.For<GitlabMergesFacade>());
+            container.Register(Component.For<GitLabIssuesFacade>());
+            container.Register(Component.For<GitLabMergesFacade>());
             container.Register(Component.For<GitLabIssueHandler>());
             container.Register(Component.For<GitLabMergeRequestsHandler>());
             container.Register(Component.For<Mapper>());

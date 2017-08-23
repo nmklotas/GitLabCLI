@@ -1,20 +1,20 @@
 ﻿using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
-using GitlabCmd.Core;
-using GitlabCmd.Core.Gitlab.Merges;
-using GitlabCmd.Utilities;
+using GitLabCmd.Core;
+using GitLabCmd.Core.GitLab.Merges;
+using GitLabCmd.Utilities;
 using NGitLab.Models;
 using MergeRequest = NGitLab.Models.MergeRequest;
 
-namespace GitlabCmd.Gitlab
+namespace GitLabCmd.GitLab
 {
-    public sealed class GitlabMergesFacade
+    public sealed class GitLabMergesFacade
     {
         private readonly GitLabClientExFactory _clientFactory;
         private readonly Mapper _mapper;
 
-        public GitlabMergesFacade(GitLabClientExFactory clientFactory, Mapper mapper)
+        public GitLabMergesFacade(GitLabClientExFactory clientFactory, Mapper mapper)
         {
             _clientFactory = clientFactory;
             _mapper = mapper;

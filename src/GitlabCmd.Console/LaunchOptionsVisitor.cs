@@ -1,8 +1,8 @@
 ﻿using System.Threading.Tasks;
-using GitlabCmd.Console.Configuration;
-using GitlabCmd.Console.Parsing;
+using GitLabCmd.Console.Configuration;
+using GitLabCmd.Console.Parsing;
 
-namespace GitlabCmd.Console
+namespace GitLabCmd.Console
 {
     public sealed class LaunchOptionsVisitor
     {
@@ -30,9 +30,7 @@ namespace GitlabCmd.Console
 
             var parameters = _parametersHandler.NegotiateAddIssueParameters(options);
             if (parameters.IsSuccess)
-            {
                 await _issuesHandler.CreateIssue(parameters.Value);
-            }
         }
 
         public async Task Visit(CreateMergeRequestOptions options)
@@ -42,9 +40,7 @@ namespace GitlabCmd.Console
 
             var parameters = _parametersHandler.NegotiateCreateMergeRequestParameters(options);
             if (parameters.IsSuccess)
-            {
                 await _mergesHandler.CreateMergeRequest(parameters.Value);
-            }
         }
 
         public async Task Visit(ListIssuesOptions options)
@@ -54,9 +50,7 @@ namespace GitlabCmd.Console
 
             var parameters = _parametersHandler.NegotiateListIssuesParameters(options);
             if (parameters.IsSuccess)
-            {
                 await _issuesHandler.ListIssues(parameters.Value);
-            }
         }
 
         public async Task Visit(ListMergesOptions options)
@@ -66,9 +60,7 @@ namespace GitlabCmd.Console
 
             var parameters = _parametersHandler.NegotiateListMergesParameters(options);
             if (parameters.IsSuccess)
-            {
                 await _mergesHandler.ListMerges(parameters.Value);
-            }
         }
 
         public Task Visit(ConfigurationOptions options)

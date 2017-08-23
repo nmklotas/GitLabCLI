@@ -2,7 +2,7 @@
 using System.Threading.Tasks;
 using CommandLine;
 
-namespace GitlabCmd.Console.Parsing
+namespace GitLabCmd.Console.Parsing
 {
     [Verb("issue", HelpText = "Commands: create, list. Run issue [command] to learn more.")]
     [SubVerbs(typeof(CreateIssueOptions), typeof(ListIssuesOptions))]

@@ -1,6 +1,6 @@
-﻿using GitlabCmd.Utilities;
+﻿using GitLabCmd.Utilities;
 
-namespace GitlabCmd.Core.Gitlab.Merges
+namespace GitLabCmd.Core.GitLab.Merges
 {
     public sealed class ListMergesParameters
     {

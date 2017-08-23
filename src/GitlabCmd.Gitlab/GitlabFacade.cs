@@ -1,23 +1,23 @@
 using System;
 using System.Collections.Generic;
 using System.Threading.Tasks;
-using GitlabCmd.Core;
-using GitlabCmd.Core.Gitlab;
-using GitlabCmd.Core.Gitlab.Issues;
-using GitlabCmd.Core.Gitlab.Merges;
+using GitLabCmd.Core;
+using GitLabCmd.Core.GitLab;
+using GitLabCmd.Core.GitLab.Issues;
+using GitLabCmd.Core.GitLab.Merges;
 using NGitLab.Impl;
 
-namespace GitlabCmd.Gitlab
+namespace GitLabCmd.GitLab
 {
     public class GitLabFacade : IGitLabFacade
     {
-        private readonly GitlabIssuesFacade _issuesFacade;
-        private readonly GitlabMergesFacade _mergesFacade;
+        private readonly GitLabIssuesFacade _issuesFacade;
+        private readonly GitLabMergesFacade _mergesFacade;
         private readonly Mapper _mapper;
 
         public GitLabFacade(
-            GitlabIssuesFacade issuesFacade,
-            GitlabMergesFacade mergesFacade,
+            GitLabIssuesFacade issuesFacade,
+            GitLabMergesFacade mergesFacade,
             Mapper mapper)
         {
             _issuesFacade = issuesFacade;

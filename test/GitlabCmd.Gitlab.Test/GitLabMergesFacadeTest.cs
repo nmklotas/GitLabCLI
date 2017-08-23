@@ -1,16 +1,16 @@
 ﻿using System;
 using System.Threading.Tasks;
 using FluentAssertions;
-using GitlabCmd.Core.Gitlab.Merges;
+using GitLabCmd.Core.GitLab.Merges;
 using Xunit;
-using static GitlabCmd.Gitlab.Test.GitLabApiHelper;
-using MergeRequestState = GitlabCmd.Core.Gitlab.Merges.MergeRequestState;
+using static GitLabCmd.GitLab.Test.GitLabApiHelper;
+using MergeRequestState = GitLabCmd.Core.GitLab.Merges.MergeRequestState;
 
-namespace GitlabCmd.Gitlab.Test
+namespace GitLabCmd.GitLab.Test
 {
     public class GitLabFacadeMergeRequestsTest : IAsyncLifetime
     {
-        private readonly GitlabMergesFacade _sut = new GitlabMergesFacade(
+        private readonly GitLabMergesFacade _sut = new GitLabMergesFacade(
             new GitLabClientExFactory(new GitLabSettings
             {
                 GitLabAccessToken = "KZKSRcxxHi82r4D4p_aJ",

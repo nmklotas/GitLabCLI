@@ -1,10 +1,10 @@
 ﻿using System;
 using FluentAssertions;
-using GitlabCmd.Console.Configuration;
-using GitlabCmd.Console.Output;
+using GitLabCmd.Console.Configuration;
+using GitLabCmd.Console.Output;
 using Xunit;
 
-namespace GitlabCmd.Console.Test.Parsing
+namespace GitLabCmd.Console.Test.Parsing
 {
     public class AppSettingsValidatorTest
     {

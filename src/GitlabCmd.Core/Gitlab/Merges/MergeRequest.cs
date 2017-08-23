@@ -1,4 +1,4 @@
-﻿namespace GitlabCmd.Core.Gitlab.Merges
+﻿namespace GitLabCmd.Core.GitLab.Merges
 {
     public class MergeRequest
     {
