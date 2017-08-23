@@ -1,20 +1,26 @@
-﻿namespace GitlabCmd.Core.Gitlab.Merges
+﻿using GitlabCmd.Utilities;
+
+namespace GitlabCmd.Core.Gitlab.Merges
 {
     public sealed class ListMergesParameters
     {
-        public ListMergesParameters(string project, string assignee, MergeRequestState state)
+        public ListMergesParameters(
+            string project,
+            MergeRequestState? state = null,
+            string assignee = "")
         {
+            Guard.NotEmpty(project, nameof(project));
             Project = project;
-            Assignee = assignee;
             State = state;
+            Assignee = assignee ?? "";
         }
-
-        public bool AssignedToCurrentUser { get; set; }
 
         public string Project { get; }
 
+        public MergeRequestState? State { get; }
+
         public string Assignee { get; }
 
-        public MergeRequestState State { get; }
+        public bool AssignedToCurrentUser { get; set; }
     }
 }

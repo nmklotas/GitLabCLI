@@ -33,7 +33,7 @@ namespace GitlabCmd.Console.Test.Output
             });
 
             parameter.IsSuccess.Should().BeTrue();
-            parameter.Value.ProjectName.Should().Be("test-project");
+            parameter.Value.Project.Should().Be("test-project");
         }
     }
 }

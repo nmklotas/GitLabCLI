@@ -78,10 +78,6 @@ namespace GitlabCmd.Console
             return Task.CompletedTask;
         }
 
-        public Task Visit(MergeOptions options) => Task.CompletedTask;
-
-        public Task Visit(IssueOptions options) => Task.CompletedTask;
-
         private bool ValidateConfiguration() => _configurationHandler.Validate();
     }
 }

@@ -17,20 +17,20 @@ namespace GitlabCmd.Console
 
         public Result<CreateIssueParameters> NegotiateAddIssueParameters(CreateIssueOptions options)
         {
-            var projectName = GetProjectName(options);
-            if (projectName.IsFailure)
-                return Result.Fail<CreateIssueParameters>(projectName);
+            var project = GetProject(options);
+            if (project.IsFailure)
+                return Result.Fail<CreateIssueParameters>(project);
 
             var labels = GetLabels(options.Labels);
 
             var parameters = new CreateIssueParameters(
                 options.Title,
                 options.Description,
-                projectName.Value,
-                options.Assignee,
-                labels)
+                project.Value,
+                options.Assignee)
             {
-                AssignToCurrentUser = options.AssignMyself
+                AssignedToCurrentUser = options.AssignMyself,
+                Labels = labels.ToList()
             };
 
             return Result.Ok(parameters);
@@ -38,18 +38,18 @@ namespace GitlabCmd.Console
 
         public Result<ListIssuesParameters> NegotiateListIssuesParameters(ListIssuesOptions options)
         {
-            var projectName = GetProjectName(options);
-            if (projectName.IsFailure)
-                return Result.Fail<ListIssuesParameters>(projectName);
+            var project = GetProject(options);
+            if (project.IsFailure)
+                return Result.Fail<ListIssuesParameters>(project);
 
             var labels = GetLabels(options.Labels);
 
             var parameters = new ListIssuesParameters(
-                options.Assignee,
-                projectName.Value,
-                labels)
+                project.Value,
+                options.Assignee)
             {
-                AssignedToCurrentUser = options.AssignedToMe
+                AssignedToCurrentUser = options.AssignedToMe,
+                Labels = labels.ToList()
             };
 
             return Result.Ok(parameters);
@@ -57,16 +57,15 @@ namespace GitlabCmd.Console
 
         public Result<CreateMergeRequestParameters> NegotiateCreateMergeRequestParameters(CreateMergeRequestOptions options)
         {
-            var projectName = GetProjectName(options);
-            if (projectName.IsFailure)
-                return Result.Fail<CreateMergeRequestParameters>(projectName);
+            var project = GetProject(options);
+            if (project.IsFailure)
+                return Result.Fail<CreateMergeRequestParameters>(project);
 
             var parameters = new CreateMergeRequestParameters(
-                projectName.Value,
+                options.Title,
                 options.Source,
                 options.Destination,
-                options.Title,
-                "", //TODO: description is not supported currently..
+                project.Value,
                 options.Assignee)
             {
                 AssignedToCurrentUser = options.AssignMyself
@@ -77,41 +76,24 @@ namespace GitlabCmd.Console
 
         public Result<ListMergesParameters> NegotiateListMergesParameters(ListMergesOptions options)
         {
-            var projectName = GetProjectName(options);
-            if (projectName.IsFailure)
-                return Result.Fail<ListMergesParameters>(projectName);
+            var project = GetProject(options);
+            if (project.IsFailure)
+                return Result.Fail<ListMergesParameters>(project);
 
-            var mappedState = Map(options.State);
-            if (!mappedState.HasValue)
+            var state = ParseState(options.State);
+            if (!state.HasValue)
                 return Result.Fail<ListMergesParameters>($"State parameter: {options.State} is not supported." +
                                                           "Supported values are: opened|closed|merged");
 
             var parameters = new ListMergesParameters(
-                projectName.Value,
-                options.Assignee,
-                mappedState.Value)
+                project.Value,
+                state.Value,
+                options.Assignee)
             {
                 AssignedToCurrentUser = options.AssignedToMe
             };
 
             return Result.Ok(parameters);
-
-            MergeRequestState? Map(string state)
-            {
-                switch (state.NormalizeSpaces().ToUpperInvariant())
-                {
-                    case "":
-                        return MergeRequestState.Opened;
-                    case "OPENED":
-                        return MergeRequestState.Opened;
-                    case "CLOSED":
-                        return MergeRequestState.Closed;
-                    case "MERGED":
-                        return MergeRequestState.Merged;
-                    default:
-                        return null;
-                }
-            }
         }
 
         public ConfigurationParameters NegotiateConfigurationParameters(ConfigurationOptions options) =>
@@ -127,7 +109,7 @@ namespace GitlabCmd.Console
                 Username = options.Username
             };
 
-        private Result<string> GetProjectName(ProjectOptions options)
+        private Result<string> GetProject(ProjectOptions options)
         {
             string projectName = options.Project.IsNotNullOrEmpty() ?
                 options.Project : _settings.DefaultProject;
@@ -148,6 +130,23 @@ namespace GitlabCmd.Console
                 return new List<string> { normalizedDefaultLabel };
 
             return new List<string>();
+        }
+
+        private static MergeRequestState? ParseState(string state)
+        {
+            switch (state.NormalizeSpaces().ToUpperInvariant())
+            {
+                case "":
+                    return MergeRequestState.Opened;
+                case "OPENED":
+                    return MergeRequestState.Opened;
+                case "CLOSED":
+                    return MergeRequestState.Closed;
+                case "MERGED":
+                    return MergeRequestState.Merged;
+                default:
+                    return null;
+            }
         }
     }
 }

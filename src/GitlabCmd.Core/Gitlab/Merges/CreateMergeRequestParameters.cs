@@ -1,35 +1,37 @@
-﻿namespace GitlabCmd.Core.Gitlab.Merges
+﻿using GitlabCmd.Utilities;
+
+namespace GitlabCmd.Core.Gitlab.Merges
 {
     public class CreateMergeRequestParameters
     {
         public CreateMergeRequestParameters(
-            string projectName, 
+            string title, 
             string sourceBranch,
             string targetBranch,
-            string title, 
-            string description,
-            string assignee = null)
+            string project,
+            string assignee = "")
         {
-            ProjectName = projectName;
+            Guard.NotEmpty(title, nameof(title));
+            Guard.NotEmpty(sourceBranch, nameof(sourceBranch));
+            Guard.NotEmpty(targetBranch, nameof(targetBranch));
+            Guard.NotEmpty(project, nameof(project));
+            Title = title;
             SourceBranch = sourceBranch;
             TargetBranch = targetBranch;
-            Title = title;
+            Project = project;
             Assignee = assignee ?? "";
-            Description = description;
         }
-
-        public bool AssignedToCurrentUser { get; set; }
-
-        public string TargetBranch { get; }
-
-        public string ProjectName { get; }
-
-        public string SourceBranch { get; }
 
         public string Title { get; }
 
+        public string SourceBranch { get; }
+
+        public string TargetBranch { get; }
+
+        public string Project { get; }
+
         public string Assignee { get; }
 
-        public string Description { get; }
+        public bool AssignedToCurrentUser { get; set; }
     }
 }

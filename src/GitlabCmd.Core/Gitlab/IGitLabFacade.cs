@@ -9,7 +9,7 @@ namespace GitlabCmd.Core.Gitlab
     {
         Task<Result<int>> CreateIssue(CreateIssueParameters parameters);
 
-        Task<Result<int>> CreateMergeRequest(CreateMergeRequestParameters parameters);
+        Task<Result<int>> CreateMergeRequestAsync(CreateMergeRequestParameters parameters);
 
         Task<Result<IReadOnlyList<Issue>>> ListIssues(ListIssuesParameters parameters);
 

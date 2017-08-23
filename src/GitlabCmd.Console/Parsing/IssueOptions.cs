@@ -6,14 +6,15 @@ namespace GitlabCmd.Console.Parsing
 {
     [Verb("issue", HelpText = "Commands: create, list. Run issue [command] to learn more.")]
     [SubVerbs(typeof(CreateIssueOptions), typeof(ListIssuesOptions))]
-    public abstract class IssueOptions : ProjectOptions, IVisitableOption
+    public abstract class IssueOptions : ProjectOptions
     {
-        public Task Accept(LaunchOptionsVisitor visitor) => visitor.Visit(this);
     }
 
     [Verb("create", HelpText = "Creates new issue")]
-    public sealed class CreateIssueOptions : IssueOptions
+    public sealed class CreateIssueOptions : IssueOptions, IVisitableOption
     {
+        public Task Accept(LaunchOptionsVisitor visitor) => visitor.Visit(this);
+
         [Option('t', "title", HelpText = "Title of issue", Required = true)]
         public string Title { get; set; }
 
@@ -31,8 +32,10 @@ namespace GitlabCmd.Console.Parsing
     }
 
     [Verb("list", HelpText = "Lists issues")]
-    public sealed class ListIssuesOptions : IssueOptions
+    public sealed class ListIssuesOptions : IssueOptions, IVisitableOption
     {
+        public Task Accept(LaunchOptionsVisitor visitor) => visitor.Visit(this);
+
         [Option("assigned-to-me")]
         public bool AssignedToMe { get; set; }
 

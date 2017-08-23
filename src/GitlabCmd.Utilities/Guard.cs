@@ -5,7 +5,7 @@ using System.Linq;
 
 namespace GitlabCmd.Utilities
 {
-    internal static class Guard
+    public static class Guard
     {
         public static void PathExists(string arg, string argName)
         {

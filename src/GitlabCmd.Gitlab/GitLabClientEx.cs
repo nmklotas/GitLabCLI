@@ -2,6 +2,7 @@
 using System.Linq;
 using System.Net.Http;
 using System.Threading.Tasks;
+using GitlabCmd.Utilities;
 using Newtonsoft.Json;
 using NGitLab;
 using NGitLab.Impl;
@@ -43,6 +44,21 @@ namespace GitlabCmd.Gitlab
             {
                 return null;
             }
+        }
+
+        public async Task<int?> GetUserId(bool assignToCurrentUser, string assigneeName = null)
+        {
+            if (assignToCurrentUser)
+            {
+                return Users.Current?.Id;
+            }
+
+            if (assigneeName.IsNotNullOrEmpty())
+            {
+                return (await GetUserByNameAsync(assigneeName))?.Id;
+            }
+
+            return null;
         }
 
         public async Task<MergeRequest> CreateMergeAsync(int projectId, MergeRequestCreate mergeRequest)

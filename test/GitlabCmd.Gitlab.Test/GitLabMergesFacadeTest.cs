@@ -1,6 +1,7 @@
 ﻿using System;
 using System.Threading.Tasks;
 using FluentAssertions;
+using GitlabCmd.Core.Gitlab.Merges;
 using Xunit;
 using static GitlabCmd.Gitlab.Test.GitLabApiHelper;
 using MergeRequestState = GitlabCmd.Core.Gitlab.Merges.MergeRequestState;
@@ -22,12 +23,12 @@ namespace GitlabCmd.Gitlab.Test
         {
             string randomTitle = $"title{Guid.NewGuid()}";
 
-            var result = await _sut.CreateMergeRequest(
-                ProjectName,
+            var result = await _sut.CreateMergeRequest(new CreateMergeRequestParameters(
                 randomTitle,
                 "develop",
                 "master",
-                CurrentUser);
+                ProjectName,
+                CurrentUser));
 
             result.IsSuccess.Should().BeTrue();
 
@@ -46,11 +47,14 @@ namespace GitlabCmd.Gitlab.Test
         {
             string randomTitle = $"title{Guid.NewGuid()}";
 
-            var result = await _sut.CreateMergeRequestForCurrentUser(
-                ProjectName,
+            var result = await _sut.CreateMergeRequest(new CreateMergeRequestParameters(
                 randomTitle,
                 "develop",
-                "master");
+                "master",
+                ProjectName)
+            {
+                AssignedToCurrentUser = true
+            });
 
             result.IsSuccess.Should().BeTrue();
 
@@ -67,8 +71,11 @@ namespace GitlabCmd.Gitlab.Test
         [Fact]
         public async Task CreateMergeRequestForNonExistingProjectReturnsFailedResult()
         {
-            var result = await _sut.CreateMergeRequest(
-                NonExistingProjectName, "title1", "develop", "master");
+            var result = await _sut.CreateMergeRequest(new CreateMergeRequestParameters(
+                "title1", 
+                "develop", 
+                "master", 
+                NonExistingProjectName));
 
             result.IsSuccess.Should().BeFalse();
         }
@@ -77,20 +84,29 @@ namespace GitlabCmd.Gitlab.Test
         public async Task ListsAvailableMergeRequests()
         {
             //arrange
-            var mergeRequest = await _sut.CreateMergeRequest(
-                ProjectName,
+            var mergeRequest = await _sut.CreateMergeRequest(new CreateMergeRequestParameters(
                 "title1",
                 "develop",
-                "master");
+                "master",
+                ProjectName));
 
             //act
-            var openedRequests = await _sut.ListMergeRequests(ProjectName, MergeRequestState.Opened);
+            var openedRequests = await _sut.ListMergeRequests(new ListMergesParameters(
+                ProjectName,
+                MergeRequestState.Opened));
+
             openedRequests.Value.Should().ContainSingle(s => s.Id == mergeRequest.Value);
 
-            var closedRequests = await _sut.ListMergeRequests(ProjectName, MergeRequestState.Closed);
+            var closedRequests = await _sut.ListMergeRequests(new ListMergesParameters(
+                ProjectName,
+                MergeRequestState.Closed));
+
             closedRequests.Value.Should().BeEmpty();
 
-            var mergedRequests = await _sut.ListMergeRequests(ProjectName, MergeRequestState.Merged);
+            var mergedRequests = await _sut.ListMergeRequests(new ListMergesParameters(
+                ProjectName, 
+                MergeRequestState.Merged));
+
             mergedRequests.Value.Should().BeEmpty();
         }
 
@@ -98,15 +114,21 @@ namespace GitlabCmd.Gitlab.Test
         public async Task ListsAvailableMergeRequestsForCurrentUser()
         {
             //arrange
-            var mergeRequest = await _sut.CreateMergeRequest(
-                ProjectName,
+            var mergeRequest = await _sut.CreateMergeRequest(new CreateMergeRequestParameters(
                 "title1",
                 "develop",
                 "master",
-                CurrentUser);
+                ProjectName,
+                CurrentUser));
 
             //act
-            var openedRequests = await _sut.ListMergeRequests(ProjectName, MergeRequestState.Opened, CurrentUser);
+            var openedRequests = await _sut.ListMergeRequests(new ListMergesParameters(
+                ProjectName,
+                MergeRequestState.Opened)
+            {
+                AssignedToCurrentUser = true
+            });
+
             openedRequests.Value.Should().ContainSingle(s => s.Id == mergeRequest.Value);
         }
 

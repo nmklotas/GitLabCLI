@@ -1,9 +1,11 @@
+using System;
 using System.Collections.Generic;
 using System.Threading.Tasks;
 using GitlabCmd.Core;
 using GitlabCmd.Core.Gitlab;
 using GitlabCmd.Core.Gitlab.Issues;
 using GitlabCmd.Core.Gitlab.Merges;
+using NGitLab.Impl;
 
 namespace GitlabCmd.Gitlab
 {
@@ -14,7 +16,7 @@ namespace GitlabCmd.Gitlab
         private readonly Mapper _mapper;
 
         public GitLabFacade(
-            GitlabIssuesFacade issuesFacade, 
+            GitlabIssuesFacade issuesFacade,
             GitlabMergesFacade mergesFacade,
             Mapper mapper)
         {
@@ -23,72 +25,40 @@ namespace GitlabCmd.Gitlab
             _mapper = mapper;
         }
 
-        public async Task<Result<int>> CreateMergeRequest(CreateMergeRequestParameters parameters)
+        public async Task<Result<int>> CreateMergeRequestAsync(CreateMergeRequestParameters parameters)
         {
-            if (parameters.AssignedToCurrentUser)
-            {
-                return await _mergesFacade.CreateMergeRequestForCurrentUser(
-                    parameters.ProjectName,
-                    parameters.Title,
-                    parameters.SourceBranch,
-                    parameters.TargetBranch);
-            }
-
-            return await _mergesFacade.CreateMergeRequest(
-                parameters.ProjectName,
-                parameters.Title,
-                parameters.SourceBranch,
-                parameters.TargetBranch,
-                parameters.Assignee);
+            return await SafeGetResult(() => _mergesFacade.CreateMergeRequest(parameters));
         }
 
         public async Task<Result<IReadOnlyList<MergeRequest>>> ListMergeRequests(ListMergesParameters parameters)
         {
-            if (parameters.AssignedToCurrentUser)
-            {
-                return _mapper.Map(await _mergesFacade.ListMergeRequestsForCurrentUser(
-                    parameters.Project,
-                    parameters.State));
-            }
-
-            return _mapper.Map(await _mergesFacade.ListMergeRequests(
-                parameters.Project,
-                parameters.State,
-                parameters.Assignee));
+            return _mapper.Map(await SafeGetResult(() => _mergesFacade.ListMergeRequests(parameters)));
         }
 
         public async Task<Result<int>> CreateIssue(CreateIssueParameters parameters)
         {
-            if (parameters.AssignToCurrentUser)
-            {
-                return await _issuesFacade.CreateIssueForCurrentUser(
-                    parameters.Title,
-                    parameters.Description,
-                    parameters.ProjectName,
-                    parameters.Labels);
-            }
-
-            return await _issuesFacade.CreateIssue(
-                parameters.Title,
-                parameters.Description,
-                parameters.ProjectName,
-                parameters.AssigneeName,
-                parameters.Labels);
+            return await SafeGetResult(() => _issuesFacade.CreateIssue(parameters));
         }
 
         public async Task<Result<IReadOnlyList<Issue>>> ListIssues(ListIssuesParameters parameters)
         {
-            if (parameters.AssignedToCurrentUser)
-            {
-                return _mapper.Map(await _issuesFacade.ListIssuesForCurrentUser(
-                    parameters.Project,
-                    parameters.Labels));
-            }
+            return _mapper.Map(await SafeGetResult(() => _issuesFacade.ListIssues(parameters)));
+        }
 
-            return _mapper.Map(await _issuesFacade.ListIssues(
-                parameters.Project,
-                parameters.Assignee,
-                parameters.Labels));
+        private static async Task<Result<T>> SafeGetResult<T>(Func<Task<Result<T>>> resultDelegate)
+        {
+            try
+            {
+                return await resultDelegate();
+            }
+            catch (OperationCanceledException)
+            {
+                return Result.Fail<T>("Request timed out");
+            }
+            catch (GitLabException ex)
+            {
+                return Result.Fail<T>($"Request failed. {ex.Message}");
+            }
         }
     }
 }

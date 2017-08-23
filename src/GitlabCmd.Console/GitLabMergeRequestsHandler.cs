@@ -19,7 +19,7 @@ namespace GitlabCmd.Console
 
         public async Task CreateMergeRequest(CreateMergeRequestParameters parameters)
         {
-            var mergeRequestResult = await _gitLabFacade.CreateMergeRequest(parameters);
+            var mergeRequestResult = await _gitLabFacade.CreateMergeRequestAsync(parameters);
             if (mergeRequestResult.IsFailure)
             {
                 _presenter.FailureResult("Failed to create merge request", mergeRequestResult.Error);

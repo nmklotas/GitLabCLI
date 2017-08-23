@@ -1,34 +1,34 @@
 ﻿using System.Collections.Generic;
-using System.Linq;
+using GitlabCmd.Utilities;
 
 namespace GitlabCmd.Core.Gitlab.Issues
 {
     public class CreateIssueParameters
     {
         public CreateIssueParameters(
-            string title, 
-            string description, 
-            string projectName,
-            string assigneeName,
-            IEnumerable<string> labels = null)
+           string title,
+           string description,
+           string project,
+           string assignee = "")
         {
-            Title = title;
-            Description = description;
-            ProjectName = projectName;
-            AssigneeName = assigneeName;
-            Labels = labels != null ? labels.ToList() : new List<string>();
+            Guard.NotEmpty(title, nameof(title));
+            Guard.NotEmpty(project, nameof(project));
+            Title = title ?? "";
+            Description = description ?? "";
+            Project = project ?? "";
+            Assignee = assignee ?? "";
         }
-
-        public bool AssignToCurrentUser { get; set; }
-
-        public string AssigneeName { get; }
 
         public string Title { get; }
 
         public string Description { get; }
 
-        public string ProjectName { get; }
+        public string Project { get; }
 
-        public IReadOnlyList<string> Labels { get; }
+        public string Assignee { get; }
+
+        public bool AssignedToCurrentUser { get; set; }
+
+        public IList<string> Labels { get; set; } = new List<string>();
     }
 }

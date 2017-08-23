@@ -13,16 +13,16 @@ namespace GitlabCmd.Console.Parsing
         public CommandLineArgsParser(Parser parser) => _parser = parser;
 
         public IVisitableOption Parse(IEnumerable<string> args) => 
-            ParseVerbs(
+            (IVisitableOption)ParseVerbs(
                 args,
                 typeof(IssueOptions),
                 typeof(MergeOptions),
                 typeof(ConfigurationOptions),
-                typeof(IVisitableOption)).MapResult<
+                typeof(object)).MapResult<
                     IssueOptions, 
                     MergeOptions, 
                     ConfigurationOptions,
-                    IVisitableOption>(
+                    object>(
                         o => o,
                         o => o,
                         o => o,

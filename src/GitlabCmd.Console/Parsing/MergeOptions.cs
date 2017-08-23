@@ -5,14 +5,15 @@ namespace GitlabCmd.Console.Parsing
 {
     [Verb("merge", HelpText = "Commands: create, list. Run merge [command] to learn more.")]
     [SubVerbs(typeof(CreateMergeRequestOptions), typeof(ListMergesOptions))]
-    public abstract class MergeOptions : ProjectOptions, IVisitableOption
+    public abstract class MergeOptions : ProjectOptions
     {
-        public Task Accept(LaunchOptionsVisitor visitor) => visitor.Visit(this);
     }
 
     [Verb("create", HelpText = "Creates merge request")]
-    public sealed class CreateMergeRequestOptions : MergeOptions
+    public sealed class CreateMergeRequestOptions : MergeOptions, IVisitableOption
     {
+        public Task Accept(LaunchOptionsVisitor visitor) => visitor.Visit(this);
+
         [Option('s', "source", HelpText = "Source branch", Required = true)]
         public string Source { get; set; }
 
@@ -30,8 +31,10 @@ namespace GitlabCmd.Console.Parsing
     }
 
     [Verb("list", HelpText = "Lists merge requests")]
-    public sealed class ListMergesOptions : MergeOptions
+    public sealed class ListMergesOptions : MergeOptions, IVisitableOption
     {
+        public Task Accept(LaunchOptionsVisitor visitor) => visitor.Visit(this);
+
         [Value(
             0,
             MetaName = "State",
