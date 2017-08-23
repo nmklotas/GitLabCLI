@@ -1,4 +1,4 @@
-﻿namespace GitlabCmd.Console.GitLab
+﻿namespace GitlabCmd.Core.Gitlab
 {
     public class CreateMergeRequestParameters
     {

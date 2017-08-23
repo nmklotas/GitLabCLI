@@ -1,4 +1,4 @@
-﻿namespace GitlabCmd.Console.GitLab
+﻿namespace GitlabCmd.Gitlab
 {
     public sealed class GitLabSettings
     {

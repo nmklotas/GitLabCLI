@@ -5,8 +5,8 @@ using Castle.MicroKernel.Registration;
 using Castle.Windsor;
 using CommandLine;
 using GitlabCmd.Console.Configuration;
-using GitlabCmd.Console.GitLab;
 using GitlabCmd.Console.Output;
+using GitlabCmd.Gitlab;
 using Newtonsoft.Json;
 using Newtonsoft.Json.Serialization;
 
@@ -19,6 +19,9 @@ namespace GitlabCmd.Console
             var container = new WindsorContainer();
             container.Register(Component.For<Parser>().UsingFactoryMethod(c => Parser.Default));
             container.Register(Component.For<GitLabFacade>());
+            container.Register(Component.For<GitlabIssuesFacade>());
+            container.Register(Component.For<GitlabMergesFacade>());
+            container.Register(Component.For<Mapper>());
             container.Register(Component.For<LaunchHandler>());
             container.Register(Component.For<ParametersHandler>());
             container.Register(Component.For<OutputPresenter>());

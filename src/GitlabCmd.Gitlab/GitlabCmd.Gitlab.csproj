@@ -1,0 +1,25 @@
+<Project Sdk="Microsoft.NET.Sdk">
+
+  <PropertyGroup>
+    <TargetFramework>netcoreapp2.0</TargetFramework>
+  </PropertyGroup>
+  
+  <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Debug|AnyCPU'">
+    <OutputPath>..\bin\Debug\</OutputPath>
+    <LangVersion>7.1</LangVersion>
+  </PropertyGroup>
+
+  <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Release|AnyCPU'">
+    <OutputPath>..\bin\Release\</OutputPath>
+    <LangVersion>7.1</LangVersion>
+  </PropertyGroup>
+
+  <ItemGroup>
+    <PackageReference Include="NGitLab" Version="2.0.0-beta-0065" />
+  </ItemGroup>
+
+  <ItemGroup>
+    <ProjectReference Include="..\GitlabCmd.Core\GitlabCmd.Core.csproj" />
+    <ProjectReference Include="..\GitlabCmd.Utilities\GitlabCmd.Utilities.csproj" />
+  </ItemGroup>
+</Project>

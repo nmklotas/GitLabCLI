@@ -41,9 +41,9 @@ namespace GitlabCmd.Console
 
         private bool ValidateAuthorizationSettings()
         {
-            bool tokenExits = _settings.GitLabAccessToken.IsNotEmpty();
-            bool credentialsExits = _settings.GitLabUserName.IsNotEmpty() || 
-                _settings.GitLabPassword.IsNotEmpty();
+            bool tokenExits = _settings.GitLabAccessToken.IsNotNullOrEmpty();
+            bool credentialsExits = _settings.GitLabUserName.IsNotNullOrEmpty() || 
+                _settings.GitLabPassword.IsNotNullOrEmpty();
             if (tokenExits || credentialsExits)
             {
                 return true;

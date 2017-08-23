@@ -1,8 +1,10 @@
 using System;
+using System.Collections.Generic;
+using System.Data;
 using System.Diagnostics;
 using System.Linq;
 
-namespace GitlabCmd.Utilities
+namespace GitlabCmd.Core
 {
     public sealed class ResultCommonLogic
     {
@@ -142,6 +144,11 @@ namespace GitlabCmd.Utilities
 
                 return _value;
             }
+        }
+
+        public Result<V> Map<V>(Func<T, V> mapFunc)
+        {
+            return IsSuccess ? Result.Ok(mapFunc(Value)) : Result.Fail<V>(Error);
         }
 
         [DebuggerStepThrough]

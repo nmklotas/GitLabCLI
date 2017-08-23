@@ -1,16 +1,16 @@
 ﻿using System;
 using System.Threading.Tasks;
 using FluentAssertions;
-using GitlabCmd.Console.GitLab;
-using NGitLab.Models;
+using GitlabCmd.Gitlab;
 using Xunit;
 using static GitlabCmd.Console.Test.GitLab.GitLabApiHelper;
+using MergeRequestState = GitlabCmd.Core.Gitlab.MergeRequestState;
 
 namespace GitlabCmd.Console.Test.GitLab
 {
     public class GitLabFacadeMergeRequestsTest : IAsyncLifetime
     {
-        private readonly GitLabFacade _sut = new GitLabFacade(new GitLabClientExFactory(new GitLabSettings
+        private readonly GitlabMergesFacade _sut = new GitlabMergesFacade(new GitLabClientExFactory(new GitLabSettings
         {
             GitLabAccessToken = "KZKSRcxxHi82r4D4p_aJ",
             GitLabHostUrl = "https://gitlab.com/api/v3"
@@ -83,13 +83,13 @@ namespace GitlabCmd.Console.Test.GitLab
                 "master");
 
             //act
-            var openedRequests = await _sut.ListMergeRequests(ProjectName, MergeRequestState.opened);
+            var openedRequests = await _sut.ListMergeRequests(ProjectName, MergeRequestState.Opened);
             openedRequests.Value.Should().ContainSingle(s => s.Id == mergeRequest.Value);
 
-            var closedRequests = await _sut.ListMergeRequests(ProjectName, MergeRequestState.closed);
+            var closedRequests = await _sut.ListMergeRequests(ProjectName, MergeRequestState.Closed);
             closedRequests.Value.Should().BeEmpty();
 
-            var mergedRequests = await _sut.ListMergeRequests(ProjectName, MergeRequestState.merged);
+            var mergedRequests = await _sut.ListMergeRequests(ProjectName, MergeRequestState.Merged);
             mergedRequests.Value.Should().BeEmpty();
         }
 
@@ -105,7 +105,7 @@ namespace GitlabCmd.Console.Test.GitLab
                 CurrentUser);
 
             //act
-            var openedRequests = await _sut.ListMergeRequests(ProjectName, MergeRequestState.opened, CurrentUser);
+            var openedRequests = await _sut.ListMergeRequests(ProjectName, MergeRequestState.Opened, CurrentUser);
             openedRequests.Value.Should().ContainSingle(s => s.Id == mergeRequest.Value);
         }
 

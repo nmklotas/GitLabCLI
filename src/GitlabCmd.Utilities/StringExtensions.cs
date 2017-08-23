@@ -7,10 +7,10 @@ namespace GitlabCmd.Utilities
         public static bool EqualsIgnoringCase(this string value, string other) => 
             string.Equals(value, other, StringComparison.OrdinalIgnoreCase);
 
-        public static bool IsNotEmpty(this string value) => 
+        public static bool IsNotNullOrEmpty(this string value) => 
             !string.IsNullOrEmpty(value);
 
-        public static bool IsEmpty(this string value) => 
+        public static bool IsNullOrEmpty(this string value) => 
             string.IsNullOrEmpty(value);
 
         public static string NormalizeSpaces(this string value) => 

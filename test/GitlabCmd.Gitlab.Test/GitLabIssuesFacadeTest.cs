@@ -2,16 +2,16 @@
 using System.Linq;
 using System.Threading.Tasks;
 using FluentAssertions;
-using GitlabCmd.Console.GitLab;
+using GitlabCmd.Gitlab;
 using GitlabCmd.Utilities;
 using Xunit;
 using static GitlabCmd.Console.Test.GitLab.GitLabApiHelper;
 
 namespace GitlabCmd.Console.Test.GitLab
 {
-    public class GitLabFacadeIssuesTest
+    public class GitLabIssuesFacadeTest
     {
-        private readonly GitLabFacade _sut = new GitLabFacade(new GitLabClientExFactory(new GitLabSettings
+        private readonly GitlabIssuesFacade _sut = new GitlabIssuesFacade(new GitLabClientExFactory(new GitLabSettings
         {
             GitLabAccessToken = "KZKSRcxxHi82r4D4p_aJ",
             GitLabHostUrl = "https://gitlab.com/api/v3"

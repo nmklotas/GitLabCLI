@@ -3,7 +3,7 @@ using System.Linq;
 using System.Linq.Expressions;
 using System.Threading.Tasks;
 using FluentAssertions;
-using GitlabCmd.Console.GitLab;
+using GitlabCmd.Gitlab;
 using GitlabCmd.Utilities;
 using NGitLab.Models;
 

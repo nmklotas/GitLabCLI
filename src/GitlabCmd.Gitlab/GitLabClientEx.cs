@@ -7,7 +7,7 @@ using NGitLab;
 using NGitLab.Impl;
 using NGitLab.Models;
 
-namespace GitlabCmd.Console.GitLab
+namespace GitlabCmd.Gitlab
 {
     /// <summary>
     /// Workaround limitations of NGitLab package

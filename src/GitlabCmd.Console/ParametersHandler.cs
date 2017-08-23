@@ -2,7 +2,8 @@
 using System.Linq;
 using GitlabCmd.Console.Configuration;
 using GitlabCmd.Console.Parsing;
-using GitlabCmd.Console.GitLab;
+using GitlabCmd.Core;
+using GitlabCmd.Core.Gitlab;
 using GitlabCmd.Utilities;
 
 namespace GitlabCmd.Console
@@ -94,18 +95,18 @@ namespace GitlabCmd.Console
 
             return Result.Ok(parameters);
 
-            NGitLab.Models.MergeRequestState? Map(string state)
+            MergeRequestState? Map(string state)
             {
                 switch (state.NormalizeSpaces().ToUpperInvariant())
                 {
                     case "":
-                        return NGitLab.Models.MergeRequestState.opened;
+                        return MergeRequestState.Opened;
                     case "OPENED":
-                        return NGitLab.Models.MergeRequestState.opened;
+                        return MergeRequestState.Opened;
                     case "CLOSED":
-                        return NGitLab.Models.MergeRequestState.closed;
+                        return MergeRequestState.Closed;
                     case "MERGED":
-                        return NGitLab.Models.MergeRequestState.merged;
+                        return MergeRequestState.Merged;
                     default:
                         return null;
                 }
@@ -127,10 +128,10 @@ namespace GitlabCmd.Console
 
         private Result<string> GetProjectName(ProjectOptions options)
         {
-            string projectName = options.Project.IsNotEmpty() ?
+            string projectName = options.Project.IsNotNullOrEmpty() ?
                 options.Project : _settings.DefaultProject;
 
-            return projectName.IsEmpty() ?
+            return projectName.IsNullOrEmpty() ?
                 Result.Fail<string>("Project name is not provided and default is not set") :
                 Result.Ok(projectName);
         }
@@ -138,11 +139,11 @@ namespace GitlabCmd.Console
         private IEnumerable<string> GetLabels(IEnumerable<string> labels)
         {
             var inputLabels = labels.NormalizeSpaces().ToList();
-            if (inputLabels.Any(l => l.IsNotEmpty()))
+            if (inputLabels.Any(l => l.IsNotNullOrEmpty()))
                 return inputLabels;
 
             string normalizedDefaultLabel = _settings.DefaulIssuesLabel.NormalizeSpaces();
-            if (normalizedDefaultLabel.IsNotEmpty())
+            if (normalizedDefaultLabel.IsNotNullOrEmpty())
                 return new List<string> { normalizedDefaultLabel };
 
             return new List<string>();

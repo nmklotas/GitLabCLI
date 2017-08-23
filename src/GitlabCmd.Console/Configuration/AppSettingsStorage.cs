@@ -54,7 +54,7 @@ namespace GitlabCmd.Console.Configuration
         private void EnsureSettingsDirectoryExists()
         {
             string settingsDirectory = Path.GetDirectoryName(_settingsFile);
-            if (settingsDirectory.IsEmpty())
+            if (settingsDirectory.IsNullOrEmpty())
                 return;
 
             Directory.CreateDirectory(settingsDirectory);

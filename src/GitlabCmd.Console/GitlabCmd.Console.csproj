@@ -27,6 +27,8 @@
     <PackageReference Include="NGitLab" Version="2.0.0-beta-0065" />
   </ItemGroup>
   <ItemGroup>
+    <ProjectReference Include="..\GitlabCmd.Core\GitlabCmd.Core.csproj" />
+    <ProjectReference Include="..\GitlabCmd.Gitlab\GitlabCmd.Gitlab.csproj" />
     <ProjectReference Include="..\GitlabCmd.Utilities\GitlabCmd.Utilities.csproj" />
   </ItemGroup>
 </Project>

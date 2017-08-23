@@ -1,6 +1,4 @@
-﻿using NGitLab.Models;
-
-namespace GitlabCmd.Console.GitLab
+﻿namespace GitlabCmd.Core.Gitlab
 {
     public sealed class ListMergesParameters
     {

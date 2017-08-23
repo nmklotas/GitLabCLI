@@ -1,7 +1,7 @@
 ﻿using System.Threading.Tasks;
 using GitlabCmd.Utilities;
 
-namespace GitlabCmd.Console.GitLab
+namespace GitlabCmd.Gitlab
 {
     public sealed class GitLabClientExFactory
     {
@@ -15,7 +15,7 @@ namespace GitlabCmd.Console.GitLab
             if (_client != null)
                 return _client;
 
-            if (_settings.GitLabAccessToken.IsNotEmpty())
+            if (_settings.GitLabAccessToken.IsNotNullOrEmpty())
             {
                 _client = new GitLabClientEx(_settings.GitLabHostUrl, _settings.GitLabAccessToken);
                 return _client;

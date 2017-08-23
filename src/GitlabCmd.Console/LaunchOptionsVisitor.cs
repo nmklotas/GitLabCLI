@@ -31,7 +31,7 @@ namespace GitlabCmd.Console
             var parameters = _parametersHandler.NegotiateAddIssueParameters(options);
             if (parameters.IsSuccess)
             {
-                await _issuesHandler.AddIssue(parameters.Value);
+                await _issuesHandler.CreateIssue(parameters.Value);
             }
         }
 

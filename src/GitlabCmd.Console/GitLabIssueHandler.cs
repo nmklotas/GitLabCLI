@@ -1,29 +1,26 @@
-﻿using System.Collections.Generic;
-using System.Linq;
+﻿using System.Linq;
 using System.Threading.Tasks;
-using GitlabCmd.Console.GitLab;
 using GitlabCmd.Console.Output;
-using GitlabCmd.Utilities;
-using NGitLab.Models;
+using GitlabCmd.Core.Gitlab;
 
 namespace GitlabCmd.Console
 {
     public class GitLabIssueHandler
     {
-        private readonly GitLabFacade _gitLabFacade;
+        private readonly IGitLabFacade _gitLabFacade;
         private readonly OutputPresenter _presenter;
 
         public GitLabIssueHandler(
-            GitLabFacade gitLabFacade,
+            IGitLabFacade gitLabFacade,
             OutputPresenter presenter)
         {
             _gitLabFacade = gitLabFacade;
             _presenter = presenter;
         }
 
-        public async Task AddIssue(CreateIssueParameters parameters)
+        public async Task CreateIssue(CreateIssueParameters parameters)
         {
-            var issueResult = await InnerAddIssue(parameters);
+            var issueResult = await _gitLabFacade.CreateIssue(parameters);
             if (issueResult.IsFailure)
             {
                 _presenter.FailureResult("Failed to create issue", issueResult.Error);
@@ -35,7 +32,7 @@ namespace GitlabCmd.Console
 
         public async Task ListIssues(ListIssuesParameters parameters)
         {
-            var issueResult = await InnerListIssues(parameters);
+            var issueResult = await _gitLabFacade.ListIssues(parameters);
             if (issueResult.IsFailure)
             {
                 _presenter.FailureResult("Failed to retrieve issues", issueResult.Error);
@@ -52,41 +49,7 @@ namespace GitlabCmd.Console
             _presenter.GridResult(
                 $"Found ({issues.Count}) issues in project {parameters.Project}", 
                 new[] { "Issue Id", "Title", "Description"},
-                issues.Select(s => new object[] { s.IssueId, s.Title, s.Description }));
-        }
-
-        private async Task<Result<IReadOnlyList<Issue>>> InnerListIssues(ListIssuesParameters parameters)
-        {
-            if (parameters.AssignedToCurrentUser)
-            {
-                return await _gitLabFacade.ListIssuesForCurrentUser(
-                    parameters.Project, 
-                    parameters.Labels);
-            }
-
-            return await _gitLabFacade.ListIssues(
-                parameters.Project,
-                parameters.Assignee,
-                parameters.Labels);
-        }
-
-        private async Task<Result<int>> InnerAddIssue(CreateIssueParameters parameters)
-        {
-            if (parameters.AssignToCurrentUser)
-            {
-                return await _gitLabFacade.CreateIssueForCurrentUser(
-                    parameters.Title,
-                    parameters.Description,
-                    parameters.ProjectName,
-                    parameters.Labels);
-            }
-
-            return await _gitLabFacade.CreateIssue(
-                parameters.Title,
-                parameters.Description,
-                parameters.ProjectName,
-                parameters.AssigneeName,
-                parameters.Labels);
+                issues.Select(s => new object[] { s.Id, s.Title, s.Description }));
         }
     }
 }
