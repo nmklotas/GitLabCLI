@@ -1,12 +1,11 @@
 ﻿using System;
 using System.Threading.Tasks;
 using FluentAssertions;
-using GitlabCmd.Gitlab;
 using Xunit;
-using static GitlabCmd.Console.Test.GitLab.GitLabApiHelper;
+using static GitlabCmd.Gitlab.Test.GitLabApiHelper;
 using MergeRequestState = GitlabCmd.Core.Gitlab.MergeRequestState;
 
-namespace GitlabCmd.Console.Test.GitLab
+namespace GitlabCmd.Gitlab.Test
 {
     public class GitLabFacadeMergeRequestsTest : IAsyncLifetime
     {

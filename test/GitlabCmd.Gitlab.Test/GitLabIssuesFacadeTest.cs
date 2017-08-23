@@ -2,12 +2,11 @@
 using System.Linq;
 using System.Threading.Tasks;
 using FluentAssertions;
-using GitlabCmd.Gitlab;
 using GitlabCmd.Utilities;
 using Xunit;
-using static GitlabCmd.Console.Test.GitLab.GitLabApiHelper;
+using static GitlabCmd.Gitlab.Test.GitLabApiHelper;
 
-namespace GitlabCmd.Console.Test.GitLab
+namespace GitlabCmd.Gitlab.Test
 {
     public class GitLabIssuesFacadeTest
     {
