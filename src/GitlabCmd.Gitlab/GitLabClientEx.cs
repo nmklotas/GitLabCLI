@@ -46,9 +46,9 @@ namespace GitlabCmd.Gitlab
             }
         }
 
-        public async Task<int?> GetUserId(bool assignToCurrentUser, string assigneeName = null)
+        public async Task<int?> GetUserId(bool isCurrentUser, string assigneeName = null)
         {
-            if (assignToCurrentUser)
+            if (isCurrentUser)
             {
                 return Users.Current?.Id;
             }

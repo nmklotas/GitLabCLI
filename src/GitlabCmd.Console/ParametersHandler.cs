@@ -21,19 +21,15 @@ namespace GitlabCmd.Console
             if (project.IsFailure)
                 return Result.Fail<CreateIssueParameters>(project);
 
-            var labels = GetLabels(options.Labels);
-
-            var parameters = new CreateIssueParameters(
+            return Result.Ok(new CreateIssueParameters(
                 options.Title,
                 options.Description,
                 project.Value,
                 options.Assignee)
             {
                 AssignedToCurrentUser = options.AssignMyself,
-                Labels = labels.ToList()
-            };
-
-            return Result.Ok(parameters);
+                Labels = GetLabels(options.Labels)
+            });
         }
 
         public Result<ListIssuesParameters> NegotiateListIssuesParameters(ListIssuesOptions options)
@@ -42,17 +38,13 @@ namespace GitlabCmd.Console
             if (project.IsFailure)
                 return Result.Fail<ListIssuesParameters>(project);
 
-            var labels = GetLabels(options.Labels);
-
-            var parameters = new ListIssuesParameters(
+            return Result.Ok(new ListIssuesParameters(
                 project.Value,
                 options.Assignee)
             {
                 AssignedToCurrentUser = options.AssignedToMe,
-                Labels = labels.ToList()
-            };
-
-            return Result.Ok(parameters);
+                Labels = GetLabels(options.Labels)
+            });
         }
 
         public Result<CreateMergeRequestParameters> NegotiateCreateMergeRequestParameters(CreateMergeRequestOptions options)
@@ -61,7 +53,7 @@ namespace GitlabCmd.Console
             if (project.IsFailure)
                 return Result.Fail<CreateMergeRequestParameters>(project);
 
-            var parameters = new CreateMergeRequestParameters(
+            return Result.Ok(new CreateMergeRequestParameters(
                 options.Title,
                 options.Source,
                 options.Destination,
@@ -69,9 +61,7 @@ namespace GitlabCmd.Console
                 options.Assignee)
             {
                 AssignedToCurrentUser = options.AssignMyself
-            };
-
-            return Result.Ok(parameters);
+            });
         }
 
         public Result<ListMergesParameters> NegotiateListMergesParameters(ListMergesOptions options)
@@ -85,15 +75,13 @@ namespace GitlabCmd.Console
                 return Result.Fail<ListMergesParameters>($"State parameter: {options.State} is not supported." +
                                                           "Supported values are: opened|closed|merged");
 
-            var parameters = new ListMergesParameters(
+            return Result.Ok(new ListMergesParameters(
                 project.Value,
                 state.Value,
                 options.Assignee)
             {
                 AssignedToCurrentUser = options.AssignedToMe
-            };
-
-            return Result.Ok(parameters);
+            });
         }
 
         public ConfigurationParameters NegotiateConfigurationParameters(ConfigurationOptions options) =>
@@ -119,7 +107,7 @@ namespace GitlabCmd.Console
                 Result.Ok(projectName);
         }
 
-        private IEnumerable<string> GetLabels(IEnumerable<string> labels)
+        private List<string> GetLabels(IEnumerable<string> labels)
         {
             var inputLabels = labels.NormalizeSpaces().ToList();
             if (inputLabels.Any(l => l.IsNotNullOrEmpty()))
