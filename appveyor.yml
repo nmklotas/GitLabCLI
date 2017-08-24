@@ -1,0 +1,35 @@
+version: 1.0.{build}
+build:
+  verbosity: minimal
+
+skip_commits:
+  files:
+  - README.md
+
+build_script:
+- ps: .\build.ps1
+
+artifacts:
+ - path: src\bin\Release\netcoreapp2.0\win-x86
+   name: gitlabcli-windows-v$(APPVEYOR_REPO_TAG_NAME)
+   type: zip
+ 
+ - path: src\bin\Release\netcoreapp2.0\linux-x64
+   name: gitlabcli-linuxx64-v$(APPVEYOR_REPO_TAG_NAME)
+   type: zip
+
+ - path: src\bin\Release\netcoreapp2.0\osx-x64
+   name: gitlabcli-osx64-v$(APPVEYOR_REPO_TAG_NAME)
+   type: zip
+
+deploy:
+  release: gitlabcli-v$(APPVEYOR_REPO_TAG_NAME)
+  description: 'Release $(APPVEYOR_REPO_TAG_NAME)'
+  provider: GitHub
+  auth_token:
+    secure: NGWVvSuIrAck0MwMglEqK+Flu3R3RT0c9K5MmNwmY06kd+cqQAb8CgAZk35aLURk
+  artifact:
+  draft: false
+  prerelease: false
+  on:
+    appveyor_repo_tag: true # deploy on tag push only

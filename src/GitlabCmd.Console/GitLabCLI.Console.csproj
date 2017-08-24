@@ -4,12 +4,12 @@
     <TargetFramework>netcoreapp2.0</TargetFramework>
     <AssemblyName>gitlab</AssemblyName>
     <NoWarn>$(NoWarn);1701</NoWarn>
-    <RuntimeIdentifiers>win10-x64</RuntimeIdentifiers>
-    <Company>gitlabcmd</Company>
-    <Product>gitlabcmd</Product>
-    <Authors>gitlabcmd</Authors>
+    <RuntimeIdentifiers>win-x86;linux-x64;osx-x64</RuntimeIdentifiers>
+    <Company>GitLabCLI</Company>
+    <Product>GitLabCLI</Product>
+    <Authors>GitLabCLI</Authors>
     <Description>CLI tool used to access GitLab</Description>
-    <PackageId>gitlabcmd</PackageId>
+    <PackageId>GitLabCLI</PackageId>
     <RootNamespace>GitLabCLI.Console</RootNamespace>
   </PropertyGroup>
   <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Debug|AnyCPU'">
@@ -22,9 +22,6 @@
     <LangVersion>7.1</LangVersion>
 	<OutputPath>..\bin\Release\</OutputPath>
   </PropertyGroup>
-  <ItemGroup>
-    <None Include="Configuration\AppSettingsValidator.cs" />
-  </ItemGroup>
   <ItemGroup>
     <PackageReference Include="Castle.Core" Version="4.1.1" />
     <PackageReference Include="Castle.Windsor" Version="4.0.0">
