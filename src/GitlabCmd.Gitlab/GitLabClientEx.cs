@@ -36,14 +36,7 @@ namespace GitLabCmd.GitLab
 
         public async Task<User> GetUserByNameAsync(string name)
         {
-            try
-            {
-                return (await _requestor.Get<User[]>($"/users?username={name}")).FirstOrDefault();
-            }
-            catch (GitLabException)
-            {
-                return null;
-            }
+            return (await _requestor.Get<User[]>($"/users?username={name}")).FirstOrDefault();
         }
 
         public async Task<int?> GetUserId(bool isCurrentUser, string assigneeName = null)

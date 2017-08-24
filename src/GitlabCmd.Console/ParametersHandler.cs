@@ -15,7 +15,7 @@ namespace GitLabCmd.Console
 
         public ParametersHandler(AppSettings settings) => _settings = settings;
 
-        public Result<CreateIssueParameters> NegotiateAddIssueParameters(CreateIssueOptions options)
+        public Result<CreateIssueParameters> NegotiateCreateIssueParameters(CreateIssueOptions options)
         {
             var project = GetProject(options);
             if (project.IsFailure)
@@ -109,8 +109,12 @@ namespace GitLabCmd.Console
 
         private List<string> GetLabels(IEnumerable<string> labels)
         {
-            var inputLabels = labels.NormalizeSpaces().ToList();
-            if (inputLabels.Any(l => l.IsNotNullOrEmpty()))
+            var inputLabels = labels.
+                SafeToList().
+                Where(l => l.IsNotNullOrEmpty()).
+                ToList();
+
+            if (inputLabels.Any())
                 return inputLabels;
 
             string normalizedDefaultLabel = _settings.DefaulIssuesLabel.NormalizeSpaces();

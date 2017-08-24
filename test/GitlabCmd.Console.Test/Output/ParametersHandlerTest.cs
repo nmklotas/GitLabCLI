@@ -1,39 +1,134 @@
-﻿using FluentAssertions;
+﻿using System.Collections.Generic;
+using System.Linq;
+using FluentAssertions;
 using GitLabCmd.Console.Configuration;
 using GitLabCmd.Console.Parsing;
+using GitLabCmd.Core.GitLab.Issues;
+using GitLabCmd.Core.GitLab.Merges;
 using Xunit;
 
 namespace GitLabCmd.Console.Test.Output
 {
     public class ParametersHandlerTest
     {
-        private readonly ParametersHandler _sut;
-
-        public ParametersHandlerTest()
+        private readonly ParametersHandler _sut = new ParametersHandler(new AppSettings
         {
-            var settings = new AppSettings
+            DefaultProject = "appsettings-project",
+            DefaulIssuesLabel = "appsettings-label",
+            GitLabAccessToken = "appsettings-token",
+            GitLabHostUrl = "https://test-gitlab.com"
+        });
+
+        [Fact]
+        public void NotProvidedProjectTakenFromSettings()
+        {
+            string[] parameter =
             {
-                DefaultProject = "test-project",
-                DefaulIssuesLabel = "test-issue-label",
-                GitLabAccessToken = "test-access-token",
-                GitLabHostUrl = "https://test-gitlab.com"
+                _sut.NegotiateListIssuesParameters(new ListIssuesOptions()).Value.Project,
+                _sut.NegotiateCreateIssueParameters(new CreateIssueOptions
+                {
+                    Title = "title"
+                }).
+                Value.Project,
+                _sut.NegotiateListMergesParameters(new ListMergesOptions()).Value.Project,
+                _sut.NegotiateCreateMergeRequestParameters(new CreateMergeRequestOptions
+                {
+                    Title = "title",
+                    Source = "source",
+                    Destination = "destination"
+                }).Value.Project
             };
 
-            _sut = new ParametersHandler(settings);
+            parameter.Should().OnlyContain(p => p == "appsettings-project");
         }
 
         [Fact]
-        public void NotProvidedProjectNameTakenFromSettings()
+        public void NotProvidedLabelsTakenFromSettings()
         {
-            var parameter = _sut.NegotiateAddIssueParameters(new CreateIssueOptions
+            var parameter = new List<IList<string>>
             {
-                Description = "parsed-description",
-                Labels = new[] { "parsed-label" },
-                Title = "parsed-title"
-            });
+                _sut.NegotiateListIssuesParameters(new ListIssuesOptions()).Value.Labels,
+                _sut.NegotiateCreateIssueParameters(new CreateIssueOptions
+                {
+                    Title = "title"
+                }).
+                Value.Labels,
+            };
 
-            parameter.IsSuccess.Should().BeTrue();
-            parameter.Value.Project.Should().Be("test-project");
+            parameter.Should().OnlyContain(
+                p => p.SequenceEqual(new[] { "appsettings-label" }));
+        }
+
+        [Fact]
+        public void CreateMergeRequestParametersNegotiated()
+        {
+            _sut.NegotiateCreateMergeRequestParameters(new CreateMergeRequestOptions
+            {
+                Title = "title",
+                Source = "source",
+                Destination = "destination",
+                Assignee = "assignee",
+                Project = "project",
+                AssignMyself = true
+            }).Value.Should().Match<CreateMergeRequestParameters>(s =>
+                s.Title == "title" &&
+                s.SourceBranch == "source" &&
+                s.TargetBranch == "destination" &&
+                s.Assignee == "assignee" &&
+                s.Project == "project" &&
+                s.AssignedToCurrentUser);
+        }
+
+        [Fact]
+        public void CreateIssuesParametersNegotiated()
+        {
+            _sut.NegotiateCreateIssueParameters(new CreateIssueOptions
+            {
+                Title = "title",
+                Description = "description",
+                Assignee = "assignee",
+                Labels = new[] { "label" },
+                Project = "project",
+                AssignMyself = true
+            }).Value.Should().Match<CreateIssueParameters>(s =>
+                s.Title == "title" &&
+                s.Description == "description" &&
+                s.Assignee == "assignee" &&
+                s.Labels.SequenceEqual(new[] { "label" }) &&
+                s.Project == "project" &&
+                s.AssignedToCurrentUser);
+        }
+
+        [Fact]
+        public void ListIssuesParametersNegotiated()
+        {
+            _sut.NegotiateListIssuesParameters(new ListIssuesOptions
+            {
+                AssignedToMe = true,
+                Assignee = "assignee",
+                Labels = new[] { "label" },
+                Project = "project"
+            }).Value.Should().Match<ListIssuesParameters>(s =>
+                s.AssignedToCurrentUser &&
+                s.Assignee == "assignee" &&
+                s.Labels.SequenceEqual(new[] { "label" }) &&
+                s.Project == "project");
+        }
+
+        [Fact]
+        public void ListMergesParametersNegotiated()
+        {
+            _sut.NegotiateListMergesParameters(new ListMergesOptions
+            {
+                AssignedToMe = true,
+                Assignee = "assignee",
+                State = "merged",
+                Project = "project"
+            }).Value.Should().Match<ListMergesParameters>(s =>
+                s.AssignedToCurrentUser &&
+                s.Assignee == "assignee" &&
+                s.State == MergeRequestState.Merged &&
+                s.Project == "project");
         }
     }
 }
