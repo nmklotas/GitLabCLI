@@ -9,7 +9,7 @@ using NGitLab.Impl;
 
 namespace GitLabCmd.GitLab
 {
-    public class GitLabFacade : IGitLabFacade
+    public sealed class GitLabFacade : IGitLabFacade
     {
         private readonly GitLabIssuesFacade _issuesFacade;
         private readonly GitLabMergesFacade _mergesFacade;

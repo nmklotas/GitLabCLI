@@ -6,7 +6,7 @@ using GitLabCmd.Core.GitLab.Issues;
 
 namespace GitLabCmd.Console
 {
-    public class GitLabIssueHandler
+    public sealed class GitLabIssueHandler
     {
         private readonly IGitLabFacade _gitLabFacade;
         private readonly OutputPresenter _presenter;

@@ -4,7 +4,7 @@ using System.Linq;
 
 namespace GitLabCmd.Console.Output
 {
-    public class OutputPresenter
+    public sealed class OutputPresenter
     {
         private readonly GridResultFormatter _gridResultFormatter;
 

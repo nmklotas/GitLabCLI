@@ -8,7 +8,7 @@ using MergeRequestState = GitLabCmd.Core.GitLab.Merges.MergeRequestState;
 
 namespace GitLabCmd.GitLab.Test
 {
-    public class GitLabFacadeMergeRequestsTest : IAsyncLifetime
+    public sealed class GitLabFacadeMergeRequestsTest : IAsyncLifetime
     {
         private readonly GitLabMergesFacade _sut = new GitLabMergesFacade(
             new GitLabClientExFactory(new GitLabSettings

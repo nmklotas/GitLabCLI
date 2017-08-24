@@ -6,7 +6,7 @@ using Xunit;
 
 namespace GitLabCmd.Console.Test.Parsing
 {
-    public class CommandLineArgsParserTest
+    public sealed class CommandLineArgsParserTest
     {
         private readonly CommandLineArgsParser _sut = new CommandLineArgsParser(Parser.Default);
 

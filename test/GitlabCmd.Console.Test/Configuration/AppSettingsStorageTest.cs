@@ -7,7 +7,7 @@ using Xunit;
 
 namespace GitLabCmd.Console.Test.Configuration
 {
-    public class AppSettingsStorageTest
+    public sealed class AppSettingsStorageTest
     {
         private readonly Func<string, AppSettingsStorage> _sut = p => new AppSettingsStorage(
             JsonSerializer.CreateDefault(), p);

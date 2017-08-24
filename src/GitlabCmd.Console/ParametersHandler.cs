@@ -9,7 +9,7 @@ using GitLabCmd.Utilities;
 
 namespace GitLabCmd.Console
 {
-    public class ParametersHandler
+    public sealed class ParametersHandler
     {
         private readonly AppSettings _settings;
 

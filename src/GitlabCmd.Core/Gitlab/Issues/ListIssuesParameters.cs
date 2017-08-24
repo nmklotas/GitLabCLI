@@ -3,7 +3,7 @@ using GitLabCmd.Utilities;
 
 namespace GitLabCmd.Core.GitLab.Issues
 {
-    public class ListIssuesParameters
+    public sealed class ListIssuesParameters
     {
         public ListIssuesParameters(
             string project,

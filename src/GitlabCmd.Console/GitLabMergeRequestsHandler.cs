@@ -6,7 +6,7 @@ using GitLabCmd.Core.GitLab.Merges;
 
 namespace GitLabCmd.Console
 {
-    public class GitLabMergeRequestsHandler
+    public sealed class GitLabMergeRequestsHandler
     {
         private readonly IGitLabFacade _gitLabFacade;
         private readonly OutputPresenter _presenter;

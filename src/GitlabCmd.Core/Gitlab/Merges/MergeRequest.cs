@@ -1,6 +1,6 @@
 ﻿namespace GitLabCmd.Core.GitLab.Merges
 {
-    public class MergeRequest
+    public sealed class MergeRequest
     {
         public int Id { get; set; }
 

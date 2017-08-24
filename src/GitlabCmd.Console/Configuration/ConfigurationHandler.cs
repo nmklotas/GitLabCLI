@@ -2,7 +2,7 @@
 
 namespace GitLabCmd.Console.Configuration
 {
-    public class ConfigurationHandler
+    public sealed class ConfigurationHandler
     {
         private readonly AppSettingsStorage _storage;
         private readonly AppSettingsValidator _validator;

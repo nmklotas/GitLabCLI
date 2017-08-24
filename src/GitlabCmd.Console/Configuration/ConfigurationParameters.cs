@@ -1,6 +1,6 @@
 ﻿namespace GitLabCmd.Console.Configuration
 {
-    public class ConfigurationParameters
+    public sealed class ConfigurationParameters
     {
         public string Token { get; set; }
 

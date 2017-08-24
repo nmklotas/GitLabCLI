@@ -1,6 +1,6 @@
 ﻿namespace GitLabCmd.Core.GitLab.Issues
 {
-    public class Issue
+    public sealed class Issue
     {
         public int Id { get; set; }
 

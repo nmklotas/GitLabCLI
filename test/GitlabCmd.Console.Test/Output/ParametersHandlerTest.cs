@@ -9,7 +9,7 @@ using Xunit;
 
 namespace GitLabCmd.Console.Test.Output
 {
-    public class ParametersHandlerTest
+    public sealed class ParametersHandlerTest
     {
         private readonly ParametersHandler _sut = new ParametersHandler(new AppSettings
         {

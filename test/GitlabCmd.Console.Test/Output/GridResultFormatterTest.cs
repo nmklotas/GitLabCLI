@@ -4,7 +4,7 @@ using Xunit;
 
 namespace GitLabCmd.Console.Test.Output
 {
-    public class GridResultFormatterTest
+    public sealed class GridResultFormatterTest
     {
         [Fact]
         public void GridIsFormatted()

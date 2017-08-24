@@ -5,7 +5,7 @@ using Xunit;
 
 namespace GitLabCmd.Console.Test.Parsing
 {
-    public class AppSettingsValidatorTest
+    public sealed class AppSettingsValidatorTest
     {
         private readonly Func<AppSettings, AppSettingsValidator> _sut = s => new AppSettingsValidator(s);
 

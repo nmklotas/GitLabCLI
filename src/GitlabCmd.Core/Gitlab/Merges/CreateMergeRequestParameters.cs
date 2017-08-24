@@ -2,7 +2,7 @@
 
 namespace GitLabCmd.Core.GitLab.Merges
 {
-    public class CreateMergeRequestParameters
+    public sealed class CreateMergeRequestParameters
     {
         public CreateMergeRequestParameters(
             string title, 
