@@ -20,6 +20,7 @@
     <None Include="Configuration\AppSettingsValidator.cs" />
   </ItemGroup>
   <ItemGroup>
+    <PackageReference Include="Castle.Core" Version="4.1.1" />
     <PackageReference Include="Castle.Windsor" Version="4.0.0">
       <NoWarn>NU1603</NoWarn>
     </PackageReference>
