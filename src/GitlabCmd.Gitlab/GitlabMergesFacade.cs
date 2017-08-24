@@ -1,13 +1,13 @@
 ﻿using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
-using GitLabCmd.Core;
-using GitLabCmd.Core.GitLab.Merges;
-using GitLabCmd.Utilities;
+using GitLabCLI.Core;
+using GitLabCLI.Core.Gitlab.Merges;
+using GitLabCLI.Utilities;
 using NGitLab.Models;
 using MergeRequest = NGitLab.Models.MergeRequest;
 
-namespace GitLabCmd.GitLab
+namespace GitLabCLI.GitLab
 {
     public sealed class GitLabMergesFacade
     {

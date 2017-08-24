@@ -3,7 +3,7 @@ using System.Collections.Generic;
 using System.IO;
 using System.Linq;
 
-namespace GitLabCmd.Utilities
+namespace GitLabCLI.Utilities
 {
     public static class Guard
     {

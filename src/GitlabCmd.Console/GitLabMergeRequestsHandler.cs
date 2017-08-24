@@ -1,10 +1,10 @@
 ﻿using System.Linq;
 using System.Threading.Tasks;
-using GitLabCmd.Console.Output;
-using GitLabCmd.Core.GitLab;
-using GitLabCmd.Core.GitLab.Merges;
+using GitLabCLI.Console.Output;
+using GitLabCLI.Core.Gitlab;
+using GitLabCLI.Core.Gitlab.Merges;
 
-namespace GitLabCmd.Console
+namespace GitLabCLI.Console
 {
     public sealed class GitLabMergeRequestsHandler
     {

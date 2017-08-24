@@ -1,13 +1,13 @@
 ﻿using System.Collections.Generic;
 using System.Linq;
 using FluentAssertions;
-using GitLabCmd.Console.Configuration;
-using GitLabCmd.Console.Parsing;
-using GitLabCmd.Core.GitLab.Issues;
-using GitLabCmd.Core.GitLab.Merges;
+using GitLabCLI.Console.Configuration;
+using GitLabCLI.Console.Parsing;
+using GitLabCLI.Core.Gitlab.Issues;
+using GitLabCLI.Core.Gitlab.Merges;
 using Xunit;
 
-namespace GitLabCmd.Console.Test.Output
+namespace GitLabCLI.Console.Test.Output
 {
     public sealed class ParametersHandlerTest
     {

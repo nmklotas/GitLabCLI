@@ -1,4 +1,4 @@
-﻿namespace GitLabCmd.Core.GitLab.Issues
+﻿namespace GitLabCLI.Core.Gitlab.Issues
 {
     public sealed class Issue
     {

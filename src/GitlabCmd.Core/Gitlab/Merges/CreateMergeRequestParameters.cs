@@ -1,6 +1,6 @@
-﻿using GitLabCmd.Utilities;
+﻿using GitLabCLI.Utilities;
 
-namespace GitLabCmd.Core.GitLab.Merges
+namespace GitLabCLI.Core.Gitlab.Merges
 {
     public sealed class CreateMergeRequestParameters
     {

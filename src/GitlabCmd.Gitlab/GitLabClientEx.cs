@@ -2,13 +2,13 @@
 using System.Linq;
 using System.Net.Http;
 using System.Threading.Tasks;
-using GitLabCmd.Utilities;
+using GitLabCLI.Utilities;
 using Newtonsoft.Json;
 using NGitLab;
 using NGitLab.Impl;
 using NGitLab.Models;
 
-namespace GitLabCmd.GitLab
+namespace GitLabCLI.GitLab
 {
     /// <summary>
     /// Workaround limitations of NGitLab package

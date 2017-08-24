@@ -1,9 +1,9 @@
 using System;
 using System.Collections.Generic;
 using System.Linq;
-using GitLabCmd.Utilities;
+using GitLabCLI.Utilities;
 
-namespace GitLabCmd.Console.Output
+namespace GitLabCLI.Console.Output
 {
     public sealed class GridResultFormatter
     {

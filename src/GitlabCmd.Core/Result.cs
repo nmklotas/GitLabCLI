@@ -1,7 +1,7 @@
 using System;
 using System.Diagnostics;
 
-namespace GitLabCmd.Core
+namespace GitLabCLI.Core
 {
     public sealed class ResultCommonLogic
     {

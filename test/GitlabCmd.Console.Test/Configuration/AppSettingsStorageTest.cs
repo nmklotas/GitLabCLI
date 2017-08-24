@@ -1,11 +1,11 @@
 ﻿using System;
 using System.IO;
 using FluentAssertions;
-using GitLabCmd.Console.Configuration;
+using GitLabCLI.Console.Configuration;
 using Newtonsoft.Json;
 using Xunit;
 
-namespace GitLabCmd.Console.Test.Configuration
+namespace GitLabCLI.Console.Test.Configuration
 {
     public sealed class AppSettingsStorageTest
     {

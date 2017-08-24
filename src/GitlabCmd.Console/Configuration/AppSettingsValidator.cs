@@ -1,7 +1,7 @@
-﻿using GitLabCmd.Core;
-using GitLabCmd.Utilities;
+﻿using GitLabCLI.Core;
+using GitLabCLI.Utilities;
 
-namespace GitLabCmd.Console.Configuration
+namespace GitLabCLI.Console.Configuration
 {
     public sealed class AppSettingsValidator
     {

@@ -1,13 +1,13 @@
 ﻿using System.Collections.Generic;
 using System.Linq;
-using GitLabCmd.Console.Configuration;
-using GitLabCmd.Console.Parsing;
-using GitLabCmd.Core;
-using GitLabCmd.Core.GitLab.Issues;
-using GitLabCmd.Core.GitLab.Merges;
-using GitLabCmd.Utilities;
+using GitLabCLI.Console.Configuration;
+using GitLabCLI.Console.Parsing;
+using GitLabCLI.Core;
+using GitLabCLI.Core.Gitlab.Issues;
+using GitLabCLI.Core.Gitlab.Merges;
+using GitLabCLI.Utilities;
 
-namespace GitLabCmd.Console
+namespace GitLabCLI.Console
 {
     public sealed class ParametersHandler
     {

@@ -1,6 +1,6 @@
 using System;
 
-namespace GitLabCmd.Utilities
+namespace GitLabCLI.Utilities
 {
     public static class StringExtensions
     {

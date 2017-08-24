@@ -1,13 +1,13 @@
 ﻿using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
-using GitLabCmd.Core;
-using GitLabCmd.Core.GitLab.Issues;
-using GitLabCmd.Utilities;
+using GitLabCLI.Core;
+using GitLabCLI.Core.Gitlab.Issues;
+using GitLabCLI.Utilities;
 using NGitLab.Models;
 using Issue = NGitLab.Models.Issue;
 
-namespace GitLabCmd.GitLab
+namespace GitLabCLI.GitLab
 {
     public sealed class GitLabIssuesFacade
     {

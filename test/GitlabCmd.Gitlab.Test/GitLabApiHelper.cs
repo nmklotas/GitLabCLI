@@ -3,10 +3,10 @@ using System.Linq;
 using System.Linq.Expressions;
 using System.Threading.Tasks;
 using FluentAssertions;
-using GitLabCmd.Utilities;
+using GitLabCLI.Utilities;
 using NGitLab.Models;
 
-namespace GitLabCmd.GitLab.Test
+namespace GitLabCLI.GitLab.Test
 {
     public static class GitLabApiHelper
     {

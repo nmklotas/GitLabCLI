@@ -1,7 +1,7 @@
 ﻿using System.Threading.Tasks;
-using GitLabCmd.Utilities;
+using GitLabCLI.Utilities;
 
-namespace GitLabCmd.GitLab
+namespace GitLabCLI.GitLab
 {
     public sealed class GitLabClientExFactory
     {

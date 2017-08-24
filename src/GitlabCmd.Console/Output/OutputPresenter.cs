@@ -2,7 +2,7 @@
 using System.Collections.Generic;
 using System.Linq;
 
-namespace GitLabCmd.Console.Output
+namespace GitLabCLI.Console.Output
 {
     public sealed class OutputPresenter
     {

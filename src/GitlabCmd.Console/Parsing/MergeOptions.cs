@@ -1,7 +1,7 @@
 ﻿using System.Threading.Tasks;
 using CommandLine;
 
-namespace GitLabCmd.Console.Parsing
+namespace GitLabCLI.Console.Parsing
 {
     [Verb("merge", HelpText = "Commands: create, list. Run merge [command] --help to learn more.")]
     [SubVerbs(typeof(CreateMergeRequestOptions), typeof(ListMergesOptions))]

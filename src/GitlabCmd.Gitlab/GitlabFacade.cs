@@ -1,13 +1,13 @@
 using System;
 using System.Collections.Generic;
 using System.Threading.Tasks;
-using GitLabCmd.Core;
-using GitLabCmd.Core.GitLab;
-using GitLabCmd.Core.GitLab.Issues;
-using GitLabCmd.Core.GitLab.Merges;
+using GitLabCLI.Core;
+using GitLabCLI.Core.Gitlab;
+using GitLabCLI.Core.Gitlab.Issues;
+using GitLabCLI.Core.Gitlab.Merges;
 using NGitLab.Impl;
 
-namespace GitLabCmd.GitLab
+namespace GitLabCLI.GitLab
 {
     public sealed class GitLabFacade : IGitLabFacade
     {

@@ -1,6 +1,6 @@
 ﻿using System.Threading.Tasks;
 
-namespace GitLabCmd.Console
+namespace GitLabCLI.Console
 {
     public sealed class Program
     {

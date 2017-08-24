@@ -1,9 +1,9 @@
 ﻿using System.Collections.Generic;
 using System.Threading.Tasks;
-using GitLabCmd.Core.GitLab.Issues;
-using GitLabCmd.Core.GitLab.Merges;
+using GitLabCLI.Core.Gitlab.Issues;
+using GitLabCLI.Core.Gitlab.Merges;
 
-namespace GitLabCmd.Core.GitLab
+namespace GitLabCLI.Core.Gitlab
 {
     public interface IGitLabFacade
     {

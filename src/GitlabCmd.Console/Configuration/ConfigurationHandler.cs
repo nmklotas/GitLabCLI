@@ -1,6 +1,7 @@
-﻿using GitLabCmd.Core;
+﻿using GitLabCLI.Console.Output;
+using GitLabCLI.Core;
 
-namespace GitLabCmd.Console.Configuration
+namespace GitLabCLI.Console.Configuration
 {
     public sealed class ConfigurationHandler
     {

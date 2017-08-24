@@ -1,4 +1,4 @@
-﻿namespace GitLabCmd.Console.Configuration
+﻿namespace GitLabCLI.Console.Configuration
 {
     public sealed class ConfigurationParameters
     {

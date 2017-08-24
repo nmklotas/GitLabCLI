@@ -3,15 +3,15 @@ using System.IO;
 using Castle.MicroKernel.Registration;
 using Castle.Windsor;
 using CommandLine;
-using GitLabCmd.Console.Configuration;
-using GitLabCmd.Console.Output;
-using GitLabCmd.Console.Parsing;
-using GitLabCmd.Core.GitLab;
-using GitLabCmd.GitLab;
+using GitLabCLI.Console.Configuration;
+using GitLabCLI.Console.Output;
+using GitLabCLI.Console.Parsing;
+using GitLabCLI.Core.Gitlab;
+using GitLabCLI.GitLab;
 using Newtonsoft.Json;
 using Newtonsoft.Json.Serialization;
 
-namespace GitLabCmd.Console
+namespace GitLabCLI.Console
 {
     public static class Container
     {

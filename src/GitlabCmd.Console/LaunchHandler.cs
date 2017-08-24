@@ -1,9 +1,9 @@
 ﻿using System;
 using System.Threading.Tasks;
-using GitLabCmd.Console.Output;
-using GitLabCmd.Console.Parsing;
+using GitLabCLI.Console.Output;
+using GitLabCLI.Console.Parsing;
 
-namespace GitLabCmd.Console
+namespace GitLabCLI.Console
 {
     public sealed class LaunchHandler
     {

@@ -1,7 +1,7 @@
 ﻿using System.Threading.Tasks;
 using CommandLine;
 
-namespace GitLabCmd.Console.Parsing
+namespace GitLabCLI.Console.Parsing
 {
     [Verb("config", HelpText = "Persists configuration for the tool.")]
     public sealed class ConfigurationOptions : IVisitableOption

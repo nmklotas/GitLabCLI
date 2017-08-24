@@ -1,7 +1,7 @@
 ﻿using System.Collections.Generic;
-using GitLabCmd.Utilities;
+using GitLabCLI.Utilities;
 
-namespace GitLabCmd.Core.GitLab.Issues
+namespace GitLabCLI.Core.Gitlab.Issues
 {
     public sealed class ListIssuesParameters
     {
