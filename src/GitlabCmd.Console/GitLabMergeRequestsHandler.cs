@@ -8,8 +8,8 @@ namespace GitLabCmd.Console
 {
     public class GitLabMergeRequestsHandler
     {
-        private readonly OutputPresenter _presenter;
         private readonly IGitLabFacade _gitLabFacade;
+        private readonly OutputPresenter _presenter;
 
         public GitLabMergeRequestsHandler(IGitLabFacade gitLabFacade, OutputPresenter presenter)
         {
@@ -19,7 +19,7 @@ namespace GitLabCmd.Console
 
         public async Task CreateMergeRequest(CreateMergeRequestParameters parameters)
         {
-            var mergeRequestResult = await _gitLabFacade.CreateMergeRequestAsync(parameters);
+            var mergeRequestResult = await _gitLabFacade.CreateMergeRequest(parameters);
             if (mergeRequestResult.IsFailure)
             {
                 _presenter.FailureResult("Failed to create merge request", mergeRequestResult.Error);

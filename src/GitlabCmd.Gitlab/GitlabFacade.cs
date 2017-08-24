@@ -25,7 +25,7 @@ namespace GitLabCmd.GitLab
             _mapper = mapper;
         }
 
-        public async Task<Result<int>> CreateMergeRequestAsync(CreateMergeRequestParameters parameters)
+        public async Task<Result<int>> CreateMergeRequest(CreateMergeRequestParameters parameters)
         {
             return await SafeGetResult(() => _mergesFacade.CreateMergeRequest(parameters));
         }

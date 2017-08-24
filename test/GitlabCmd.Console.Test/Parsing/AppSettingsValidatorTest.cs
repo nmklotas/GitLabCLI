@@ -1,15 +1,13 @@
 ﻿using System;
 using FluentAssertions;
 using GitLabCmd.Console.Configuration;
-using GitLabCmd.Console.Output;
 using Xunit;
 
 namespace GitLabCmd.Console.Test.Parsing
 {
     public class AppSettingsValidatorTest
     {
-        private readonly Func<AppSettings, AppSettingsValidator> _sutFactory =
-            s => new AppSettingsValidator(s, new OutputPresenter(new GridResultFormatter()));
+        private readonly Func<AppSettings, AppSettingsValidator> _sut = s => new AppSettingsValidator(s);
 
         [Fact]
         public void SettingsWithoutHostUrlAreNotValid()
@@ -21,7 +19,7 @@ namespace GitLabCmd.Console.Test.Parsing
                 DefaulIssuesLabel = "parsed-issue-label"
             };
 
-            _sutFactory(appSettings).Validate().Should().BeFalse();
+            _sut(appSettings).Validate().IsSuccess.Should().BeFalse();
         }
 
         [Fact]
@@ -34,7 +32,7 @@ namespace GitLabCmd.Console.Test.Parsing
                 DefaulIssuesLabel = "parsed-issue-label"
             };
 
-            _sutFactory(appSettings).Validate().Should().BeFalse();
+            _sut(appSettings).Validate().IsSuccess.Should().BeFalse();
         }
 
         [Fact]
@@ -47,7 +45,7 @@ namespace GitLabCmd.Console.Test.Parsing
                 GitLabPassword = "password"
             };
 
-            _sutFactory(appSettings).Validate().Should().BeTrue();
+            _sut(appSettings).Validate().IsSuccess.Should().BeTrue();
         }
 
         [Fact]
@@ -59,7 +57,7 @@ namespace GitLabCmd.Console.Test.Parsing
                 GitLabAccessToken = "test-token"
             };
 
-            _sutFactory(appSettings).Validate().Should().BeTrue();
+            _sut(appSettings).Validate().IsSuccess.Should().BeTrue();
         }
     }
 }

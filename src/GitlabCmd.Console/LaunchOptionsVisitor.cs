@@ -1,5 +1,6 @@
 ﻿using System.Threading.Tasks;
 using GitLabCmd.Console.Configuration;
+using GitLabCmd.Console.Output;
 using GitLabCmd.Console.Parsing;
 
 namespace GitLabCmd.Console
@@ -10,17 +11,20 @@ namespace GitLabCmd.Console
         private readonly GitLabMergeRequestsHandler _mergesHandler;
         private readonly ConfigurationHandler _configurationHandler;
         private readonly ParametersHandler _parametersHandler;
+        private readonly OutputPresenter _outputPresenter;
 
         public LaunchOptionsVisitor(
             GitLabIssueHandler issuesHandler,
             GitLabMergeRequestsHandler mergesHandler,
             ConfigurationHandler configurationHandler,
-            ParametersHandler parametersHandler)
+            ParametersHandler parametersHandler,
+            OutputPresenter outputPresenter)
         {
             _issuesHandler = issuesHandler;
             _mergesHandler = mergesHandler;
             _configurationHandler = configurationHandler;
             _parametersHandler = parametersHandler;
+            _outputPresenter = outputPresenter;
         }
 
         public async Task Visit(CreateIssueOptions options)
@@ -70,6 +74,16 @@ namespace GitLabCmd.Console
             return Task.CompletedTask;
         }
 
-        private bool ValidateConfiguration() => _configurationHandler.Validate();
+        private bool ValidateConfiguration()
+        {
+            var validationResult = _configurationHandler.Validate();
+            if (validationResult.IsFailure)
+            {
+                _outputPresenter.Info(validationResult.Error);
+                return false;
+            }
+
+            return true;
+        }
     }
 }

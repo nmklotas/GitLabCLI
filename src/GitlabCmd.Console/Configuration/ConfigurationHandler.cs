@@ -1,17 +1,21 @@
-﻿namespace GitLabCmd.Console.Configuration
+﻿using GitLabCmd.Core;
+
+namespace GitLabCmd.Console.Configuration
 {
     public class ConfigurationHandler
     {
         private readonly AppSettingsStorage _storage;
         private readonly AppSettingsValidator _validator;
 
-        public ConfigurationHandler(AppSettingsStorage storage, AppSettingsValidator validator)
+        public ConfigurationHandler(
+            AppSettingsStorage storage, 
+            AppSettingsValidator validator)
         {
             _storage = storage;
             _validator = validator;
         }
 
-        public bool Validate() => _validator.Validate();
+        public Result Validate() => _validator.Validate();
 
         public void StoreConfiguration(ConfigurationParameters parameters)
         {
