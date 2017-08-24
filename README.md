@@ -16,7 +16,7 @@ gitlab config --host "https://gitlab-host.com" --token "your token"
 ```
 To authenticate using username & password:
 ```
-gitlab config --username "your username" --password "your password"
+gitlab config --host "https://gitlab-host.com" --username "your username" --password "your password"
 ```
 
 To boost your productivity it's recommended to set default project also. So you will not need to specify it everytime.
