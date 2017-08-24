@@ -12,10 +12,15 @@ namespace GitLabCmd.Console.Configuration
         public Result Validate()
         {
             if (!ValidateHostUrl())
-                return Result.Fail("GitLab host url is not set");
+                return Result.Fail("GitLab host url is not set. " +
+                                   "Run 'gitlab config --host {host}' to set host url.");
 
             if (!ValidateAuthorizationSettings())
-                return Result.Fail("GitLab authorization options are not set");
+                return Result.Fail("GitLab authentication options are not set.\r\n" +
+                                   "You can set authentication options two ways:\r\n" +
+                                   "1. Run 'gitlab config --token {token}' if you have auth token.\r\n" +
+                                   "2. Run 'gitlab config --username {username} --password {password}' " +
+                                   "if you want to use username and password.\r\n");
 
             return Result.Ok();
         }

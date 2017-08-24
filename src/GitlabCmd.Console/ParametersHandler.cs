@@ -103,7 +103,9 @@ namespace GitLabCmd.Console
                 options.Project : _settings.DefaultProject;
 
             return projectName.IsNullOrEmpty() ?
-                Result.Fail<string>("Project name is not provided and default is not set") :
+                Result.Fail<string>(
+                    "Project name is not provided and default is not set. " +
+                    "You can set default project by running 'gitlab config --default-project {project}'") :
                 Result.Ok(projectName);
         }
 
