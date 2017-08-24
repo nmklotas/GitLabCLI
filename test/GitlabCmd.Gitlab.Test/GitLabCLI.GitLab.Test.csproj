@@ -4,6 +4,8 @@
     <TargetFramework>netcoreapp2.0</TargetFramework>
 
     <IsPackable>false</IsPackable>
+
+    <RootNamespace>GitLabCLI.GitLab.Test</RootNamespace>
   </PropertyGroup>
 
   <ItemGroup>
@@ -14,7 +16,7 @@
   </ItemGroup>
 
   <ItemGroup>
-    <ProjectReference Include="..\..\src\GitlabCmd.Gitlab\GitlabCmd.Gitlab.csproj" />
+    <ProjectReference Include="..\..\src\GitlabCmd.Gitlab\GitLabCLI.GitLab.csproj" />
   </ItemGroup>
 
   <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Debug|AnyCPU'">

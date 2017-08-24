@@ -2,8 +2,9 @@
 
   <PropertyGroup>
     <TargetFramework>netcoreapp2.0</TargetFramework>
+    <RootNamespace>GitLabCLI.GitLab</RootNamespace>
   </PropertyGroup>
-
+  
   <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Debug|AnyCPU'">
     <OutputPath>..\bin\Debug\</OutputPath>
     <LangVersion>7.1</LangVersion>
@@ -15,7 +16,11 @@
   </PropertyGroup>
 
   <ItemGroup>
-    <ProjectReference Include="..\GitlabCmd.Utilities\GitlabCmd.Utilities.csproj" />
+    <PackageReference Include="NGitLab" Version="2.0.0-beta-0065" />
   </ItemGroup>
 
+  <ItemGroup>
+    <ProjectReference Include="..\GitlabCmd.Core\GitLabCLI.Core.csproj" />
+    <ProjectReference Include="..\GitlabCmd.Utilities\GitLabCLI.Utilities.csproj" />
+  </ItemGroup>
 </Project>

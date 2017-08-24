@@ -2,6 +2,7 @@
   <PropertyGroup>
     <TargetFramework>netcoreapp2.0</TargetFramework>
     <IsPackable>false</IsPackable>
+    <RootNamespace>GitLabCLI.Console.Test</RootNamespace>
   </PropertyGroup>
   <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Debug|AnyCPU'">
     <LangVersion>7.1</LangVersion>
@@ -15,10 +16,10 @@
     <PackageReference Include="xunit.runner.visualstudio" Version="2.2.0" />
   </ItemGroup>
   <ItemGroup>
-    <ProjectReference Include="..\..\src\GitlabCmd.Console\GitlabCmd.Console.csproj" />
-    <ProjectReference Include="..\..\src\GitlabCmd.Core\GitlabCmd.Core.csproj" />
-    <ProjectReference Include="..\..\src\GitlabCmd.Gitlab\GitlabCmd.Gitlab.csproj" />
-    <ProjectReference Include="..\..\src\GitlabCmd.Utilities\GitlabCmd.Utilities.csproj" />
+    <ProjectReference Include="..\..\src\GitlabCmd.Console\GitLabCLI.Console.csproj" />
+    <ProjectReference Include="..\..\src\GitlabCmd.Core\GitLabCLI.Core.csproj" />
+    <ProjectReference Include="..\..\src\GitlabCmd.Gitlab\GitLabCLI.GitLab.csproj" />
+    <ProjectReference Include="..\..\src\GitlabCmd.Utilities\GitLabCLI.Utilities.csproj" />
   </ItemGroup>
   <ItemGroup>
     <None Update="xunit.runner.json">
