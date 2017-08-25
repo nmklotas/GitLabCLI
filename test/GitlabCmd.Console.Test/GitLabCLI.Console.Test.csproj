@@ -12,8 +12,8 @@
     <PackageReference Include="fluentassertions" Version="4.19.4" />
     <PackageReference Include="Microsoft.NET.Test.Sdk" Version="15.3.0" />
     <PackageReference Include="NGitLab" Version="2.0.0-beta-0065" />
-    <PackageReference Include="xunit" Version="2.2.0" />
-    <PackageReference Include="xunit.runner.visualstudio" Version="2.2.0" />
+    <PackageReference Include="xunit" Version="2.3.0-beta4-build3742" />
+    <PackageReference Include="xunit.runner.visualstudio" Version="2.3.0-beta4-build3742" />
   </ItemGroup>
   <ItemGroup>
     <ProjectReference Include="..\..\src\GitlabCmd.Console\GitLabCLI.Console.csproj" />
