@@ -18,7 +18,7 @@ Write-Host "Calculating coverage with OpenCover."
   -hideskipped:File `
   -output:coverage/coverage.xml `
   -oldStyle `
-  -filter:"+[GitLabCLI*]* -[GitLabCLI.*Test*]*" `
+  -filter:"+[GitLabCLI*]* -[GitLabCLI.*Test*]* -[GitLabCLI.Utilities]*" `
   -searchdirs:$test/bin/Debug/netcoreapp2.0 `
   -returntargetcode `
   -register:user | Write-Host
@@ -35,7 +35,7 @@ if ($LastExitCode -ne 0)
   -hideskipped:File `
   -output:coverage/coverage.xml `
   -oldStyle `
-  -filter:"+[GitLabCLI*]* -[GitLabCLI.*Test*]*" `
+  -filter:"+[GitLabCLI*]* -[GitLabCLI.*Test*]* -[GitLabCLI.Utilities]*" `
   -searchdirs:$test/bin/Debug/netcoreapp2.0 `
   -returntargetcode `
   -register:user | Write-Host
