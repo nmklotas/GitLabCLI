@@ -9,7 +9,7 @@ namespace GitLabCLI.Console.Configuration
         private readonly AppSettingsValidator _validator;
 
         public ConfigurationHandler(
-            AppSettingsStorage storage, 
+            AppSettingsStorage storage,
             AppSettingsValidator validator)
         {
             _storage = storage;
@@ -22,14 +22,22 @@ namespace GitLabCLI.Console.Configuration
         {
             var settings = _storage.Load();
 
-            settings.DefaultProject = parameters.DefaultProject;
-            settings.GitLabAccessToken = parameters.Token;
-            settings.GitLabHostUrl = parameters.Host;
-            settings.GitLabUserName = parameters.Username;
-            settings.GitLabPassword = parameters.Password;
-            settings.DefaultIssuesProject = parameters.DefaultIssuesProject;
-            settings.DefaultMergesProject = parameters.DefaultMergesProject;
-            settings.DefaulIssuesLabel = parameters.DefaulIssuesLabel;
+            if (parameters.DefaultProject != null)
+                settings.DefaultProject = parameters.DefaultProject;
+            if (parameters.Token != null)
+                settings.GitLabAccessToken = parameters.Token;
+            if (parameters.Host != null)
+                settings.GitLabHostUrl = parameters.Host;
+            if (parameters.Username != null)
+                settings.GitLabUserName = parameters.Username;
+            if (parameters.Password != null)
+                settings.GitLabPassword = parameters.Password;
+            if (parameters.DefaultIssuesProject != null)
+                settings.DefaultIssuesProject = parameters.DefaultIssuesProject;
+            if (parameters.DefaultMergesProject != null)
+                settings.DefaultMergesProject = parameters.DefaultMergesProject;
+            if (parameters.DefaulIssuesLabel != null)
+                settings.DefaulIssuesLabel = parameters.DefaulIssuesLabel;
 
             _storage.Save(settings);
         }
