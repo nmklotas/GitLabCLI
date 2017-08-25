@@ -5,6 +5,9 @@ using System.Threading.Tasks;
 using FluentAssertions;
 using GitLabCLI.Utilities;
 using NGitLab.Models;
+using Xunit;
+
+[assembly: CollectionBehavior(DisableTestParallelization = true)]
 
 namespace GitLabCLI.GitLab.Test
 {
