@@ -36,7 +36,7 @@ namespace GitLabCLI.Console.Output
         {
             var inputRows = rows.ToArray();
             if (inputRows.Select(r => r.Length).Any(l => l != columnHeaders.Length))
-                throw new ArgumentOutOfRangeException();
+                throw new ArgumentOutOfRangeException(nameof(columnHeaders), "columnHeaders length must match all rows length");
 
             WriteLine(_gridResultFormatter.Format(header, columnHeaders, inputRows));
         }
