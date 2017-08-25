@@ -10,26 +10,24 @@ namespace GitLabCLI.GitLab
 {
     public sealed class Mapper
     {
-        public Result<IReadOnlyList<Issue>> Map(
-            Result<IReadOnlyList<NGitLab.Models.Issue>> result)
+        public Result<IReadOnlyList<Issue>> Map(Result<IReadOnlyList<NGitLab.Models.Issue>> result)
         {
             return result.Map<IReadOnlyList<Issue>>(r => r.Select(i => new Issue
             {
                 Assignee = i.Assignee?.Name,
                 Description = i.Description,
-                Id = i.Id,
+                Id = i.IssueId,
                 Title = i.Title
             })
             .ToList());
         }
 
-        public Result<IReadOnlyList<MergeRequest>> Map(
-            Result<IReadOnlyList<NGitLab.Models.MergeRequest>> result)
+        public Result<IReadOnlyList<MergeRequest>> Map(Result<IReadOnlyList<NGitLab.Models.MergeRequest>> result)
         {
             return result.Map<IReadOnlyList<MergeRequest>>(r => r.Select(i => new MergeRequest
             {
                 Assignee = i.Assignee?.Name,
-                Id = i.Id,
+                Id = i.Iid,
                 Title = i.Title
             })
             .ToList());

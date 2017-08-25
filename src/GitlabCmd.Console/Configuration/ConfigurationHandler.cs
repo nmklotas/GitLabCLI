@@ -1,5 +1,4 @@
-﻿using GitLabCLI.Console.Output;
-using GitLabCLI.Core;
+﻿using GitLabCLI.Core;
 
 namespace GitLabCLI.Console.Configuration
 {

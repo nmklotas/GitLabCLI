@@ -1,7 +1,6 @@
 ﻿using System;
 using FluentAssertions;
 using GitLabCLI.Console.Configuration;
-using GitLabCLI.Console.Output;
 using Xunit;
 
 namespace GitLabCLI.Console.Test.Parsing
