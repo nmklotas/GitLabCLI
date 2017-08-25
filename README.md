@@ -1,5 +1,6 @@
 # GitLabCLI (Beta)
 [![Build status](https://ci.appveyor.com/api/projects/status/h240b0xlwssirw3t?svg=true)](https://ci.appveyor.com/project/nmklotas/gitlabcli)
+[![codecov](https://codecov.io/gh/nmklotas/GitLabCLI/branch/master/graph/badge.svg)](https://codecov.io/gh/nmklotas/GitLabCLI)
 
 What is GitLabCLI ?  
 * It's a cross platform GitLab command line tool to quickly & naturally perform frequent tasks on GitLab project.  
