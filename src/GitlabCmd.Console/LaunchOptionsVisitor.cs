@@ -2,6 +2,7 @@
 using GitLabCLI.Console.Configuration;
 using GitLabCLI.Console.Output;
 using GitLabCLI.Console.Parsing;
+using GitLabCLI.Core;
 
 namespace GitLabCLI.Console
 {
@@ -35,6 +36,8 @@ namespace GitLabCLI.Console
             var parameters = _parametersHandler.NegotiateCreateIssueParameters(options);
             if (parameters.IsSuccess)
                 await _issuesHandler.CreateIssue(parameters.Value);
+            else
+                ShowError(parameters);
         }
 
         public async Task Visit(CreateMergeRequestOptions options)
@@ -45,6 +48,8 @@ namespace GitLabCLI.Console
             var parameters = _parametersHandler.NegotiateCreateMergeRequestParameters(options);
             if (parameters.IsSuccess)
                 await _mergesHandler.CreateMergeRequest(parameters.Value);
+            else
+                ShowError(parameters);
         }
 
         public async Task Visit(ListIssuesOptions options)
@@ -55,6 +60,8 @@ namespace GitLabCLI.Console
             var parameters = _parametersHandler.NegotiateListIssuesParameters(options);
             if (parameters.IsSuccess)
                 await _issuesHandler.ListIssues(parameters.Value);
+            else
+                ShowError(parameters);
         }
 
         public async Task Visit(ListMergesOptions options)
@@ -65,6 +72,8 @@ namespace GitLabCLI.Console
             var parameters = _parametersHandler.NegotiateListMergesParameters(options);
             if (parameters.IsSuccess)
                 await _mergesHandler.ListMerges(parameters.Value);
+            else
+                ShowError(parameters);
         }
 
         public Task Visit(ConfigurationOptions options)
@@ -84,6 +93,11 @@ namespace GitLabCLI.Console
             }
 
             return true;
+        }
+
+        private void ShowError(Result result)
+        {
+            _outputPresenter.Error(result.Error);
         }
     }
 }
