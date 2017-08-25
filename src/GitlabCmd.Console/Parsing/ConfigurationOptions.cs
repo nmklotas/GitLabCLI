@@ -8,11 +8,11 @@ namespace GitLabCLI.Console.Parsing
     {
         public Task Accept(LaunchOptionsVisitor visitor) => visitor.Visit(this);
 
-        [Option('t', "token", HelpText = "Authentication token of GitLab host.")]
-        public string Token { get; set; }
-
         [Option('h', "host", HelpText = "GitLab host url.")]
         public string Host { get; set; }
+
+        [Option('t', "token", HelpText = "Authentication token of GitLab host.")]
+        public string Token { get; set; }
 
         [Option('u', "username", HelpText = "GitLab username. Not required if Token specified.")]
         public string Username { get; set; }

@@ -14,14 +14,14 @@ namespace GitLabCLI.Console.Parsing
     {
         public Task Accept(LaunchOptionsVisitor visitor) => visitor.Visit(this);
 
+        [Option('t', "title", HelpText = "Title of merge request.", Required = true)]
+        public string Title { get; set; }
+
         [Option('s', "source", HelpText = "Source branch.", Required = true)]
         public string Source { get; set; }
 
         [Option('d', "destination", HelpText = "Destination branch.", Required = true)]
         public string Destination { get; set; }
-
-        [Option('t', "title", HelpText = "Title of merge request.", Required = true)]
-        public string Title { get; set; }
 
         [Option('a', "assignee", HelpText = "Assignee of issue.")]
         public string Assignee { get; set; }

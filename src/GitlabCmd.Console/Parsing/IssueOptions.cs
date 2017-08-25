@@ -36,13 +36,13 @@ namespace GitLabCLI.Console.Parsing
     {
         public Task Accept(LaunchOptionsVisitor visitor) => visitor.Visit(this);
 
+        [Option('l', "labels", Separator = ',', HelpText = "Labels of issue. Separated by ','.")]
+        public IEnumerable<string> Labels { get; set; }
+
         [Option("assigned-to-me", HelpText = "Assigns issue to current user.")]
         public bool AssignedToMe { get; set; }
 
         [Option('a', "assignee", HelpText = "Assignee of issue.")]
         public string Assignee { get; set; }
-
-        [Option('l', "labels", Separator = ',', HelpText = "Labels of issue. Separated by ','.")]
-        public IEnumerable<string> Labels { get; set; }
     }
 }
