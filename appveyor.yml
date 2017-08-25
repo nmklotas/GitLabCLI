@@ -18,20 +18,20 @@ test_script:
 - ps: .\test.ps1
 
 artifacts:
- - path: src\bin\Release\netcoreapp2.0\win-x86
+ - path: src\bin\Release\netcoreapp2.0\win-x86\publish
    name: gitlabcli-windows-v$(APPVEYOR_REPO_TAG_NAME)
    type: zip
  
- - path: src\bin\Release\netcoreapp2.0\linux-x64
-   name: gitlabcli-linuxx64-v$(APPVEYOR_REPO_TAG_NAME)
+ - path: src\bin\Release\netcoreapp2.0\linux-x64\publish
+   name: gitlabcli-linux-x64-v$(APPVEYOR_REPO_TAG_NAME)
    type: zip
 
- - path: src\bin\Release\netcoreapp2.0\osx-x64
-   name: gitlabcli-osx64-v$(APPVEYOR_REPO_TAG_NAME)
+ - path: src\bin\Release\netcoreapp2.0\osx-x64\publish
+   name: gitlabcli-osx-x64-v$(APPVEYOR_REPO_TAG_NAME)
    type: zip
 
 deploy:
-  release: gitlabcli-v$(APPVEYOR_REPO_TAG_NAME)
+  release: $(APPVEYOR_REPO_TAG_NAME)
   description: 'Release $(APPVEYOR_REPO_TAG_NAME)'
   provider: GitHub
   auth_token:
