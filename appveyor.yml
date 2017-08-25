@@ -38,8 +38,6 @@ artifacts:
  - path: src\bin\Release\netcoreapp2.0\osx-x64\publish
    name: gitlabcli-osx-x64-v$(APPVEYOR_REPO_TAG_NAME)
    type: zip
-  on:
-    appveyor_repo_tag: true
 
 deploy:
   release: $(APPVEYOR_REPO_TAG_NAME)
