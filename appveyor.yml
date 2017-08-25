@@ -15,7 +15,7 @@ build_script:
 - ps: .\build.ps1
 
 test_script:
-- dotnet test
+- ps: .\test.ps1
 
 artifacts:
  - path: src\bin\Release\netcoreapp2.0\win-x86
