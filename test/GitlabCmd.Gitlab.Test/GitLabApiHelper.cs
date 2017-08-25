@@ -7,8 +7,6 @@ using GitLabCLI.Utilities;
 using NGitLab.Models;
 using Xunit;
 
-[assembly: CollectionBehavior(DisableTestParallelization = true)]
-
 namespace GitLabCLI.GitLab.Test
 {
     public static class GitLabApiHelper

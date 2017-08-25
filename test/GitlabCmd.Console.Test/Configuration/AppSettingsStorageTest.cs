@@ -5,8 +5,6 @@ using GitLabCLI.Console.Configuration;
 using Newtonsoft.Json;
 using Xunit;
 
-[assembly: CollectionBehavior(DisableTestParallelization = true)]
-
 namespace GitLabCLI.Console.Test.Configuration
 {
     public sealed class AppSettingsStorageTest
