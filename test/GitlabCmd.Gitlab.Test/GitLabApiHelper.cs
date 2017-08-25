@@ -5,6 +5,7 @@ using System.Threading.Tasks;
 using FluentAssertions;
 using GitLabCLI.Utilities;
 using NGitLab.Models;
+using Xunit;
 
 namespace GitLabCLI.GitLab.Test
 {

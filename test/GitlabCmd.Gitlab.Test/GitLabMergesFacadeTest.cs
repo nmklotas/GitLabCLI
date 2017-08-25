@@ -3,6 +3,7 @@ using System.Threading.Tasks;
 using FluentAssertions;
 using GitLabCLI.Core.Gitlab.Merges;
 using Xunit;
+using static GitLabCLI.GitLab.Test.GitLabApiHelper;
 using MergeRequestState = GitLabCLI.Core.Gitlab.Merges.MergeRequestState;
 
 namespace GitLabCLI.GitLab.Test
@@ -26,16 +27,16 @@ namespace GitLabCLI.GitLab.Test
                 randomTitle,
                 "develop",
                 "master",
-                GitLabApiHelper.ProjectName,
-                GitLabApiHelper.CurrentUser));
+                ProjectName,
+                CurrentUser));
 
             result.IsSuccess.Should().BeTrue();
 
-            await GitLabApiHelper.ShouldHaveMergeRequest(
-                GitLabApiHelper.ProjectName,
+            await ShouldHaveMergeRequest(
+                ProjectName,
                 result.Value,
                 m => m.Title == randomTitle &&
-                     m.Assignee.Username == GitLabApiHelper.CurrentUser &&
+                     m.Assignee.Username == CurrentUser &&
                      m.SourceBranch == "develop" &&
                      m.TargetBranch == "master" &&
                      m.State == "opened");
@@ -50,18 +51,18 @@ namespace GitLabCLI.GitLab.Test
                 randomTitle,
                 "develop",
                 "master",
-                GitLabApiHelper.ProjectName)
+                ProjectName)
             {
                 AssignedToCurrentUser = true
             });
 
             result.IsSuccess.Should().BeTrue();
 
-            await GitLabApiHelper.ShouldHaveMergeRequest(
-                GitLabApiHelper.ProjectName,
+            await ShouldHaveMergeRequest(
+                ProjectName,
                 result.Value, 
                 m => m.Title == randomTitle &&
-                    m.Assignee.Username == GitLabApiHelper.CurrentUser &&
+                    m.Assignee.Username == CurrentUser &&
                     m.SourceBranch == "develop" &&
                     m.TargetBranch == "master" &&
                     m.State == "opened");
@@ -74,7 +75,7 @@ namespace GitLabCLI.GitLab.Test
                 "title1", 
                 "develop", 
                 "master", 
-                GitLabApiHelper.NonExistingProjectName));
+                NonExistingProjectName));
 
             result.IsSuccess.Should().BeFalse();
         }
@@ -87,23 +88,23 @@ namespace GitLabCLI.GitLab.Test
                 "title1",
                 "develop",
                 "master",
-                GitLabApiHelper.ProjectName));
+                ProjectName));
 
             //act
             var openedRequests = await _sut.ListMergeRequests(new ListMergesParameters(
-                GitLabApiHelper.ProjectName,
+                ProjectName,
                 MergeRequestState.Opened));
 
             openedRequests.Value.Should().ContainSingle(s => s.Id == mergeRequest.Value);
 
             var closedRequests = await _sut.ListMergeRequests(new ListMergesParameters(
-                GitLabApiHelper.ProjectName,
+                ProjectName,
                 MergeRequestState.Closed));
 
             closedRequests.Value.Should().BeEmpty();
 
             var mergedRequests = await _sut.ListMergeRequests(new ListMergesParameters(
-                GitLabApiHelper.ProjectName, 
+                ProjectName, 
                 MergeRequestState.Merged));
 
             mergedRequests.Value.Should().BeEmpty();
@@ -117,12 +118,12 @@ namespace GitLabCLI.GitLab.Test
                 "title1",
                 "develop",
                 "master",
-                GitLabApiHelper.ProjectName,
-                GitLabApiHelper.CurrentUser));
+                ProjectName,
+                CurrentUser));
 
             //act
             var openedRequests = await _sut.ListMergeRequests(new ListMergesParameters(
-                GitLabApiHelper.ProjectName,
+                ProjectName,
                 MergeRequestState.Opened)
             {
                 AssignedToCurrentUser = true
@@ -131,7 +132,7 @@ namespace GitLabCLI.GitLab.Test
             openedRequests.Value.Should().ContainSingle(s => s.Id == mergeRequest.Value);
         }
 
-        public async Task DisposeAsync() => await GitLabApiHelper.DeleteAllMergeRequests(GitLabApiHelper.ProjectName);
+        public async Task DisposeAsync() => await DeleteAllMergeRequests(ProjectName);
 
         public Task InitializeAsync() => Task.CompletedTask;
     }
