@@ -5,6 +5,7 @@ using FluentAssertions;
 using GitLabCLI.Core.Gitlab.Issues;
 using GitLabCLI.Utilities;
 using Xunit;
+using static GitLabCLI.GitLab.Test.GitLabApiHelper;
 
 namespace GitLabCLI.GitLab.Test
 {
@@ -22,21 +23,21 @@ namespace GitLabCLI.GitLab.Test
             var result = await _sut.CreateIssue(new CreateIssueParameters(
                 "title1",
                 "description1",
-                GitLabApiHelper.ProjectName,
-                GitLabApiHelper.CurrentUser)
+                ProjectName,
+                CurrentUser)
             {
                 Labels = new[] { "label1", "label2" }
             });
 
             result.IsSuccess.Should().BeTrue();
 
-            await GitLabApiHelper.ShouldHaveIssue(
-                GitLabApiHelper.ProjectName,
+            await ShouldHaveIssue(
+                ProjectName,
                 result.Value,
                 i => i.Title == "title1" &&
                     i.Description == "description1" &&
-                    i.Assignee.Username == GitLabApiHelper.CurrentUser &&
-                    Enumerable.SequenceEqual(i.Labels, new[] { "label1", "label2" }) &&
+                    i.Assignee.Username == CurrentUser &&
+                    i.Labels.SequenceEqual(new[] { "label1", "label2" }) &&
                     i.State == "opened");
         }
 
@@ -46,17 +47,17 @@ namespace GitLabCLI.GitLab.Test
             var result = await _sut.CreateIssue(new CreateIssueParameters(
                 "title1",
                 "description1",
-                GitLabApiHelper.ProjectName)
+                ProjectName)
             {
                 AssignedToCurrentUser = true
             });
 
             result.IsSuccess.Should().BeTrue();
 
-            await GitLabApiHelper.ShouldHaveIssue(
-                GitLabApiHelper.ProjectName,
+            await ShouldHaveIssue(
+                ProjectName,
                 result.Value,
-                i => i.Assignee.Username == GitLabApiHelper.CurrentUser);
+                i => i.Assignee.Username == CurrentUser);
         }
 
         [Fact]
@@ -65,7 +66,7 @@ namespace GitLabCLI.GitLab.Test
             var result = await _sut.CreateIssue(new CreateIssueParameters(
                 "title1",
                 "description1",
-                GitLabApiHelper.NonExistingProjectName)
+                NonExistingProjectName)
             {
                 AssignedToCurrentUser = true
             });
@@ -77,8 +78,8 @@ namespace GitLabCLI.GitLab.Test
         public async Task ListsIssuesForNonExistingProjectReturnsFailedResult()
         {
             var result = await _sut.ListIssues(new ListIssuesParameters(
-                GitLabApiHelper.NonExistingProjectName, 
-                GitLabApiHelper.CurrentUser));
+                NonExistingProjectName, 
+                CurrentUser));
 
             result.IsSuccess.Should().BeFalse();
         }
@@ -92,11 +93,11 @@ namespace GitLabCLI.GitLab.Test
             await _sut.CreateIssue(new CreateIssueParameters(
                 randomIssueTitle,
                 "description1",
-                GitLabApiHelper.ProjectName,
-                GitLabApiHelper.CurrentUser));
+                ProjectName,
+                CurrentUser));
 
             //act
-            var result = await _sut.ListIssues(new ListIssuesParameters(GitLabApiHelper.ProjectName, GitLabApiHelper.CurrentUser));
+            var result = await _sut.ListIssues(new ListIssuesParameters(ProjectName, CurrentUser));
 
             //assert
             result.IsSuccess.Should().BeTrue();
@@ -112,14 +113,14 @@ namespace GitLabCLI.GitLab.Test
             await _sut.CreateIssue(new CreateIssueParameters(
                 "title1",
                 "description1",
-                GitLabApiHelper.ProjectName,
-                GitLabApiHelper.CurrentUser)
+                ProjectName,
+                CurrentUser)
             {
                 Labels = randomIssueLabels
             });
 
             //act
-            var result = await _sut.ListIssues(new ListIssuesParameters(GitLabApiHelper.ProjectName, GitLabApiHelper.CurrentUser)
+            var result = await _sut.ListIssues(new ListIssuesParameters(ProjectName, CurrentUser)
             {
                 Labels = randomIssueLabels
             });
@@ -140,11 +141,11 @@ namespace GitLabCLI.GitLab.Test
             await _sut.CreateIssue(new CreateIssueParameters(
                 randomIssueTitle,
                 "description1",
-                GitLabApiHelper.ProjectName,
-                GitLabApiHelper.CurrentUser));
+                ProjectName,
+                CurrentUser));
 
             //act
-            var result = await _sut.ListIssues(new ListIssuesParameters(GitLabApiHelper.ProjectName)
+            var result = await _sut.ListIssues(new ListIssuesParameters(ProjectName)
             {
                 AssignedToCurrentUser = true
             });
