@@ -23,7 +23,7 @@ gitlab config --host "https://gitlab-host.com" --username "your username" --pass
 
 To boost your productivity it's recommended to set default project also. So you will not need to specify it everytime.
 ```
-gitlab config --username "username" --password "password" --default-project "defaultproject"
+gitlab config --default-project "defaultproject"
 ```
 
 ### 2. If you want to find more information about certain commands just use --help:
