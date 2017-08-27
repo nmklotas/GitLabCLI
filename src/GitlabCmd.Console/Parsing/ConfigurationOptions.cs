@@ -8,6 +8,9 @@ namespace GitLabCLI.Console.Parsing
     {
         public Task Accept(LaunchOptionsVisitor visitor) => visitor.Visit(this);
 
+        [Option('s', "show", HelpText = "Shows current configuration.")]
+        public bool Show { get; set; }
+
         [Option('h', "host", HelpText = "GitLab host url.")]
         public string Host { get; set; }
 

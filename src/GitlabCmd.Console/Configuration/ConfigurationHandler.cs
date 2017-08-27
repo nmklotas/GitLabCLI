@@ -1,4 +1,7 @@
-﻿using GitLabCLI.Core;
+﻿using System.Linq;
+using System.Reflection;
+using GitLabCLI.Console.Output;
+using GitLabCLI.Core;
 
 namespace GitLabCLI.Console.Configuration
 {
@@ -6,18 +9,21 @@ namespace GitLabCLI.Console.Configuration
     {
         private readonly AppSettingsStorage _storage;
         private readonly AppSettingsValidator _validator;
+        private readonly OutputPresenter _outputPresenter;
 
         public ConfigurationHandler(
             AppSettingsStorage storage,
-            AppSettingsValidator validator)
+            AppSettingsValidator validator,
+            OutputPresenter outputPresenter)
         {
             _storage = storage;
             _validator = validator;
+            _outputPresenter = outputPresenter;
         }
 
         public Result Validate() => _validator.Validate();
 
-        public void StoreConfiguration(ConfigurationParameters parameters)
+        public void StoreConfiguration(ConfigurationParameters parameters, bool show)
         {
             var settings = _storage.Load();
 
@@ -39,6 +45,19 @@ namespace GitLabCLI.Console.Configuration
                 settings.DefaulIssuesLabel = parameters.DefaulIssuesLabel;
 
             _storage.Save(settings);
+            _outputPresenter.Info("Configuration saved successfully.");
+
+            if (show)
+                ShowConfiguration(settings);
+        }
+
+        public void ShowConfiguration(AppSettings settings)
+        {
+            _outputPresenter.GridResult(
+                "Current configuration",
+                new[] { "Name", "Value" },
+                settings.GetType().GetProperties(BindingFlags.Public | BindingFlags.Instance).
+                Select(p => new[] { p.Name, p.GetValue(settings) }));
         }
     }
 }

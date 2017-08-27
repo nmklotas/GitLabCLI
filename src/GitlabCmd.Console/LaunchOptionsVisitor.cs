@@ -1,4 +1,5 @@
-﻿using System.Threading.Tasks;
+﻿using System;
+using System.Threading.Tasks;
 using GitLabCLI.Console.Configuration;
 using GitLabCLI.Console.Output;
 using GitLabCLI.Console.Parsing;
@@ -79,7 +80,7 @@ namespace GitLabCLI.Console
         public Task Visit(ConfigurationOptions options)
         {
             var parameters = _parametersHandler.NegotiateConfigurationParameters(options);
-            _configurationHandler.StoreConfiguration(parameters);
+            _configurationHandler.StoreConfiguration(parameters, options.Show);
             return Task.CompletedTask;
         }
 

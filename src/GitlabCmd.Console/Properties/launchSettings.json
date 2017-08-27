@@ -2,7 +2,7 @@
   "profiles": {
     "GitLabCmd.Console": {
       "commandName": "Project",
-      "commandLineArgs": "config --default-project \"testproject\""
+      "commandLineArgs": "config --show"
     }
   }
 }

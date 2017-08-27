@@ -90,7 +90,8 @@ namespace GitLabCLI.Console.Test.Parsing
             "-d", "testproject",
             "-i", "testdefaultissuesproject",
             "-m", "testdefaultmergesproject",
-            "-l", "testdefaultissuelabel")]
+            "-l", "testdefaultissuelabel",
+            "-s")]
         [InlineData(
             "config",
             "--token", "testtoken",
@@ -100,7 +101,8 @@ namespace GitLabCLI.Console.Test.Parsing
             "--default-project", "testproject",
             "--default-issues-project", "testdefaultissuesproject",
             "--default-merges-project", "testdefaultmergesproject",
-            "--default-issues-label", "testdefaultissuelabel")]
+            "--default-issues-label", "testdefaultissuelabel",
+            "--show")]
         public void CommandConfigParsedAsConfigurationOptions(params string[] args)
         {
             _sut.Parse(args).Should().Match<ConfigurationOptions>(s =>
@@ -111,7 +113,8 @@ namespace GitLabCLI.Console.Test.Parsing
                 s.DefaultProject == "testproject" &&
                 s.DefaultIssuesProject == "testdefaultissuesproject" &&
                 s.DefaultMergesProject == "testdefaultmergesproject" &&
-                s.DefaulIssuesLabel == "testdefaultissuelabel");
+                s.DefaulIssuesLabel == "testdefaultissuelabel" &&
+                s.Show);
         }
 
         [Theory]
