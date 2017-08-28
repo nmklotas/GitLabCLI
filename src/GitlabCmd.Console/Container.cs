@@ -42,7 +42,7 @@ namespace GitLabCLI.Console
         private static void RegisterGitLabServices(WindsorContainer container)
         {
             container.Register(Component.For<IGitLabFacade>().ImplementedBy<GitLabFacade>());
-            container.Register(Component.For<GitLabClientExFactory>());
+            container.Register(Component.For<GitLabClientFactory>());
             container.Register(Component.For<GitLabIssuesFacade>());
             container.Register(Component.For<GitLabMergesFacade>());
             container.Register(Component.For<GitLabIssueHandler>());

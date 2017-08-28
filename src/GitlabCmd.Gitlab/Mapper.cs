@@ -10,19 +10,19 @@ namespace GitLabCLI.GitLab
 {
     public sealed class Mapper
     {
-        public Result<IReadOnlyList<Issue>> Map(Result<IReadOnlyList<NGitLab.Models.Issue>> result)
+        public Result<IReadOnlyList<Issue>> Map(Result<IReadOnlyList<GitLabApiClient.Models.Issues.Issue>> result)
         {
             return result.Map<IReadOnlyList<Issue>>(r => r.Select(i => new Issue
             {
                 Assignee = i.Assignee?.Name,
                 Description = i.Description,
-                Id = i.IssueId,
+                Id = i.Iid,
                 Title = i.Title
             })
             .ToList());
         }
 
-        public Result<IReadOnlyList<MergeRequest>> Map(Result<IReadOnlyList<NGitLab.Models.MergeRequest>> result)
+        public Result<IReadOnlyList<MergeRequest>> Map(Result<IReadOnlyList<GitLabApiClient.Models.Merges.MergeRequest>> result)
         {
             return result.Map<IReadOnlyList<MergeRequest>>(r => r.Select(i => new MergeRequest
             {
@@ -33,16 +33,16 @@ namespace GitLabCLI.GitLab
             .ToList());
         }
 
-        public NGitLab.Models.MergeRequestState Map(MergeRequestState state)
+        public GitLabApiClient.Models.Merges.MergeRequestState Map(MergeRequestState state)
         {
             switch (state)
             {
                 case MergeRequestState.Opened:
-                    return NGitLab.Models.MergeRequestState.opened;
+                    return GitLabApiClient.Models.Merges.MergeRequestState.Opened;
                 case MergeRequestState.Merged:
-                    return NGitLab.Models.MergeRequestState.merged;
+                    return GitLabApiClient.Models.Merges.MergeRequestState.Merged;
                 case MergeRequestState.Closed:
-                    return NGitLab.Models.MergeRequestState.closed;
+                    return GitLabApiClient.Models.Merges.MergeRequestState.Closed;
                 default:
                     throw new NotSupportedException($"State {state} is not supported");
             }

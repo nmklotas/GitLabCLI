@@ -19,6 +19,12 @@
     <ProjectReference Include="..\..\src\GitlabCmd.Gitlab\GitLabCLI.GitLab.csproj" />
   </ItemGroup>
 
+  <ItemGroup>
+    <Reference Include="GitLabApiClient">
+      <HintPath>..\..\..\GitLabApiClient\src\GitLabApiClient\bin\Debug\netstandard1.6\GitLabApiClient.dll</HintPath>
+    </Reference>
+  </ItemGroup>
+
   <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Debug|AnyCPU'">
     <OutputPath>..\bin\Debug\</OutputPath>
     <LangVersion>7.1</LangVersion>

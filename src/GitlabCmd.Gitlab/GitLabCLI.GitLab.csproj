@@ -18,11 +18,13 @@
   </PropertyGroup>
 
   <ItemGroup>
-    <PackageReference Include="NGitLab" Version="2.0.0-beta-0065" />
+    <ProjectReference Include="..\GitlabCmd.Core\GitLabCLI.Core.csproj" />
+    <ProjectReference Include="..\GitlabCmd.Utilities\GitLabCLI.Utilities.csproj" />
   </ItemGroup>
 
   <ItemGroup>
-    <ProjectReference Include="..\GitlabCmd.Core\GitLabCLI.Core.csproj" />
-    <ProjectReference Include="..\GitlabCmd.Utilities\GitLabCLI.Utilities.csproj" />
+    <Reference Include="GitLabApiClient">
+      <HintPath>..\..\..\GitLabApiClient\src\GitLabApiClient\bin\Debug\netstandard1.6\GitLabApiClient.dll</HintPath>
+    </Reference>
   </ItemGroup>
 </Project>

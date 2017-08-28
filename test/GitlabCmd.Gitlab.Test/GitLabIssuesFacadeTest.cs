@@ -11,7 +11,7 @@ namespace GitLabCLI.GitLab.Test
 {
     public sealed class GitLabIssuesFacadeTest
     {
-        private readonly GitLabIssuesFacade _sut = new GitLabIssuesFacade(new GitLabClientExFactory(new GitLabSettings
+        private readonly GitLabIssuesFacade _sut = new GitLabIssuesFacade(new GitLabClientFactory(new GitLabSettings
         {
             GitLabAccessToken = "KZKSRcxxHi82r4D4p_aJ",
             GitLabHostUrl = "https://gitlab.com/api/v3"
@@ -32,7 +32,6 @@ namespace GitLabCLI.GitLab.Test
             result.IsSuccess.Should().BeTrue();
 
             await ShouldHaveIssue(
-                ProjectName,
                 result.Value,
                 i => i.Title == "title1" &&
                     i.Description == "description1" &&
@@ -55,7 +54,6 @@ namespace GitLabCLI.GitLab.Test
             result.IsSuccess.Should().BeTrue();
 
             await ShouldHaveIssue(
-                ProjectName,
                 result.Value,
                 i => i.Assignee.Username == CurrentUser);
         }

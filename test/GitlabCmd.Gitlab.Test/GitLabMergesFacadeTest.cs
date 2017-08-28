@@ -11,7 +11,7 @@ namespace GitLabCLI.GitLab.Test
     public sealed class GitLabFacadeMergeRequestsTest : IAsyncLifetime
     {
         private readonly GitLabMergesFacade _sut = new GitLabMergesFacade(
-            new GitLabClientExFactory(new GitLabSettings
+            new GitLabClientFactory(new GitLabSettings
             {
                 GitLabAccessToken = "KZKSRcxxHi82r4D4p_aJ",
                 GitLabHostUrl = "https://gitlab.com/api/v3"
@@ -33,7 +33,6 @@ namespace GitLabCLI.GitLab.Test
             result.IsSuccess.Should().BeTrue();
 
             await ShouldHaveMergeRequest(
-                ProjectName,
                 result.Value,
                 m => m.Title == randomTitle &&
                      m.Assignee.Username == CurrentUser &&
@@ -59,7 +58,6 @@ namespace GitLabCLI.GitLab.Test
             result.IsSuccess.Should().BeTrue();
 
             await ShouldHaveMergeRequest(
-                ProjectName,
                 result.Value, 
                 m => m.Title == randomTitle &&
                     m.Assignee.Username == CurrentUser &&
@@ -95,7 +93,7 @@ namespace GitLabCLI.GitLab.Test
                 ProjectName,
                 MergeRequestState.Opened));
 
-            openedRequests.Value.Should().ContainSingle(s => s.Id == mergeRequest.Value);
+            openedRequests.Value.Should().ContainSingle(s => s.Iid == mergeRequest.Value);
 
             var closedRequests = await _sut.ListMergeRequests(new ListMergesParameters(
                 ProjectName,
@@ -129,11 +127,11 @@ namespace GitLabCLI.GitLab.Test
                 AssignedToCurrentUser = true
             });
 
-            openedRequests.Value.Should().ContainSingle(s => s.Id == mergeRequest.Value);
+            openedRequests.Value.Should().ContainSingle(s => s.Iid == mergeRequest.Value);
         }
 
-        public async Task DisposeAsync() => await DeleteAllMergeRequests(ProjectName);
+        public Task DisposeAsync() => DeleteAllMergeRequests();
 
-        public Task InitializeAsync() => Task.CompletedTask;
+        public Task InitializeAsync() => DeleteAllMergeRequests();
     }
 }
