@@ -30,7 +30,7 @@
       <NoWarn>NU1603</NoWarn>
     </PackageReference>
     <PackageReference Include="CommandLineParser" Version="2.1.1-beta" />
-    <PackageReference Include="NGitLab" Version="2.0.0-beta-0065" />
+    <PackageReference Include="GitLabApiClient" Version="0.1.2" />
   </ItemGroup>
   <ItemGroup>
     <ProjectReference Include="..\GitlabCmd.Core\GitLabCLI.Core.csproj" />

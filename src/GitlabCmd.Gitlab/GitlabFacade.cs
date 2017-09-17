@@ -1,11 +1,11 @@
 using System;
 using System.Collections.Generic;
 using System.Threading.Tasks;
+using GitLabApiClient;
 using GitLabCLI.Core;
 using GitLabCLI.Core.Gitlab;
 using GitLabCLI.Core.Gitlab.Issues;
 using GitLabCLI.Core.Gitlab.Merges;
-using NGitLab.Impl;
 
 namespace GitLabCLI.GitLab
 {

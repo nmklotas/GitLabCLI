@@ -1,6 +1,7 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Linq;
+using GitLabApiClient.Models.MergeRequests.Requests;
 using GitLabCLI.Core;
 using MergeRequestState = GitLabCLI.Core.Gitlab.Merges.MergeRequestState;
 using Issue = GitLabCLI.Core.Gitlab.Issues.Issue;
@@ -10,19 +11,19 @@ namespace GitLabCLI.GitLab
 {
     public sealed class Mapper
     {
-        public Result<IReadOnlyList<Issue>> Map(Result<IReadOnlyList<NGitLab.Models.Issue>> result)
+        public Result<IReadOnlyList<Issue>> Map(Result<IReadOnlyList<GitLabApiClient.Models.Issues.Responses.Issue>> result)
         {
             return result.Map<IReadOnlyList<Issue>>(r => r.Select(i => new Issue
             {
                 Assignee = i.Assignee?.Name,
                 Description = i.Description,
-                Id = i.IssueId,
+                Id = i.Iid,
                 Title = i.Title
             })
             .ToList());
         }
 
-        public Result<IReadOnlyList<MergeRequest>> Map(Result<IReadOnlyList<NGitLab.Models.MergeRequest>> result)
+        public Result<IReadOnlyList<MergeRequest>> Map(Result<IReadOnlyList<GitLabApiClient.Models.MergeRequests.Responses.MergeRequest>> result)
         {
             return result.Map<IReadOnlyList<MergeRequest>>(r => r.Select(i => new MergeRequest
             {
@@ -33,16 +34,16 @@ namespace GitLabCLI.GitLab
             .ToList());
         }
 
-        public NGitLab.Models.MergeRequestState Map(MergeRequestState state)
+        public QueryMergeRequestState Map(MergeRequestState state)
         {
             switch (state)
             {
                 case MergeRequestState.Opened:
-                    return NGitLab.Models.MergeRequestState.opened;
+                    return QueryMergeRequestState.Opened;
                 case MergeRequestState.Merged:
-                    return NGitLab.Models.MergeRequestState.merged;
+                    return QueryMergeRequestState.Merged;
                 case MergeRequestState.Closed:
-                    return NGitLab.Models.MergeRequestState.closed;
+                    return QueryMergeRequestState.Closed;
                 default:
                     throw new NotSupportedException($"State {state} is not supported");
             }

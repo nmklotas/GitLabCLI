@@ -1,5 +1,4 @@
-﻿using System;
-using System.Threading.Tasks;
+﻿using System.Threading.Tasks;
 using GitLabCLI.Console.Configuration;
 using GitLabCLI.Console.Output;
 using GitLabCLI.Console.Parsing;

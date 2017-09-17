@@ -3,63 +3,55 @@ using System.Linq;
 using System.Linq.Expressions;
 using System.Threading.Tasks;
 using FluentAssertions;
-using GitLabCLI.Utilities;
-using NGitLab.Models;
+using GitLabApiClient;
+using GitLabApiClient.Models.Issues.Responses;
+using GitLabApiClient.Models.MergeRequests.Responses;
 
 namespace GitLabCLI.GitLab.Test
 {
     public static class GitLabApiHelper
     {
-        private static readonly GitLabClientEx _client = 
-            new GitLabClientEx("https://gitlab.com/api/v3", "KZKSRcxxHi82r4D4p_aJ");
+        private static readonly GitLabClient _client = 
+            new GitLabClient("https://gitlab.com/api/v4", "KZKSRcxxHi82r4D4p_aJ");
 
-        public static string ProjectName => "testproject";
+        public static GitLabClientFactory ClientFactory { get; } = new GitLabClientFactory(new GitLabSettings
+        {
+            GitLabAccessToken = "KZKSRcxxHi82r4D4p_aJ",
+            GitLabHostUrl = "https://gitlab.com/api/v4"
+        });
 
-        public static string CurrentUser => _client.Users.Current.Username;
+        public static string ProjectName => "txxxestprojecxxxt";
+
+        public static int ProjectId => 4011625;
+
+        public static string CurrentUser => "nmklotas";
 
         public static string NonExistingProjectName => Guid.NewGuid().ToString();
 
         public static async Task ShouldHaveIssue(
-            string projectName, 
             int issueId,
             Expression<Func<Issue, bool>> predicate)
         {
-            var projects = await _client.Projects.Accessible();
-
-            var project = projects.FirstOrDefault(p => p.Name.EqualsIgnoringCase(projectName)) ??
-                throw new InvalidOperationException($"project {projectName} does not exists");
-
-            var issue = await _client.Issues.GetAsync(project.Id, issueId);
+            var issue = await _client.Issues.GetAsync(ProjectId, issueId);
             issue.Should().NotBeNull($"Issue {issueId} does not exists");
             issue.Should().Match(predicate);
         }
 
         public static async Task ShouldHaveMergeRequest(
-            string projectName,
             int mergeRequestId,
             Expression<Func<MergeRequest, bool>> predicate)
         {
-            var projects = await _client.Projects.Accessible();
-
-            var project = projects.FirstOrDefault(p => p.Name.EqualsIgnoringCase(projectName)) ??
-                          throw new InvalidOperationException($"project {projectName} does not exists");
-
-            var mergeRequests = await _client.GetMergeRequest(project.Id).All();
-            var mergeRequest = mergeRequests.FirstOrDefault(s => s.Id == mergeRequestId);
+            var mergeRequests = await _client.MergeRequests.GetAsync(ProjectId);
+            var mergeRequest = mergeRequests.FirstOrDefault(s => s.Iid == mergeRequestId);
             mergeRequest.Should().NotBeNull($"Merge request {mergeRequestId} does not exists");
             mergeRequest.Should().Match(predicate);
         }
 
-        public static async Task DeleteAllMergeRequests(string projectName)
+        public static async Task DeleteAllMergeRequests()
         {
-            var projects = await _client.Projects.Accessible();
-
-            var project = projects.FirstOrDefault(p => p.Name.EqualsIgnoringCase(projectName)) ??
-                          throw new InvalidOperationException($"project {projectName} does not exists");
-
-            var mergeRequests = await _client.GetMergeRequest(project.Id).All();
+            var mergeRequests = await _client.MergeRequests.GetAsync(ProjectId);
             await Task.WhenAll(mergeRequests.Select(
-                m => _client.DeleteMergeRequest(project.Id, m.Id)));
+                m => _client.MergeRequests.DeleteAsync(ProjectId, m.Iid)));
         }
     }
 }

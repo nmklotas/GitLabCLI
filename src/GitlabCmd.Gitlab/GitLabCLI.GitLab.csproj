@@ -18,7 +18,7 @@
   </PropertyGroup>
 
   <ItemGroup>
-    <PackageReference Include="NGitLab" Version="2.0.0-beta-0065" />
+    <PackageReference Include="GitLabApiClient" Version="0.1.2" />
   </ItemGroup>
 
   <ItemGroup>
