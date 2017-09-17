@@ -1,6 +1,7 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Linq;
+using GitLabApiClient.Models.MergeRequests.Requests;
 using GitLabCLI.Core;
 using MergeRequestState = GitLabCLI.Core.Gitlab.Merges.MergeRequestState;
 using Issue = GitLabCLI.Core.Gitlab.Issues.Issue;
@@ -10,7 +11,7 @@ namespace GitLabCLI.GitLab
 {
     public sealed class Mapper
     {
-        public Result<IReadOnlyList<Issue>> Map(Result<IReadOnlyList<GitLabApiClient.Models.Issues.Issue>> result)
+        public Result<IReadOnlyList<Issue>> Map(Result<IReadOnlyList<GitLabApiClient.Models.Issues.Responses.Issue>> result)
         {
             return result.Map<IReadOnlyList<Issue>>(r => r.Select(i => new Issue
             {
@@ -22,7 +23,7 @@ namespace GitLabCLI.GitLab
             .ToList());
         }
 
-        public Result<IReadOnlyList<MergeRequest>> Map(Result<IReadOnlyList<GitLabApiClient.Models.Merges.MergeRequest>> result)
+        public Result<IReadOnlyList<MergeRequest>> Map(Result<IReadOnlyList<GitLabApiClient.Models.MergeRequests.Responses.MergeRequest>> result)
         {
             return result.Map<IReadOnlyList<MergeRequest>>(r => r.Select(i => new MergeRequest
             {
@@ -33,16 +34,16 @@ namespace GitLabCLI.GitLab
             .ToList());
         }
 
-        public GitLabApiClient.Models.Merges.MergeRequestState Map(MergeRequestState state)
+        public QueryMergeRequestState Map(MergeRequestState state)
         {
             switch (state)
             {
                 case MergeRequestState.Opened:
-                    return GitLabApiClient.Models.Merges.MergeRequestState.Opened;
+                    return QueryMergeRequestState.Opened;
                 case MergeRequestState.Merged:
-                    return GitLabApiClient.Models.Merges.MergeRequestState.Merged;
+                    return QueryMergeRequestState.Merged;
                 case MergeRequestState.Closed:
-                    return GitLabApiClient.Models.Merges.MergeRequestState.Closed;
+                    return QueryMergeRequestState.Closed;
                 default:
                     throw new NotSupportedException($"State {state} is not supported");
             }

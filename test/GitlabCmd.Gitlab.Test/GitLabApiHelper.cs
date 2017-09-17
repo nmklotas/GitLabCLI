@@ -4,15 +4,21 @@ using System.Linq.Expressions;
 using System.Threading.Tasks;
 using FluentAssertions;
 using GitLabApiClient;
-using GitLabApiClient.Models.Issues;
-using GitLabApiClient.Models.Merges;
+using GitLabApiClient.Models.Issues.Responses;
+using GitLabApiClient.Models.MergeRequests.Responses;
 
 namespace GitLabCLI.GitLab.Test
 {
     public static class GitLabApiHelper
     {
         private static readonly GitLabClient _client = 
-            new GitLabClient("https://gitlab.com/api/v3", "KZKSRcxxHi82r4D4p_aJ");
+            new GitLabClient("https://gitlab.com/api/v4", "KZKSRcxxHi82r4D4p_aJ");
+
+        public static GitLabClientFactory ClientFactory { get; } = new GitLabClientFactory(new GitLabSettings
+        {
+            GitLabAccessToken = "KZKSRcxxHi82r4D4p_aJ",
+            GitLabHostUrl = "https://gitlab.com/api/v4"
+        });
 
         public static string ProjectName => "txxxestprojecxxxt";
 

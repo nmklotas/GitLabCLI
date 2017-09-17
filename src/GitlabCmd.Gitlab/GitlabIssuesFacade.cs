@@ -2,11 +2,11 @@
 using System.Linq;
 using System.Threading.Tasks;
 using GitLabApiClient;
-using GitLabApiClient.Models.Issues;
+using GitLabApiClient.Models.Issues.Requests;
 using GitLabCLI.Core;
 using GitLabCLI.Core.Gitlab.Issues;
 using GitLabCLI.Utilities;
-using Issue = GitLabApiClient.Models.Issues.Issue;
+using Issue = GitLabApiClient.Models.Issues.Responses.Issue;
 
 namespace GitLabCLI.GitLab
 {
@@ -20,17 +20,17 @@ namespace GitLabCLI.GitLab
         {
             var client = await _clientFactory.Create();
 
-            var project = (await client.Projects.GetAsync(parameters.Project)).FirstOrDefault();
-            if (project == null)
+            string projectId = await GetProjectIdAsync(client, parameters.Project);
+            if (projectId == null)
                 return Result.Fail<int>($"Project {parameters.Project} was not found");
 
             int? assigneeId = await GetUserId(client, parameters.AssignedToCurrentUser, parameters.Assignee);
-            
-            var createdIssue = await client.Issues.CreateAsync(new CreateIssueRequest(project.Id, parameters.Title)
+
+            var createdIssue = await client.Issues.CreateAsync(new CreateIssueRequest(projectId, parameters.Title)
             {
                 Description = parameters.Description,
-                Labels = parameters.Labels.Any() ? string.Join(",", parameters.Labels) : null,
-                Assignees = assigneeId.HasValue ? new List<int> {  assigneeId.Value} : null, 
+                Labels = parameters.Labels,
+                Assignees = assigneeId.HasValue ? new List<int> { assigneeId.Value } : null,
             });
 
             return Result.Ok(createdIssue.Iid);
@@ -40,20 +40,20 @@ namespace GitLabCLI.GitLab
         {
             var client = await _clientFactory.Create();
 
-            var project = (await client.Projects.GetAsync(parameters.Project)).FirstOrDefault();
-            if (project == null)
+            string projectId = await GetProjectIdAsync(client, parameters.Project);
+            if (projectId == null)
                 return Result.Fail<IReadOnlyList<Issue>>($"Project {parameters.Project} was not found");
 
             int? assigneeId = await GetUserId(client, parameters.AssignedToCurrentUser, parameters.Assignee);
 
-            IEnumerable<Issue> issues = await client.Issues.GetAsync(project.Id);
+            var issues = (await client.Issues.GetAsync(projectId)).ToList();
             if (assigneeId.HasValue)
-                issues = issues.Where(i => i.Assignee?.Id == assigneeId);
+                issues = issues.Where(i => i.Assignee?.Id == assigneeId).ToList();
 
             if (parameters.Labels.Any())
-                issues = issues.Where(i => i.Labels != null && i.Labels.Contains(parameters.Labels));
+                issues = issues.Where(i => i.Labels != null && i.Labels.Contains(parameters.Labels)).ToList();
 
-            return Result.Ok<IReadOnlyList<Issue>>(issues.ToList());
+            return Result.Ok<IReadOnlyList<Issue>>(issues);
         }
 
         private static async Task<int?> GetUserId(GitLabClient client, bool isCurrentUser, string name)
@@ -65,6 +65,21 @@ namespace GitLabCLI.GitLab
                 return null;
 
             return (await client.Users.GetAsync(name)).Id;
+        }
+
+        private async Task<string> GetProjectIdAsync(GitLabClient client, string project)
+        {
+            var gitLabProject = (await client.Projects.GetAsync(o =>
+                {
+                    o.Filter = project;
+                    o.Simple = true;
+                })).
+                FirstOrDefault();
+
+            if (gitLabProject == null)
+                return null;
+
+            return gitLabProject.Id.ToString();
         }
     }
 }

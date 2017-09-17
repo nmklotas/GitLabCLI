@@ -2,6 +2,7 @@
 using System.Linq;
 using System.Threading.Tasks;
 using FluentAssertions;
+using GitLabApiClient.Models.Issues.Responses;
 using GitLabCLI.Core.Gitlab.Issues;
 using GitLabCLI.Utilities;
 using Xunit;
@@ -11,11 +12,7 @@ namespace GitLabCLI.GitLab.Test
 {
     public sealed class GitLabIssuesFacadeTest
     {
-        private readonly GitLabIssuesFacade _sut = new GitLabIssuesFacade(new GitLabClientFactory(new GitLabSettings
-        {
-            GitLabAccessToken = "KZKSRcxxHi82r4D4p_aJ",
-            GitLabHostUrl = "https://gitlab.com/api/v3"
-        }));
+        private readonly GitLabIssuesFacade _sut = new GitLabIssuesFacade(ClientFactory);
 
         [Fact]
         public async Task CreatesIssue()
@@ -37,7 +34,7 @@ namespace GitLabCLI.GitLab.Test
                     i.Description == "description1" &&
                     i.Assignee.Username == CurrentUser &&
                     i.Labels.SequenceEqual(new[] { "label1", "label2" }) &&
-                    i.State == "opened");
+                    i.State == IssueState.Opened);
         }
 
         [Fact]

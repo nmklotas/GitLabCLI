@@ -10,13 +10,7 @@ namespace GitLabCLI.GitLab.Test
 {
     public sealed class GitLabFacadeMergeRequestsTest : IAsyncLifetime
     {
-        private readonly GitLabMergesFacade _sut = new GitLabMergesFacade(
-            new GitLabClientFactory(new GitLabSettings
-            {
-                GitLabAccessToken = "KZKSRcxxHi82r4D4p_aJ",
-                GitLabHostUrl = "https://gitlab.com/api/v3"
-            }), 
-            new Mapper());
+        private readonly GitLabMergesFacade _sut = new GitLabMergesFacade(ClientFactory, new Mapper());
 
         [Fact]
         public async Task CreatesMergeRequest()
@@ -25,7 +19,7 @@ namespace GitLabCLI.GitLab.Test
 
             var result = await _sut.CreateMergeRequest(new CreateMergeRequestParameters(
                 randomTitle,
-                "develop",
+                "feature",
                 "master",
                 ProjectName,
                 CurrentUser));
@@ -36,9 +30,9 @@ namespace GitLabCLI.GitLab.Test
                 result.Value,
                 m => m.Title == randomTitle &&
                      m.Assignee.Username == CurrentUser &&
-                     m.SourceBranch == "develop" &&
+                     m.SourceBranch == "feature" &&
                      m.TargetBranch == "master" &&
-                     m.State == "opened");
+                     m.State == GitLabApiClient.Models.MergeRequests.Responses.MergeRequestState.Opened);
         }
 
         [Fact]
@@ -48,7 +42,7 @@ namespace GitLabCLI.GitLab.Test
 
             var result = await _sut.CreateMergeRequest(new CreateMergeRequestParameters(
                 randomTitle,
-                "develop",
+                "feature",
                 "master",
                 ProjectName)
             {
@@ -61,17 +55,17 @@ namespace GitLabCLI.GitLab.Test
                 result.Value, 
                 m => m.Title == randomTitle &&
                     m.Assignee.Username == CurrentUser &&
-                    m.SourceBranch == "develop" &&
+                    m.SourceBranch == "feature" &&
                     m.TargetBranch == "master" &&
-                    m.State == "opened");
+                    m.State == GitLabApiClient.Models.MergeRequests.Responses.MergeRequestState.Opened);
         }
 
         [Fact]
         public async Task CreateMergeRequestForNonExistingProjectReturnsFailedResult()
         {
             var result = await _sut.CreateMergeRequest(new CreateMergeRequestParameters(
-                "title1", 
-                "develop", 
+                "title1",
+                "feature", 
                 "master", 
                 NonExistingProjectName));
 
@@ -84,7 +78,7 @@ namespace GitLabCLI.GitLab.Test
             //arrange
             var mergeRequest = await _sut.CreateMergeRequest(new CreateMergeRequestParameters(
                 "title1",
-                "develop",
+                "feature",
                 "master",
                 ProjectName));
 
@@ -114,7 +108,7 @@ namespace GitLabCLI.GitLab.Test
             //arrange
             var mergeRequest = await _sut.CreateMergeRequest(new CreateMergeRequestParameters(
                 "title1",
-                "develop",
+                "feature",
                 "master",
                 ProjectName,
                 CurrentUser));
