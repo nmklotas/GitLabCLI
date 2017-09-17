@@ -24,15 +24,15 @@ namespace GitLabCLI.GitLab
         {
             var client = await _clientFactory.Create();
 
-            string projecId = (await GetProjectId(client, parameters.Project)).ToString();
-            if (projecId == null)
+            int? projecId = await GetProjectId(client, parameters.Project);
+            if (!projecId.HasValue)
                 return Result.Fail<int>($"Project {parameters.Project} was not found");
 
             int? assigneeId = await GetUserId(client, parameters.AssignedToCurrentUser, parameters.Assignee);
 
             var createdMergeRequest = await client.MergeRequests.CreateAsync(
                 new CreateMergeRequest(
-                    projecId, 
+                    projecId.Value.ToString(), 
                     parameters.SourceBranch, 
                     parameters.TargetBranch, 
                     parameters.Title)
@@ -48,7 +48,7 @@ namespace GitLabCLI.GitLab
             var client = await _clientFactory.Create();
 
             int? projectId = await GetProjectId(client, parameters.Project);
-            if (projectId == null)
+            if (!projectId.HasValue)
                 return Result.Fail<IReadOnlyList<MergeRequest>>($"Project {parameters.Project} was not found");
 
             IEnumerable<MergeRequest> issues = parameters.State.HasValue ?
