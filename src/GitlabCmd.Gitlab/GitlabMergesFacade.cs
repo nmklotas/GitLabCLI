@@ -24,15 +24,15 @@ namespace GitLabCLI.GitLab
         {
             var client = await _clientFactory.Create();
 
-            var project = (await client.Projects.GetAsync(o => o.Filter = parameters.Project)).FirstOrDefault();
-            if (project == null)
+            string projecId = (await GetProjectId(client, parameters.Project)).ToString();
+            if (projecId == null)
                 return Result.Fail<int>($"Project {parameters.Project} was not found");
 
             int? assigneeId = await GetUserId(client, parameters.AssignedToCurrentUser, parameters.Assignee);
 
             var createdMergeRequest = await client.MergeRequests.CreateAsync(
                 new CreateMergeRequest(
-                    project.Id.ToString(), 
+                    projecId, 
                     parameters.SourceBranch, 
                     parameters.TargetBranch, 
                     parameters.Title)
@@ -47,13 +47,13 @@ namespace GitLabCLI.GitLab
         {
             var client = await _clientFactory.Create();
 
-            var project = (await client.Projects.GetAsync(o => o.Filter = parameters.Project)).FirstOrDefault();
-            if (project == null)
+            int? projectId = await GetProjectId(client, parameters.Project);
+            if (projectId == null)
                 return Result.Fail<IReadOnlyList<MergeRequest>>($"Project {parameters.Project} was not found");
 
             IEnumerable<MergeRequest> issues = parameters.State.HasValue ?
-                await client.MergeRequests.GetAsync(project.Id, o => o.State = _mapper.Map(parameters.State.Value)) :
-                await client.MergeRequests.GetAsync(project.Id);
+                await client.MergeRequests.GetAsync(projectId.Value, o => o.State = _mapper.Map(parameters.State.Value)) :
+                await client.MergeRequests.GetAsync(projectId.Value);
 
             int? assigneeId = await GetUserId(client, parameters.AssignedToCurrentUser, parameters.Assignee);
 
@@ -72,6 +72,21 @@ namespace GitLabCLI.GitLab
                 return null;
 
             return (await client.Users.GetAsync(name)).Id;
+        }
+
+        private static async Task<int?> GetProjectId(GitLabClient client, string project)
+        {
+            var gitLabProject = (await client.Projects.GetAsync(o =>
+                {
+                    o.Filter = project;
+                    o.Simple = true;
+                })).
+                FirstOrDefault();
+
+            if (gitLabProject == null)
+                return null;
+
+            return gitLabProject.Id;
         }
     }
 }

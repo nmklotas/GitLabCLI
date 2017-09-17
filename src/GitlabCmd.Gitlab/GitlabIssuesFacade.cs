@@ -20,7 +20,7 @@ namespace GitLabCLI.GitLab
         {
             var client = await _clientFactory.Create();
 
-            string projectId = await GetProjectIdAsync(client, parameters.Project);
+            string projectId = await GetProjectId(client, parameters.Project);
             if (projectId == null)
                 return Result.Fail<int>($"Project {parameters.Project} was not found");
 
@@ -40,7 +40,7 @@ namespace GitLabCLI.GitLab
         {
             var client = await _clientFactory.Create();
 
-            string projectId = await GetProjectIdAsync(client, parameters.Project);
+            string projectId = await GetProjectId(client, parameters.Project);
             if (projectId == null)
                 return Result.Fail<IReadOnlyList<Issue>>($"Project {parameters.Project} was not found");
 
@@ -67,7 +67,7 @@ namespace GitLabCLI.GitLab
             return (await client.Users.GetAsync(name)).Id;
         }
 
-        private async Task<string> GetProjectIdAsync(GitLabClient client, string project)
+        private async Task<string> GetProjectId(GitLabClient client, string project)
         {
             var gitLabProject = (await client.Projects.GetAsync(o =>
                 {
