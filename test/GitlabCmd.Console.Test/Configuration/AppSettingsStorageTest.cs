@@ -29,7 +29,7 @@ namespace GitLabCLI.Console.Test.Configuration
         {
             var sut = _sut(Path.GetRandomFileName());
             sut.Save(_settings);
-            sut.Load().ShouldBeEquivalentTo(_settings);
+            sut.Load().Should().BeEquivalentTo(_settings);
         }
 
         [Fact]
@@ -37,7 +37,7 @@ namespace GitLabCLI.Console.Test.Configuration
         {
             string fileName = Path.GetRandomFileName();
             _sut(fileName).Save(_settings);
-            _sut(fileName).Load().ShouldBeEquivalentTo(_settings);
+            _sut(fileName).Load().Should().BeEquivalentTo(_settings);
         }
     }
 }

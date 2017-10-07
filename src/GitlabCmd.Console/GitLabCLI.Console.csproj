@@ -25,12 +25,12 @@
 	<OutputPath>..\bin\Release\</OutputPath>
   </PropertyGroup>
   <ItemGroup>
-    <PackageReference Include="Castle.Core" Version="4.1.1" />
-    <PackageReference Include="Castle.Windsor" Version="4.0.0">
+    <PackageReference Include="Castle.Core" Version="4.2.0" />
+    <PackageReference Include="Castle.Windsor" Version="4.1.0">
       <NoWarn>NU1603</NoWarn>
     </PackageReference>
     <PackageReference Include="CommandLineParser" Version="2.1.1-beta" />
-    <PackageReference Include="GitLabApiClient" Version="0.1.2" />
+    <PackageReference Include="GitLabApiClient" Version="1.0.0-beta1" />
   </ItemGroup>
   <ItemGroup>
     <ProjectReference Include="..\GitlabCmd.Core\GitLabCLI.Core.csproj" />
