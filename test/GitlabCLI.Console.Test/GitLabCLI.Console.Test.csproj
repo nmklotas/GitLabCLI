@@ -15,10 +15,10 @@
     <PackageReference Include="xunit.runner.visualstudio" Version="2.3.0" />
   </ItemGroup>
   <ItemGroup>
-    <ProjectReference Include="..\..\src\GitlabCmd.Console\GitLabCLI.Console.csproj" />
-    <ProjectReference Include="..\..\src\GitlabCmd.Core\GitLabCLI.Core.csproj" />
-    <ProjectReference Include="..\..\src\GitlabCmd.Gitlab\GitLabCLI.GitLab.csproj" />
-    <ProjectReference Include="..\..\src\GitlabCmd.Utilities\GitLabCLI.Utilities.csproj" />
+    <ProjectReference Include="..\..\src\GitlabCLI.Console\GitLabCLI.Console.csproj" />
+    <ProjectReference Include="..\..\src\GitlabCLI.Core\GitLabCLI.Core.csproj" />
+    <ProjectReference Include="..\..\src\GitlabCLI.Gitlab\GitLabCLI.GitLab.csproj" />
+    <ProjectReference Include="..\..\src\GitlabCLI.Utilities\GitLabCLI.Utilities.csproj" />
   </ItemGroup>
   <ItemGroup>
     <None Update="xunit.runner.json">

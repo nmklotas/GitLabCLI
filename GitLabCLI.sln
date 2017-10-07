@@ -4,19 +4,19 @@ VisualStudioVersion = 15.0.26730.3
 MinimumVisualStudioVersion = 15.0.26124.0
 Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "src", "src", "{AE71C149-E87E-43AD-9015-9AD53190ADA3}"
 EndProject
-Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "GitLabCLI.Console", "src\GitlabCmd.Console\GitLabCLI.Console.csproj", "{350B0486-DF68-4DF1-BB1C-2A36A5E9BAE8}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "GitLabCLI.Console", "src\GitlabCLI.Console\GitLabCLI.Console.csproj", "{350B0486-DF68-4DF1-BB1C-2A36A5E9BAE8}"
 EndProject
 Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "test", "test", "{7589036C-E288-40C5-B96A-45DEE133D1F0}"
 EndProject
-Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "GitLabCLI.Console.Test", "test\GitlabCmd.Console.Test\GitLabCLI.Console.Test.csproj", "{4865A247-F136-4625-AF38-7BF18746E734}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "GitLabCLI.Console.Test", "test\GitlabCLI.Console.Test\GitLabCLI.Console.Test.csproj", "{4865A247-F136-4625-AF38-7BF18746E734}"
 EndProject
-Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "GitLabCLI.Utilities", "src\GitlabCmd.Utilities\GitLabCLI.Utilities.csproj", "{A91C8079-A7C9-48DA-8FB7-B0C8477C8DC7}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "GitLabCLI.Utilities", "src\GitlabCLI.Utilities\GitLabCLI.Utilities.csproj", "{A91C8079-A7C9-48DA-8FB7-B0C8477C8DC7}"
 EndProject
-Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "GitLabCLI.Core", "src\GitlabCmd.Core\GitLabCLI.Core.csproj", "{5CAA4D56-B2A2-4D67-A707-23FC4B8416EF}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "GitLabCLI.Core", "src\GitlabCLI.Core\GitLabCLI.Core.csproj", "{5CAA4D56-B2A2-4D67-A707-23FC4B8416EF}"
 EndProject
-Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "GitLabCLI.GitLab", "src\GitlabCmd.Gitlab\GitLabCLI.GitLab.csproj", "{228EEC49-F0DE-45AD-83CB-7378E98AACAF}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "GitLabCLI.GitLab", "src\GitlabCLI.Gitlab\GitLabCLI.GitLab.csproj", "{228EEC49-F0DE-45AD-83CB-7378E98AACAF}"
 EndProject
-Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "GitLabCLI.GitLab.Test", "test\GitlabCmd.Gitlab.Test\GitLabCLI.GitLab.Test.csproj", "{5FCBAE19-8642-472C-BDDD-BE0C091C4ED4}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "GitLabCLI.GitLab.Test", "test\GitlabCLI.Gitlab.Test\GitLabCLI.GitLab.Test.csproj", "{5FCBAE19-8642-472C-BDDD-BE0C091C4ED4}"
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution

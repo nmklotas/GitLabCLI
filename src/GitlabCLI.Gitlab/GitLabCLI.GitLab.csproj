@@ -22,7 +22,7 @@
   </ItemGroup>
 
   <ItemGroup>
-    <ProjectReference Include="..\GitlabCmd.Core\GitLabCLI.Core.csproj" />
-    <ProjectReference Include="..\GitlabCmd.Utilities\GitLabCLI.Utilities.csproj" />
+    <ProjectReference Include="..\GitlabCLI.Core\GitLabCLI.Core.csproj" />
+    <ProjectReference Include="..\GitlabCLI.Utilities\GitLabCLI.Utilities.csproj" />
   </ItemGroup>
 </Project>
