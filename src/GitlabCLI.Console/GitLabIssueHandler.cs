@@ -48,8 +48,9 @@ namespace GitLabCLI.Console
             }
 
             _presenter.GridResult(
-                $"Found ({issues.Count}) issues in project {parameters.Project}", 
-                new[] { "Issue Id", "Title", "Description"},
+                $"Found ({issues.Count}) issues in project {parameters.Project}",
+                new[] { "Issue Id", "Title", "Description" },
+                new[] { 20, 150, 50 },
                 issues.Select(s => new object[] { s.Id, s.Title, s.Description }));
         }
     }

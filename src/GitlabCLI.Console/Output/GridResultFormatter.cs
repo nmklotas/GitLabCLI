@@ -7,14 +7,12 @@ namespace GitLabCLI.Console.Output
 {
     public sealed class GridResultFormatter
     {
-        private const int _maxColumnWidth = 50;
-
-        public string Format(string header, string[] columnHeaders, object[][] rows)
+        public string Format(string header, string[] columnHeaders, int[] maxColumnLengths, object[][] rows)
         {
-            var columnWidths = GetColumnWidths(columnHeaders, rows);
-            string columnsHeader = GetColumnsHeader(columnWidths, columnHeaders);
-            string underlineHeader = GetHeaderUnderline(columnWidths);
-            var gridRows = GetGridRows(rows, columnWidths);
+            var calculatedColumnWidths = CalculateColumnWidths(columnHeaders, maxColumnLengths, rows).ToArray();
+            string columnsHeader = GetColumnsHeader(calculatedColumnWidths, columnHeaders);
+            string underlineHeader = GetHeaderUnderline(calculatedColumnWidths);
+            var gridRows = GetGridRows(rows, calculatedColumnWidths);
 
             string result = "-------------------------";
             result += "\r\n" + header;
@@ -28,72 +26,63 @@ namespace GitLabCLI.Console.Output
             return result;
         }
 
-        private static List<int> GetColumnWidths(string[] columnHeaders, object[][] rows)
+        private static IEnumerable<int> CalculateColumnWidths(string[] columnHeaders, int[] maxColumnLengths, object[][] rows)
         {
-            var result = new List<int>();
-
             for (int i = 0; i < columnHeaders.Length; i++)
             {
                 int maxTextLength = rows.Select(r => r[i].SafeToString().Length).
                     DefaultIfEmpty().
                     Max();
 
-                int columnWidth = Math.Max(maxTextLength, columnHeaders[i].Length);
-                result.Add(columnWidth);
+                int maxTextColumnLength = Math.Max(maxTextLength, columnHeaders[i].Length);
+                int columnWidth = Math.Min(maxTextColumnLength, maxColumnLengths[i]);
+                yield return columnWidth;
             }
-
-            return result;
         }
 
-        private static string GetColumnsHeader(List<int> columnWidths, string[] columnHeaders)
+        private static string GetColumnsHeader(int[] columnWidths, string[] columnHeaders)
         {
             string result = "";
 
-            for (int i = 0; i < columnWidths.Count; i++)
-            {
+            for (int i = 0; i < columnWidths.Length; i++)
                 result += "  " + EnsureLength(columnHeaders[i], columnWidths[i]);
-            }
 
             return result.TrimStart();
         }
 
-        private static string GetHeaderUnderline(List<int> columnWidths)
+        private static string GetHeaderUnderline(int[] columnWidths)
         {
             string result = "";
 
             foreach (int width in columnWidths)
-            {
                 result += "  " + '_'.Expand(width);
-            }
 
             return result.TrimStart();
         }
 
-        private static List<string> GetGridRows(object[][] rows, List<int> columnWidths)
+        private static IEnumerable<string> GetGridRows(object[][] rows, int[] columnWidths)
         {
-            var result = new List<string>();
-
             foreach (var row in rows)
             {
                 string gridRow = "";
                 for (int i = 0; i < row.Length; i++)
                     gridRow += "  " + EnsureLength(row[i].SafeToString(), columnWidths[i]);
 
-                result.Add(gridRow.TrimStart());
+                yield return gridRow.
+                    TrimStart().
+                    Replace("\r\n", "").
+                    Replace("\n" ,"");
             }
-
-            return result;
         }
 
-        private static string EnsureLength(string text, int length, int maxLength = _maxColumnWidth)
-        {
-            int finalLength = Math.Min(length, maxLength);
-            if (text.Length == finalLength)
-                return text;
+       private static string EnsureLength(string text, int length)
+       {
+           if (text.Length == length)
+               return text;
 
-            return text.Length < finalLength ?
-                text.PadRight(finalLength) :
-                text.Substring(0, finalLength);
-        }
+           return text.Length < length ?
+               text.PadRight(length) :
+               text.Substring(0, length);
+       }
     }
 }

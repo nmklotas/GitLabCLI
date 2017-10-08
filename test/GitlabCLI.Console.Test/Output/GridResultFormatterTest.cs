@@ -13,6 +13,7 @@ namespace GitLabCLI.Console.Test.Output
             string result = sut.Format(
                 "TestHeader",
                 new[] {"test10", "test20", "test300"},
+                new[] { 10, 10 ,10 },
                 new object[][]
                 {
                    new[] { "test1", "test2", "test3" },

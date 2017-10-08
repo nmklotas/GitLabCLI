@@ -56,6 +56,7 @@ namespace GitLabCLI.Console.Configuration
             _outputPresenter.GridResult(
                 "Current configuration",
                 new[] { "Name", "Value" },
+                new[] { 50, 50 },
                 settings.GetType().GetProperties(BindingFlags.Public | BindingFlags.Instance).
                 Select(p => new[] { p.Name, p.GetValue(settings) }));
         }
