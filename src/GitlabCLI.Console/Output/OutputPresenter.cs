@@ -26,14 +26,10 @@
             WriteLine($"Error: {error}");
         }
 
-        public void GridResult(
-            string header,
-            params GridRow[] rows)
-        {
-            WriteLine(_gridResultFormatter.Format(header, rows));
-        }
-
-        private void WriteLine(string text)
+        public void GridResult(string header, params GridColumn[] columns) 
+            => WriteLine(_gridResultFormatter.Format(header, columns));
+        
+        private static void WriteLine(string text)
             => System.Console.WriteLine(text);
     }
 }

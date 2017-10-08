@@ -49,9 +49,9 @@ namespace GitLabCLI.Console
 
             _presenter.GridResult(
                 $"Found ({issues.Count}) issues in project {parameters.Project}",
-                new GridRow("Issue Id", 20, issues.Select(s => s.Id).Cast<object>().ToArray()),
-                new GridRow("Title", 150, issues.Select(s => s.Title).Cast<object>().ToArray()),
-                new GridRow("Description", 50, issues.Select(s => s.Description).Cast<object>().ToArray()));
+                new GridColumn<int>("Issue Id", 20, issues.Select(s => s.Id)),
+                new GridColumn("Title", 150, issues.Select(s => s.Title)),
+                new GridColumn("Description", 50, issues.Select(s => s.Description)));
         }
     }
 }

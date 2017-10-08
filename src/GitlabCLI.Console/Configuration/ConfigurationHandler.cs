@@ -39,10 +39,8 @@ namespace GitLabCLI.Console.Configuration
         {
             _outputPresenter.GridResult(
                 "Current configuration",
-                new GridRow("Name", 100,
-                    GetSettingsProperties(settings).Select(GetPropertyName).Cast<object>().ToArray()),
-                new GridRow("Value", 100, 
-                    GetSettingsProperties(settings).Select(p => p.GetValue(settings)).ToArray()));
+                new GridColumn("Name", 100, GetSettingsProperties(settings).Select(GetPropertyName)),
+                new GridColumn("Value", 100, GetSettingsProperties(settings).Select(p => p.GetValue(settings))));
         }
 
         private static PropertyInfo[] GetSettingsProperties(AppSettings settings)

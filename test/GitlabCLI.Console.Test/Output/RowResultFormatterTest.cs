@@ -9,8 +9,7 @@ namespace GitLabCLI.Console.Test.Output
         [Fact]
         public void RowsAreFormatted()
         {
-            var sut = new RowResultFormatter();
-            string result = sut.Format(
+            string result = new RowResultFormatter().Format(
                 "TestHeader",
                 new Row(new[] { "test10"}, new[] { "test10 value"}, "long test10 body description"),
                 new Row(new[] { "test20" }, new[] { "test20 value" }, "long test20 body description"),

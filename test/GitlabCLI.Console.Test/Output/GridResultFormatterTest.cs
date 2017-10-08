@@ -11,9 +11,9 @@ namespace GitLabCLI.Console.Test.Output
         {
             string result = new GridResultFormatter().Format(
                 "TestHeader",
-                new GridRow("test10", 10, new object[] { "test1", "test1111" }),
-                new GridRow("test20", 10, new object[] { "test2", "test222" }),
-                new GridRow("test300", 10, new object[] { "test3", "test333" }));
+                new GridColumn("test10", 10, new[] { "test1", "test1111" }),
+                new GridColumn("test20", 10, new[] { "test2", "test222" }),
+                new GridColumn("test300", 10, new[] { "test3", "test333" }));
 
             string[] lines = result.Split("\r\n");
             lines.Should().HaveCount(7);
