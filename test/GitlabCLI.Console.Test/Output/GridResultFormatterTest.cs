@@ -9,17 +9,11 @@ namespace GitLabCLI.Console.Test.Output
         [Fact]
         public void GridIsFormatted()
         {
-            var sut = new GridResultFormatter();
-            string result = sut.Format(
+            string result = new GridResultFormatter().Format(
                 "TestHeader",
-                new[] {"test10", "test20", "test300"},
-                new[] { 10, 10 ,10 },
-                new object[][]
-                {
-                   new[] { "test1", "test2", "test3" },
-                   new[] { "test1111", "test222", "test333" }
-                });
-
+                new GridRow("test10", 10, new object[] { "test1", "test1111" }),
+                new GridRow("test20", 10, new object[] { "test2", "test222" }),
+                new GridRow("test300", 10, new object[] { "test3", "test333" }));
 
             string[] lines = result.Split("\r\n");
             lines.Should().HaveCount(7);

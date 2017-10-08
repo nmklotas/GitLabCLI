@@ -47,9 +47,9 @@ namespace GitLabCLI.Console
 
             _presenter.GridResult(
                 $"Found ({merges.Count}) merge requests in project {parameters.Project}",
-                new[] { "Merge request Id", "Title", "Assignee" },
-                new[] { 20, 100, 50 },
-                merges.Select(s => new object[] { s.Id, s.Title, s.Assignee }));
+                new GridRow("Merge request Id", 20, merges.Select(s => s.Id).Cast<object>().ToArray()),
+                new GridRow("Title", 100, merges.Select(s => s.Title).Cast<object>().ToArray()),
+                new GridRow("Assignee", 50, merges.Select(s => s.Assignee).Cast<object>().ToArray()));
         }
     }
 }

@@ -1,8 +1,4 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-
-namespace GitLabCLI.Console.Output
+﻿namespace GitLabCLI.Console.Output
 {
     public sealed class OutputPresenter
     {
@@ -32,15 +28,9 @@ namespace GitLabCLI.Console.Output
 
         public void GridResult(
             string header,
-            string[] columnHeaders,
-            int[] maxColumnWidths,
-            IEnumerable<object[]> rows)
+            params GridRow[] rows)
         {
-            var inputRows = rows.ToArray();
-            if (inputRows.Select(r => r.Length).Any(l => l != columnHeaders.Length))
-                throw new ArgumentOutOfRangeException(nameof(columnHeaders), "columnHeaders length must match all rows length");
-
-            WriteLine(_gridResultFormatter.Format(header, columnHeaders, maxColumnWidths, inputRows));
+            WriteLine(_gridResultFormatter.Format(header, rows));
         }
 
         private void WriteLine(string text)

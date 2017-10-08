@@ -9,16 +9,12 @@ namespace GitLabCLI.Console.Output
     {
         public string Format(
             string header,
-            string[] columnHeaders,
-            int[] maxColumnLengths,
-            object[][] rows)
+            params GridRow[] rows)
         {
-            if (columnHeaders.Length != maxColumnLengths.Length ||
-                columnHeaders.Length != rows.Length)
-                throw new ArgumentException("columnHeaders, maxColumnLengths, rows must have same length");
+            GuardRowsAreSameLength(nameof(rows), rows);
 
-            var calculatedColumnWidths = CalculateColumnWidths(columnHeaders, maxColumnLengths, rows).ToArray();
-            string columnsHeader = GetColumnsHeader(calculatedColumnWidths, columnHeaders);
+            var calculatedColumnWidths = CalculateColumnWidths(rows).ToArray();
+            string columnsHeader = GetColumnsHeader(rows, calculatedColumnWidths);
             string underlineHeader = GetHeaderUnderline(calculatedColumnWidths);
             var gridRows = GetGridRows(rows, calculatedColumnWidths);
 
@@ -34,26 +30,26 @@ namespace GitLabCLI.Console.Output
             return result;
         }
 
-        private static IEnumerable<int> CalculateColumnWidths(string[] columnHeaders, int[] maxColumnLengths, object[][] rows)
+        private static IEnumerable<int> CalculateColumnWidths(GridRow[] rows)
         {
-            for (int i = 0; i < columnHeaders.Length; i++)
+            foreach (var row in rows)
             {
-                int maxTextLength = rows.Select(r => r[i].SafeToString().Length).
+                int maxTextLength = row.Rows.Select(r => r.SafeToString().Length).
                     DefaultIfEmpty().
                     Max();
 
-                int maxTextColumnLength = Math.Max(maxTextLength, columnHeaders[i].Length);
-                int columnWidth = Math.Min(maxTextColumnLength, maxColumnLengths[i]);
+                int maxTextColumnLength = Math.Max(maxTextLength, row.ColumnHeader.Length);
+                int columnWidth = Math.Min(maxTextColumnLength, row.MaxColumnLength);
                 yield return columnWidth;
             }
         }
 
-        private static string GetColumnsHeader(int[] columnWidths, string[] columnHeaders)
+        private static string GetColumnsHeader(GridRow[] rows, int[] columnWidths)
         {
             string result = "";
 
             for (int i = 0; i < columnWidths.Length; i++)
-                result += "  " + EnsureLength(columnHeaders[i], columnWidths[i]);
+                result += "  " + EnsureLength(rows[i].ColumnHeader, columnWidths[i]);
 
             return result.TrimStart();
         }
@@ -68,13 +64,18 @@ namespace GitLabCLI.Console.Output
             return result.TrimStart();
         }
 
-        private static IEnumerable<string> GetGridRows(object[][] rows, int[] columnWidths)
+        private static IEnumerable<string> GetGridRows(GridRow[] rows, int[] columnWidths)
         {
-            foreach (var row in rows)
+            int totalRows = rows[0].Rows.Length;
+            for (int i = 0; i < totalRows; i++)
             {
                 string gridRow = "";
-                for (int i = 0; i < row.Length; i++)
-                    gridRow += "  " + EnsureLength(row[i].SafeToString(), columnWidths[i]);
+
+                for (int columRowIndex = 0; columRowIndex < rows.Length; columRowIndex++)
+                {
+                    var columnRow = rows[columRowIndex];
+                    gridRow += "  " + EnsureLength(columnRow.Rows[i].SafeToString(), columnWidths[columRowIndex]);
+                }
 
                 yield return gridRow.
                     TrimStart().
@@ -91,6 +92,15 @@ namespace GitLabCLI.Console.Output
             return text.Length < length ?
                 text.PadRight(length) :
                 text.Substring(0, length);
+        }
+
+        private static void GuardRowsAreSameLength(string argName, params GridRow[] rows)
+        {
+            if (rows.Length == 0)
+                return;
+
+            if (rows.Any(r => r.Rows.Length != rows[0].Rows.Length))
+                throw new ArgumentException("All GridRow Rows must have same length", argName);
         }
     }
 }
