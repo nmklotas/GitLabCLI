@@ -7,8 +7,16 @@ namespace GitLabCLI.Console.Output
 {
     public sealed class GridResultFormatter
     {
-        public string Format(string header, string[] columnHeaders, int[] maxColumnLengths, object[][] rows)
+        public string Format(
+            string header,
+            string[] columnHeaders,
+            int[] maxColumnLengths,
+            object[][] rows)
         {
+            if (columnHeaders.Length != maxColumnLengths.Length ||
+                columnHeaders.Length != rows.Length)
+                throw new ArgumentException("columnHeaders, maxColumnLengths, rows must have same length");
+
             var calculatedColumnWidths = CalculateColumnWidths(columnHeaders, maxColumnLengths, rows).ToArray();
             string columnsHeader = GetColumnsHeader(calculatedColumnWidths, columnHeaders);
             string underlineHeader = GetHeaderUnderline(calculatedColumnWidths);
@@ -71,18 +79,18 @@ namespace GitLabCLI.Console.Output
                 yield return gridRow.
                     TrimStart().
                     Replace("\r\n", "").
-                    Replace("\n" ,"");
+                    Replace("\n", "");
             }
         }
 
-       private static string EnsureLength(string text, int length)
-       {
-           if (text.Length == length)
-               return text;
+        private static string EnsureLength(string text, int length)
+        {
+            if (text.Length == length)
+                return text;
 
-           return text.Length < length ?
-               text.PadRight(length) :
-               text.Substring(0, length);
-       }
+            return text.Length < length ?
+                text.PadRight(length) :
+                text.Substring(0, length);
+        }
     }
 }
