@@ -8,7 +8,8 @@ namespace GitLabCLI.Console.Output
     {
         private readonly GridResultFormatter _gridResultFormatter;
 
-        public OutputPresenter(GridResultFormatter gridResultFormatter) => _gridResultFormatter = gridResultFormatter;
+        public OutputPresenter(GridResultFormatter gridResultFormatter) 
+            => _gridResultFormatter = gridResultFormatter;
 
         public void Info(string text)
             => WriteLine(text);
