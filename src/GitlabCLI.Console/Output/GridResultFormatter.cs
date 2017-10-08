@@ -7,6 +7,8 @@ namespace GitLabCLI.Console.Output
 {
     public sealed class GridResultFormatter
     {
+        private const string _separator = "  ";
+
         public string Format(
             string header,
             params GridColumn[] columns)
@@ -14,15 +16,15 @@ namespace GitLabCLI.Console.Output
             GuardRowsAreSameLength(nameof(columns), columns);
 
             var calculatedColumnWidths = CalculateColumnWidths(columns).ToArray();
-            string columnsHeader = GetColumnsHeader(columns, calculatedColumnWidths);
-            string underlineHeader = GetHeaderUnderline(calculatedColumnWidths);
+            var columnHeaders = GetColumnsHeaders(columns, calculatedColumnWidths);
+            var underlineHeaders = GetHeaderUnderlines(calculatedColumnWidths);
             var gridRows = GetGridRows(columns, calculatedColumnWidths);
 
             string result = "-------------------------";
             result += "\r\n" + header;
             result += "\r\n";
-            result += "\r\n" + columnsHeader;
-            result += "\r\n" + underlineHeader;
+            result += "\r\n" + string.Join(_separator, columnHeaders);
+            result += "\r\n" + string.Join(_separator, underlineHeaders);
 
             foreach (string gridRow in gridRows)
                 result += "\r\n" + gridRow;
@@ -44,25 +46,11 @@ namespace GitLabCLI.Console.Output
             }
         }
 
-        private static string GetColumnsHeader(GridColumn[] columns, int[] columnWidths)
-        {
-            string result = "";
+        private static IEnumerable<string> GetColumnsHeaders(GridColumn[] columns, int[] columnWidths) 
+            => columnWidths.Select((width, index) => EnsureLength(columns[index].Header, width));
 
-            for (int i = 0; i < columnWidths.Length; i++)
-                result += "  " + EnsureLength(columns[i].Header, columnWidths[i]);
-
-            return result.TrimStart();
-        }
-
-        private static string GetHeaderUnderline(int[] columnWidths)
-        {
-            string result = "";
-
-            foreach (int width in columnWidths)
-                result += "  " + '_'.Expand(width);
-
-            return result.TrimStart();
-        }
+        private static IEnumerable<string> GetHeaderUnderlines(int[] columnWidths)
+            => columnWidths.Select(width => '_'.Expand(width));
 
         private static IEnumerable<string> GetGridRows(GridColumn[] columns, int[] columnWidths)
         {
@@ -76,13 +64,13 @@ namespace GitLabCLI.Console.Output
                 for (int rowColumnIndex = 0; rowColumnIndex < columns.Length; rowColumnIndex++)
                 {
                     var columnRow = columns[rowColumnIndex];
-                    gridRow += "  " + EnsureLength(columnRow.Rows[row].SafeToString(), columnWidths[rowColumnIndex]);
+                    if (rowColumnIndex != 0)
+                        gridRow += _separator;
+
+                    gridRow += EnsureLength(columnRow.Rows[row].SafeToString(), columnWidths[rowColumnIndex]);
                 }
 
-                yield return gridRow.
-                    TrimStart().
-                    Replace("\r\n", "").
-                    Replace("\n", "");
+                yield return gridRow.Replace("\r\n", "").Replace("\n", "");
             }
         }
 
