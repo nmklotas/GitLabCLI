@@ -1,4 +1,5 @@
-﻿using System.Linq;
+﻿using System;
+using System.Linq;
 using System.Threading.Tasks;
 using GitLabCLI.Console.Output;
 using GitLabCLI.Core.Gitlab;
@@ -47,11 +48,24 @@ namespace GitLabCLI.Console
                 return;
             }
 
-            _presenter.GridResult(
-                $"Found ({issues.Count}) issues in project {parameters.Project}",
-                new GridColumn<int>("Issue Id", 20, issues.Select(s => s.Id)),
-                new GridColumn("Title", 150, issues.Select(s => s.Title)),
-                new GridColumn("Description", 50, issues.Select(s => s.Description)));
+            if (parameters.Format == OutputFormat.Rows)
+            {
+                _presenter.RowResult(
+                    $"Found ({issues.Count}) issues in project {parameters.Project}",
+                    issues.Select(i => new Row(new[] { "Title" }, new[] { i.Title }, i.Description)).ToArray());
+            }
+            else if (parameters.Format == OutputFormat.Grid)
+            {
+                _presenter.GridResult(
+                    $"Found ({issues.Count}) issues in project {parameters.Project}",
+                    new GridColumn<int>("Issue Id", 20, issues.Select(s => s.Id)),
+                    new GridColumn("Title", 150, issues.Select(s => s.Title)),
+                    new GridColumn("Description", 50, issues.Select(s => s.Description)));
+            }
+            else
+            {
+                throw new NotSupportedException($"OutputFormat {parameters.Format} is not supported");
+            }
         }
     }
 }

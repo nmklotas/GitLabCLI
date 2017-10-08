@@ -40,6 +40,9 @@ namespace GitLabCLI.Console.Parsing
         [Option("assigned-to-me", HelpText = "Assigns issue to current user.")]
         public bool AssignedToMe { get; set; }
 
+        [Option('f', "format", HelpText = "Output format. Can be rows|grid. Default is rows.")]
+        public string Format { get; set; }
+
         [Option('a', "assignee", HelpText = "Assignee of issue.")]
         public string Assignee { get; set; }
 
