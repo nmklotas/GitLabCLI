@@ -107,10 +107,12 @@ namespace GitLabCLI.Console.Test.Output
                 AssignedToMe = true,
                 Assignee = "assignee",
                 Labels = new[] { "label" },
+                Format = "grid",
                 Project = "project"
             }).Value.Should().Match<ListIssuesParameters>(s =>
                 s.AssignedToCurrentUser &&
                 s.Assignee == "assignee" &&
+                s.Format == OutputFormat.Grid &&
                 s.Labels.SequenceEqual(new[] { "label" }) &&
                 s.Project == "project");
         }

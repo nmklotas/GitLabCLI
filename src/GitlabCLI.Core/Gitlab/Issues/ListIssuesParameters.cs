@@ -18,6 +18,8 @@ namespace GitLabCLI.Core.Gitlab.Issues
 
         public string Assignee { get; }
 
+        public OutputFormat Format { get; set; }
+
         public bool AssignedToCurrentUser { get; set; }
 
         public IList<string> Labels { get; set; } = new List<string>();

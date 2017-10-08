@@ -12,8 +12,6 @@ namespace GitLabCLI.Console.Parsing
     [Verb("create", HelpText = "Creates merge request.")]
     public sealed class CreateMergeRequestOptions : MergeOptions, IVisitableOption
     {
-        public Task Accept(LaunchOptionsVisitor visitor) => visitor.Visit(this);
-
         [Option('t', "title", HelpText = "Title of merge request.", Required = true)]
         public string Title { get; set; }
 
@@ -28,13 +26,13 @@ namespace GitLabCLI.Console.Parsing
 
         [Option("assign-myself", HelpText = "Assigns issue to current user.")]
         public bool AssignMyself { get; set; }
+
+        public Task Accept(LaunchOptionsVisitor visitor) => visitor.Visit(this);
     }
 
     [Verb("list", HelpText = "Lists merge requests.")]
     public sealed class ListMergesOptions : MergeOptions, IVisitableOption
     {
-        public Task Accept(LaunchOptionsVisitor visitor) => visitor.Visit(this);
-
         [Value(
             0,
             MetaName = "State",
@@ -47,5 +45,7 @@ namespace GitLabCLI.Console.Parsing
 
         [Option("assigned-to-me", HelpText = "Assigns issue to current user.")]
         public bool AssignedToMe { get; set; }
+
+        public Task Accept(LaunchOptionsVisitor visitor) => visitor.Visit(this);
     }
 }

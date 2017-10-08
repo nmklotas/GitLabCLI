@@ -6,8 +6,6 @@ namespace GitLabCLI.Console.Parsing
     [Verb("config", HelpText = "Persists configuration for the tool.")]
     public sealed class ConfigurationOptions : IVisitableOption
     {
-        public Task Accept(LaunchOptionsVisitor visitor) => visitor.Visit(this);
-
         [Option('s', "show", HelpText = "Shows current configuration.")]
         public bool Show { get; set; }
 
@@ -44,5 +42,7 @@ namespace GitLabCLI.Console.Parsing
             HelpText = "Default GitLab issue labels. " +
                        "Used when creating & listing issues.")]
         public string DefaulIssuesLabel { get; set; }
+
+        public Task Accept(LaunchOptionsVisitor visitor) => visitor.Visit(this);
     }
 }

@@ -1,4 +1,5 @@
 ﻿using System;
+using System.Diagnostics;
 using System.Threading.Tasks;
 using GitLabCLI.Console.Output;
 using GitLabCLI.Console.Parsing;
@@ -36,8 +37,16 @@ namespace GitLabCLI.Console
                 _outputPresenter.FailureResult("Unexpected error has occured", ex.ToString());
                 return ExitCode.UnexpectedFailure;
             }
-            
+            finally
+            {
+                WaitForInput();
+            }
+
             return ExitCode.Success;
         }
+
+        [Conditional("DEBUG")]
+        private static void WaitForInput() =>
+            System.Console.ReadLine();
     }
 }

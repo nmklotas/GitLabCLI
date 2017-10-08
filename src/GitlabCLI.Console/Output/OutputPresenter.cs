@@ -1,14 +1,15 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-
-namespace GitLabCLI.Console.Output
+﻿namespace GitLabCLI.Console.Output
 {
     public sealed class OutputPresenter
     {
         private readonly GridResultFormatter _gridResultFormatter;
+        private readonly RowResultFormatter _rowResultFormatter;
 
-        public OutputPresenter(GridResultFormatter gridResultFormatter) => _gridResultFormatter = gridResultFormatter;
+        public OutputPresenter(GridResultFormatter gridResultFormatter, RowResultFormatter rowResultFormatter)
+        {
+            _gridResultFormatter = gridResultFormatter;
+            _rowResultFormatter = rowResultFormatter;
+        }
 
         public void Info(string text)
             => WriteLine(text);
@@ -29,19 +30,13 @@ namespace GitLabCLI.Console.Output
             WriteLine($"Error: {error}");
         }
 
-        public void GridResult(
-            string header,
-            string[] columnHeaders,
-            IEnumerable<object[]> rows)
-        {
-            var inputRows = rows.ToArray();
-            if (inputRows.Select(r => r.Length).Any(l => l != columnHeaders.Length))
-                throw new ArgumentOutOfRangeException(nameof(columnHeaders), "columnHeaders length must match all rows length");
+        public void GridResult(string header, params GridColumn[] columns) 
+            => WriteLine(_gridResultFormatter.Format(header, columns));
 
-            WriteLine(_gridResultFormatter.Format(header, columnHeaders, inputRows));
-        }
-
-        private void WriteLine(string text)
+        public void RowResult(string header, params Row[] rows)
+            => WriteLine(_rowResultFormatter.Format(header, rows));
+        
+        private static void WriteLine(string text)
             => System.Console.WriteLine(text);
     }
 }

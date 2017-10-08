@@ -68,15 +68,18 @@ namespace GitLabCLI.Console.Test.Parsing
         [InlineData(
             "issue", "list",
             "--assigned-to-me",
+            "-f", "grid",
             "-l", "testlabel1")]
         [InlineData(
             "issue", "list",
             "--assigned-to-me",
+            "--format", "grid",
             "--labels", "testlabel1")]
         public void CommandIssueListParsedAsListIssueOptions(params string[] args)
         {
             _sut.Parse(args).Should().Match<ListIssuesOptions>(
                 s => s.AssignedToMe &&
+                     s.Format == "grid" &&
                      s.Labels.SequenceEqual(new[] { "testlabel1" }));
         }
 

@@ -7,20 +7,24 @@ namespace GitLabCLI.Console.Output
 {
     public sealed class GridResultFormatter
     {
-        private const int _maxColumnWidth = 50;
+        private const string _separator = "  ";
 
-        public string Format(string header, string[] columnHeaders, object[][] rows)
+        public string Format(
+            string header,
+            params GridColumn[] columns)
         {
-            var columnWidths = GetColumnWidths(columnHeaders, rows);
-            string columnsHeader = GetColumnsHeader(columnWidths, columnHeaders);
-            string underlineHeader = GetHeaderUnderline(columnWidths);
-            var gridRows = GetGridRows(rows, columnWidths);
+            GuardRowsAreSameLength(nameof(columns), columns);
+
+            var calculatedColumnWidths = CalculateColumnWidths(columns).ToArray();
+            var columnHeaders = GetColumnsHeaders(columns, calculatedColumnWidths);
+            var underlineHeaders = GetHeaderUnderlines(calculatedColumnWidths);
+            var gridRows = GetGridRows(columns, calculatedColumnWidths);
 
             string result = "-------------------------";
             result += "\r\n" + header;
             result += "\r\n";
-            result += "\r\n" + columnsHeader;
-            result += "\r\n" + underlineHeader;
+            result += "\r\n" + string.Join(_separator, columnHeaders);
+            result += "\r\n" + string.Join(_separator, underlineHeaders);
 
             foreach (string gridRow in gridRows)
                 result += "\r\n" + gridRow;
@@ -28,72 +32,65 @@ namespace GitLabCLI.Console.Output
             return result;
         }
 
-        private static List<int> GetColumnWidths(string[] columnHeaders, object[][] rows)
+        private static IEnumerable<int> CalculateColumnWidths(GridColumn[] columns)
         {
-            var result = new List<int>();
-
-            for (int i = 0; i < columnHeaders.Length; i++)
+            foreach (var column in columns)
             {
-                int maxTextLength = rows.Select(r => r[i].SafeToString().Length).
+                int maxTextLength = column.Rows.Select(r => r.SafeToString().Length).
                     DefaultIfEmpty().
                     Max();
 
-                int columnWidth = Math.Max(maxTextLength, columnHeaders[i].Length);
-                result.Add(columnWidth);
+                int maxTextColumnLength = Math.Max(maxTextLength, column.Header.Length);
+                int columnWidth = Math.Min(maxTextColumnLength, column.MaxColumnLength);
+                yield return columnWidth;
             }
-
-            return result;
         }
 
-        private static string GetColumnsHeader(List<int> columnWidths, string[] columnHeaders)
+        private static IEnumerable<string> GetColumnsHeaders(GridColumn[] columns, int[] columnWidths) 
+            => columnWidths.Select((width, index) => EnsureLength(columns[index].Header, width));
+
+        private static IEnumerable<string> GetHeaderUnderlines(int[] columnWidths)
+            => columnWidths.Select(width => '_'.Expand(width));
+
+        private static IEnumerable<string> GetGridRows(GridColumn[] columns, int[] columnWidths)
         {
-            string result = "";
+            //GridColumns have the same rows count, so take first
+            int totalRows = columns[0].Rows.Count;
 
-            for (int i = 0; i < columnWidths.Count; i++)
-            {
-                result += "  " + EnsureLength(columnHeaders[i], columnWidths[i]);
-            }
-
-            return result.TrimStart();
-        }
-
-        private static string GetHeaderUnderline(List<int> columnWidths)
-        {
-            string result = "";
-
-            foreach (int width in columnWidths)
-            {
-                result += "  " + '_'.Expand(width);
-            }
-
-            return result.TrimStart();
-        }
-
-        private static List<string> GetGridRows(object[][] rows, List<int> columnWidths)
-        {
-            var result = new List<string>();
-
-            foreach (var row in rows)
+            for (int row = 0; row < totalRows; row++)
             {
                 string gridRow = "";
-                for (int i = 0; i < row.Length; i++)
-                    gridRow += "  " + EnsureLength(row[i].SafeToString(), columnWidths[i]);
 
-                result.Add(gridRow.TrimStart());
+                for (int rowColumnIndex = 0; rowColumnIndex < columns.Length; rowColumnIndex++)
+                {
+                    var columnRow = columns[rowColumnIndex];
+                    if (rowColumnIndex != 0)
+                        gridRow += _separator;
+
+                    gridRow += EnsureLength(columnRow.Rows[row].SafeToString(), columnWidths[rowColumnIndex]);
+                }
+
+                yield return gridRow.Replace("\r\n", "").Replace("\n", "");
             }
-
-            return result;
         }
 
-        private static string EnsureLength(string text, int length, int maxLength = _maxColumnWidth)
+        private static string EnsureLength(string text, int length)
         {
-            int finalLength = Math.Min(length, maxLength);
-            if (text.Length == finalLength)
+            if (text.Length == length)
                 return text;
 
-            return text.Length < finalLength ?
-                text.PadRight(finalLength) :
-                text.Substring(0, finalLength);
+            return text.Length < length ?
+                text.PadRight(length) :
+                text.Substring(0, length);
+        }
+
+        private static void GuardRowsAreSameLength(string argName, params GridColumn[] columns)
+        {
+            if (columns.Length == 0)
+                return;
+
+            if (columns.Any(r => r.Rows.Count != columns[0].Rows.Count))
+                throw new ArgumentException("All GridColumn Rows must have same length", argName);
         }
     }
 }

@@ -13,8 +13,6 @@ namespace GitLabCLI.Console.Parsing
     [Verb("create", HelpText = "Creates new issue.")]
     public sealed class CreateIssueOptions : IssueOptions, IVisitableOption
     {
-        public Task Accept(LaunchOptionsVisitor visitor) => visitor.Visit(this);
-
         [Option('t', "title", HelpText = "Title of issue.", Required = true)]
         public string Title { get; set; }
 
@@ -29,20 +27,25 @@ namespace GitLabCLI.Console.Parsing
 
         [Option("assign-myself", HelpText = "Assigns issue to current user.")]
         public bool AssignMyself { get; set; }
+
+        public Task Accept(LaunchOptionsVisitor visitor) => visitor.Visit(this);
     }
 
     [Verb("list", HelpText = "Lists issues.")]
     public sealed class ListIssuesOptions : IssueOptions, IVisitableOption
     {
-        public Task Accept(LaunchOptionsVisitor visitor) => visitor.Visit(this);
-
         [Option('l', "labels", Separator = ',', HelpText = "Labels of issue. Separated by ','.")]
         public IEnumerable<string> Labels { get; set; }
 
         [Option("assigned-to-me", HelpText = "Assigns issue to current user.")]
         public bool AssignedToMe { get; set; }
 
+        [Option('f', "format", HelpText = "Output format. Can be rows|grid. Default is rows.")]
+        public string Format { get; set; }
+
         [Option('a', "assignee", HelpText = "Assignee of issue.")]
         public string Assignee { get; set; }
+
+        public Task Accept(LaunchOptionsVisitor visitor) => visitor.Visit(this);
     }
 }

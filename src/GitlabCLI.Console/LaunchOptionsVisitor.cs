@@ -79,7 +79,7 @@ namespace GitLabCLI.Console
         public Task Visit(ConfigurationOptions options)
         {
             var parameters = _parametersHandler.NegotiateConfigurationParameters(options);
-            _configurationHandler.StoreConfiguration(parameters, options.Show);
+            _configurationHandler.StoreConfiguration(parameters);
             return Task.CompletedTask;
         }
 

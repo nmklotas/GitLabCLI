@@ -6,6 +6,7 @@ using GitLabCLI.Core;
 using GitLabCLI.Core.Gitlab.Issues;
 using GitLabCLI.Core.Gitlab.Merges;
 using GitLabCLI.Utilities;
+using Result = GitLabCLI.Core.Result;
 
 namespace GitLabCLI.Console
 {
@@ -38,11 +39,16 @@ namespace GitLabCLI.Console
             if (project.IsFailure)
                 return Result.Fail<ListIssuesParameters>(project);
 
+            var outputFormat = ParseOutputFormat(options.Format);
+            if (outputFormat.IsFailure)
+                return Result.Fail<ListIssuesParameters>(outputFormat);
+
             return Result.Ok(new ListIssuesParameters(
                 project.Value,
                 options.Assignee)
             {
                 AssignedToCurrentUser = options.AssignedToMe,
+                Format = outputFormat.Value,
                 Labels = GetLabels(options.Labels)
             });
         }
@@ -140,6 +146,25 @@ namespace GitLabCLI.Console
                     return MergeRequestState.Merged;
                 default:
                     return null;
+            }
+        }
+
+        private static Result<OutputFormat> ParseOutputFormat(string format)
+        {
+            if (format.NormalizeSpaces().EqualsIgnoringCase("rows") ||
+                format.NormalizeSpaces().EqualsIgnoringCase(""))
+            {
+                return Result.Ok(OutputFormat.Rows);
+            }
+            else if (format.NormalizeSpaces().EqualsIgnoringCase("grid"))
+            {
+                return Result.Ok(OutputFormat.Grid);
+            }
+            else
+            {
+                return Result.Fail<OutputFormat>(
+                    $"Output format {format} is not recognized. " +
+                     "Available values are: rows, grid. Default is rows.");
             }
         }
     }
