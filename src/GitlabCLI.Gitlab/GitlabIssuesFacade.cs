@@ -63,6 +63,22 @@ namespace GitLabCLI.GitLab
             return Result.Ok<IReadOnlyList<Issue>>(issues);
         }
 
+        public async Task<Result<Issue>> CloseIssue(CloseIssueParameters parameters)
+        {
+            var client = await _clientFactory.Create();
+
+            string projectId = await GetProjectId(client, parameters.Project);
+            if (projectId == null)
+                return Result.Fail<Issue>($"Project {parameters.Project} was not found");
+
+            var closedIssue = await client.Issues.UpdateAsync(new UpdateIssueRequest(projectId, parameters.IssueId)
+            {
+                State = UpdatedIssueState.Close
+            });
+
+            return Result.Ok(closedIssue);
+        }
+
         private static async Task<int?> GetUserId(GitLabClient client, bool isCurrentUser, string name)
         {
             if (isCurrentUser)

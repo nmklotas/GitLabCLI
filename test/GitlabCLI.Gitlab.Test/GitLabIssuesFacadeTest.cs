@@ -38,6 +38,28 @@ namespace GitLabCLI.GitLab.Test
         }
 
         [Fact]
+        public async Task ClosesIssue()
+        {
+            var result = await _sut.CreateIssue(new CreateIssueParameters(
+                "title1",
+                "description1",
+                ProjectName,
+                CurrentUser));
+
+            int issueId = result.Value;
+
+            var closedIssue = await _sut.CloseIssue(new CloseIssueParameters(
+                ProjectName,
+                issueId));
+
+            closedIssue.IsSuccess.Should().BeTrue();
+
+            await ShouldHaveIssue(
+                issueId,
+                i => i.State == IssueState.Closed);
+        }
+
+        [Fact]
         public async Task CreatesIssueForCurrentUser()
         {
             var result = await _sut.CreateIssue(new CreateIssueParameters(

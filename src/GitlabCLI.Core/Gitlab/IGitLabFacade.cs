@@ -9,6 +9,8 @@ namespace GitLabCLI.Core.Gitlab
     {
         Task<Result<int>> CreateIssue(CreateIssueParameters parameters);
 
+        Task<Result> CloseIssue(CloseIssueParameters parameters);
+
         Task<Result<int>> CreateMergeRequest(CreateMergeRequestParameters parameters);
 
         Task<Result<IReadOnlyList<Issue>>> ListIssues(ListIssuesParameters parameters);

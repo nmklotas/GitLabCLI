@@ -36,7 +36,8 @@ namespace GitLabCLI.Console.Test.Output
                     Title = "title",
                     Source = "source",
                     Destination = "destination"
-                }).Value.Project
+                }).Value.Project,
+                _sut.NegotiateCloseIssueParameters(new CloseIssueOptions()).Value.Project
             };
 
             parameter.Should().OnlyContain(p => p == "appsettings-project");
@@ -97,6 +98,18 @@ namespace GitLabCLI.Console.Test.Output
                 s.Labels.SequenceEqual(new[] { "label" }) &&
                 s.Project == "project" &&
                 s.AssignedToCurrentUser);
+        }
+
+        [Fact]
+        public void CloseIssuesParametersNegotiated()
+        {
+            _sut.NegotiateCloseIssueParameters(new CloseIssueOptions
+            {
+                Id = 1,
+                Project = "project"
+            }).Value.Should().Match<CloseIssueParameters>(s =>
+                s.Project == "project" &&
+                s.IssueId == 1);
         }
 
         [Fact]

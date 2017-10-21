@@ -40,6 +40,21 @@ namespace GitLabCLI.Console.Test.Parsing
 
         [Theory]
         [InlineData(
+            "issue", "close",
+            "-p", "testProject")]
+        [InlineData(
+            "issue", "close",
+            "--id", "1",
+            "--project", "testProject")]
+        public void CommandIssueCloseParsedAsCloseIssueOptions(params string[] args)
+        {
+            _sut.Parse(args).Should().Match<CloseIssueOptions>(
+                s => s.Id == 1 &&
+                     s.Project == "testProject");
+        }
+
+        [Theory]
+        [InlineData(
             "merge", "create",
             "-a", "testUser",
             "-t", "testtitle",

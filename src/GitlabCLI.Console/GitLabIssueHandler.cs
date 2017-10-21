@@ -33,6 +33,18 @@ namespace GitLabCLI.Console
             _presenter.SuccessResult($"Successfully created issue #{issueResult.Value}");
         }
 
+        public async Task CloseIssue(CloseIssueParameters parameters)
+        {
+            var closeResult = await _gitLabFacade.CloseIssue(parameters);
+            if (closeResult.IsFailure)
+            {
+                _presenter.FailureResult("Failed to close issue", closeResult.Error);
+                return;
+            }
+
+            _presenter.SuccessResult($"Successfully closed issue #{parameters.IssueId}");
+        }
+
         public async Task ListIssues(ListIssuesParameters parameters)
         {
             var issueResult = await _gitLabFacade.ListIssues(parameters);

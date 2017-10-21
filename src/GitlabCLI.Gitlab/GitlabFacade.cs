@@ -34,6 +34,9 @@ namespace GitLabCLI.GitLab
         public async Task<Result<int>> CreateIssue(CreateIssueParameters parameters) 
             => await SafeGetResult(() => _issuesFacade.CreateIssue(parameters));
 
+        public async Task<Result> CloseIssue(CloseIssueParameters parameters)
+            => await SafeGetResult(() => _issuesFacade.CloseIssue(parameters));
+
         public async Task<Result<IReadOnlyList<Issue>>> ListIssues(ListIssuesParameters parameters) 
             => _mapper.Map(await SafeGetResult(() => _issuesFacade.ListIssues(parameters)));
 

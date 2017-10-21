@@ -4,8 +4,8 @@ using CommandLine;
 
 namespace GitLabCLI.Console.Parsing
 {
-    [Verb("issue", HelpText = "Commands: create, list. Run issue [command] --help to learn more.")]
-    [SubVerbs(typeof(CreateIssueOptions), typeof(ListIssuesOptions))]
+    [Verb("issue", HelpText = "Commands: create, close, list. Run issue [command] --help to learn more.")]
+    [SubVerbs(typeof(CreateIssueOptions), typeof(ListIssuesOptions), typeof(CloseIssueOptions))]
     public abstract class IssueOptions : ProjectOptions
     {
     }
@@ -27,6 +27,15 @@ namespace GitLabCLI.Console.Parsing
 
         [Option("assign-myself", HelpText = "Assigns issue to current user.")]
         public bool AssignMyself { get; set; }
+
+        public Task Accept(LaunchOptionsVisitor visitor) => visitor.Visit(this);
+    }
+
+    [Verb("close", HelpText = "Closes issue.")]
+    public sealed class CloseIssueOptions : IssueOptions, IVisitableOption
+    {
+        [Option('i', "id", HelpText = "Issue id", Required = true)]
+        public int Id { get; set; }
 
         public Task Accept(LaunchOptionsVisitor visitor) => visitor.Visit(this);
     }

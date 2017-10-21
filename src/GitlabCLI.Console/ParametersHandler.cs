@@ -33,6 +33,15 @@ namespace GitLabCLI.Console
             });
         }
 
+        public Result<CloseIssueParameters> NegotiateCloseIssueParameters(CloseIssueOptions options)
+        {
+            var project = GetProject(options);
+            if (project.IsFailure)
+                return Result.Fail<CloseIssueParameters>(project);
+
+            return Result.Ok(new CloseIssueParameters(project.Value, options.Id));
+        }
+
         public Result<ListIssuesParameters> NegotiateListIssuesParameters(ListIssuesOptions options)
         {
             var project = GetProject(options);

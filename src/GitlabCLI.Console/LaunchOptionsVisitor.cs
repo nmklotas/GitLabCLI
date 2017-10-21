@@ -40,6 +40,18 @@ namespace GitLabCLI.Console
                 ShowError(parameters);
         }
 
+        public async Task Visit(CloseIssueOptions options)
+        {
+            if (!ValidateConfiguration())
+                return;
+
+            var parameters = _parametersHandler.NegotiateCloseIssueParameters(options);
+            if (parameters.IsSuccess)
+                await _issuesHandler.CloseIssue(parameters.Value);
+            else
+                ShowError(parameters);
+        }
+
         public async Task Visit(CreateMergeRequestOptions options)
         {
             if (!ValidateConfiguration())
@@ -95,9 +107,7 @@ namespace GitLabCLI.Console
             return true;
         }
 
-        private void ShowError(Result result)
-        {
-            _outputPresenter.Error(result.Error);
-        }
+        private void ShowError(Result result) 
+            => _outputPresenter.Error(result.Error);
     }
 }
