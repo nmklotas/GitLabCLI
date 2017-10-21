@@ -74,7 +74,7 @@ namespace GitLabCLI.GitLab
             return (await client.Users.GetAsync(name)).Id;
         }
 
-        private async Task<string> GetProjectId(GitLabClient client, string project)
+        private static async Task<string> GetProjectId(GitLabClient client, string project)
         {
             var gitLabProject = (await client.Projects.GetAsync(o =>
                 {

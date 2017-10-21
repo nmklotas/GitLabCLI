@@ -43,6 +43,11 @@ namespace GitLabCLI.Console
             if (outputFormat.IsFailure)
                 return Result.Fail<ListIssuesParameters>(outputFormat);
 
+            var issueState = ParseIssueState(options.State);
+            if (!issueState.HasValue)
+                return Result.Fail<ListIssuesParameters>($"State parameter: {options.State} is not supported." +
+                                                         "Supported values are: opened|closed|all");
+
             return Result.Ok(new ListIssuesParameters(
                 project.Value,
                 options.Assignee)
@@ -76,7 +81,7 @@ namespace GitLabCLI.Console
             if (project.IsFailure)
                 return Result.Fail<ListMergesParameters>(project);
 
-            var state = ParseState(options.State);
+            var state = ParseMergeRequestState(options.State);
             if (!state.HasValue)
                 return Result.Fail<ListMergesParameters>($"State parameter: {options.State} is not supported." +
                                                           "Supported values are: opened|closed|merged");
@@ -132,18 +137,37 @@ namespace GitLabCLI.Console
             return new List<string>();
         }
 
-        private static MergeRequestState? ParseState(string state)
+        private static MergeRequestState? ParseMergeRequestState(string state)
         {
             switch (state.NormalizeSpaces().ToUpperInvariant())
             {
                 case "":
                     return MergeRequestState.Opened;
                 case "OPENED":
+                case "OPEN":
                     return MergeRequestState.Opened;
                 case "CLOSED":
                     return MergeRequestState.Closed;
                 case "MERGED":
                     return MergeRequestState.Merged;
+                default:
+                    return null;
+            }
+        }
+
+        private static IssueState? ParseIssueState(string state)
+        {
+            switch (state.NormalizeSpaces().ToUpperInvariant())
+            {
+                case "":
+                    return IssueState.Opened;
+                case "OPENED":
+                case "OPEN":
+                    return IssueState.Opened;
+                case "CLOSED":
+                    return IssueState.Closed;
+                case "ALL":
+                    return IssueState.All;
                 default:
                     return null;
             }

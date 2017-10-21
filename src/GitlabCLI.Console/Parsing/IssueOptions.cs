@@ -46,6 +46,9 @@ namespace GitLabCLI.Console.Parsing
         [Option('a', "assignee", HelpText = "Assignee of issue.")]
         public string Assignee { get; set; }
 
+        [Option('s', "state", HelpText = "Issue state. Can be open|closed|all. Default is open.")]
+        public string State { get; set; }
+
         public Task Accept(LaunchOptionsVisitor visitor) => visitor.Visit(this);
     }
 }
