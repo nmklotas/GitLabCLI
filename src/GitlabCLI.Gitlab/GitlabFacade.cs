@@ -25,25 +25,17 @@ namespace GitLabCLI.GitLab
             _mapper = mapper;
         }
 
-        public async Task<Result<int>> CreateMergeRequest(CreateMergeRequestParameters parameters)
-        {
-            return await SafeGetResult(() => _mergesFacade.CreateMergeRequest(parameters));
-        }
+        public async Task<Result<int>> CreateMergeRequest(CreateMergeRequestParameters parameters) 
+            => await SafeGetResult(() => _mergesFacade.CreateMergeRequest(parameters));
 
-        public async Task<Result<IReadOnlyList<MergeRequest>>> ListMergeRequests(ListMergesParameters parameters)
-        {
-            return _mapper.Map(await SafeGetResult(() => _mergesFacade.ListMergeRequests(parameters)));
-        }
+        public async Task<Result<IReadOnlyList<MergeRequest>>> ListMergeRequests(ListMergesParameters parameters) 
+            => _mapper.Map(await SafeGetResult(() => _mergesFacade.ListMergeRequests(parameters)));
 
-        public async Task<Result<int>> CreateIssue(CreateIssueParameters parameters)
-        {
-            return await SafeGetResult(() => _issuesFacade.CreateIssue(parameters));
-        }
+        public async Task<Result<int>> CreateIssue(CreateIssueParameters parameters) 
+            => await SafeGetResult(() => _issuesFacade.CreateIssue(parameters));
 
-        public async Task<Result<IReadOnlyList<Issue>>> ListIssues(ListIssuesParameters parameters)
-        {
-            return _mapper.Map(await SafeGetResult(() => _issuesFacade.ListIssues(parameters)));
-        }
+        public async Task<Result<IReadOnlyList<Issue>>> ListIssues(ListIssuesParameters parameters) 
+            => _mapper.Map(await SafeGetResult(() => _issuesFacade.ListIssues(parameters)));
 
         private static async Task<Result<T>> SafeGetResult<T>(Func<Task<Result<T>>> resultDelegate)
         {

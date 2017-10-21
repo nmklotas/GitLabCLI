@@ -16,7 +16,7 @@ namespace GitLabCLI.GitLab
             if (_client != null)
                 return _client;
 
-            if (_settings.GitLabAccessToken.IsNotNullOrEmpty())
+            if (!_settings.GitLabAccessToken.IsNullOrEmpty())
             {
                 _client = new GitLabClient(_settings.GitLabHostUrl, _settings.GitLabAccessToken);
                 return _client;

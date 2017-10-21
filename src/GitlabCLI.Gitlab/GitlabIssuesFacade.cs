@@ -7,14 +7,20 @@ using GitLabCLI.Core;
 using GitLabCLI.Core.Gitlab.Issues;
 using GitLabCLI.Utilities;
 using Issue = GitLabApiClient.Models.Issues.Responses.Issue;
+using IssueState = GitLabApiClient.Models.Issues.Responses.IssueState;
 
 namespace GitLabCLI.GitLab
 {
     public sealed class GitLabIssuesFacade
     {
         private readonly GitLabClientFactory _clientFactory;
+        private readonly Mapper _mapper;
 
-        public GitLabIssuesFacade(GitLabClientFactory clientFactory) => _clientFactory = clientFactory;
+        public GitLabIssuesFacade(GitLabClientFactory clientFactory, Mapper mapper)
+        {
+            _clientFactory = clientFactory;
+            _mapper = mapper;
+        }
 
         public async Task<Result<int>> CreateIssue(CreateIssueParameters parameters)
         {
@@ -46,7 +52,8 @@ namespace GitLabCLI.GitLab
 
             int? assigneeId = await GetUserId(client, parameters.AssignedToCurrentUser, parameters.Assignee);
 
-            var issues = (await client.Issues.GetAsync(projectId)).ToList();
+            IssueState issueState = _mapper.Map(parameters.IssueState);
+            var issues = (await client.Issues.GetAsync(projectId, o => o.State = issueState)).ToList();
             if (assigneeId.HasValue)
                 issues = issues.Where(i => i.Assignee?.Id == assigneeId).ToList();
 

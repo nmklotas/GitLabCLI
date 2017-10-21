@@ -4,11 +4,16 @@
     {
         private readonly GridResultFormatter _gridResultFormatter;
         private readonly RowResultFormatter _rowResultFormatter;
+        private readonly ConsoleColoredWriter _coloredWriter;
 
-        public OutputPresenter(GridResultFormatter gridResultFormatter, RowResultFormatter rowResultFormatter)
+        public OutputPresenter(
+            GridResultFormatter gridResultFormatter, 
+            RowResultFormatter rowResultFormatter,
+            ConsoleColoredWriter coloredWriter)
         {
             _gridResultFormatter = gridResultFormatter;
             _rowResultFormatter = rowResultFormatter;
+            _coloredWriter = coloredWriter;
         }
 
         public void Info(string text)
@@ -35,8 +40,8 @@
 
         public void RowResult(string header, params Row[] rows)
             => WriteLine(_rowResultFormatter.Format(header, rows));
-        
-        private static void WriteLine(string text)
-            => System.Console.WriteLine(text);
+
+        private void WriteLine(string text)
+            => _coloredWriter.Write(text);
     }
 }

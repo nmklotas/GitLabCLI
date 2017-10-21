@@ -105,7 +105,7 @@ namespace GitLabCLI.Console
 
         private Result<string> GetProject(ProjectOptions options)
         {
-            string projectName = options.Project.IsNotNullOrEmpty() ?
+            string projectName = !options.Project.IsNullOrEmpty() ?
                 options.Project : _settings.DefaultProject;
 
             return projectName.IsNullOrEmpty() ?
@@ -119,14 +119,14 @@ namespace GitLabCLI.Console
         {
             var inputLabels = labels.
                 SafeToList().
-                Where(l => l.IsNotNullOrEmpty()).
+                Where(l => !l.IsNullOrEmpty()).
                 ToList();
 
             if (inputLabels.Any())
                 return inputLabels;
 
             string normalizedDefaultLabel = _settings.DefaulIssuesLabel.NormalizeSpaces();
-            if (normalizedDefaultLabel.IsNotNullOrEmpty())
+            if (!normalizedDefaultLabel.IsNullOrEmpty())
                 return new List<string> { normalizedDefaultLabel };
 
             return new List<string>();

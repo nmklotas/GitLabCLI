@@ -1,5 +1,9 @@
 ﻿using System.Collections.Generic;
+using System.Linq;
+using System.Text;
 using GitLabCLI.Utilities;
+using static System.Array;
+using static System.Environment;
 
 namespace GitLabCLI.Console.Output
 {
@@ -9,18 +13,28 @@ namespace GitLabCLI.Console.Output
             string header,
             params Row[] rows)
         {
-            string result = "-------------------------";
-            result += "\r\n" + header;
-            result += "\r\n";
+            var stringBuilder = new StringBuilder();
+            stringBuilder.AppendLine("-------------------------");
+            stringBuilder.AppendLine(header);
+            stringBuilder.AppendLine();
 
             foreach (var row in rows)
             {
-                result += "\r\n" + string.Join("\r\n", GetHeaderRows(row)) + "\r\n";
-                result += "\r\n" + row.Body.SafeToString();
-                result += "\r\n";
+                if (IndexOf(rows, row) != 0)
+                    stringBuilder.AppendLine();
+
+                string headerRows = ConcatRows(GetHeaderRows(row));
+                stringBuilder.AppendLine(headerRows);
+
+                string bodyText = row.Body.SafeToString();
+                if (!string.IsNullOrWhiteSpace(bodyText))
+                {
+                    stringBuilder.AppendLine();
+                    stringBuilder.AppendLine(bodyText);
+                }
             }
 
-            return result.TrimEnd();
+            return stringBuilder.ToString();
         }
 
         private static IEnumerable<string> GetHeaderRows(Row row)
@@ -31,6 +45,11 @@ namespace GitLabCLI.Console.Output
                 string value = row.ColumnValues[i];
                 yield return $"{header}: {value}";
             }
+        }
+
+        private static string ConcatRows(IEnumerable<string> rows)
+        {
+            return string.Join("\r\n", rows.Where(r => r != NewLine));
         }
     }
 }

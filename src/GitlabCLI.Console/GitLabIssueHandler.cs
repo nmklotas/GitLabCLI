@@ -1,4 +1,5 @@
 ﻿using System;
+using System.Globalization;
 using System.Linq;
 using System.Threading.Tasks;
 using GitLabCLI.Console.Output;
@@ -52,7 +53,20 @@ namespace GitLabCLI.Console
             {
                 _presenter.RowResult(
                     $"Found ({issues.Count}) issues in project {parameters.Project}",
-                    issues.Select(i => new Row(new[] { "Title" }, new[] { i.Title }, i.Description)).ToArray());
+                    issues.Select(i => new Row(new[]
+                    {
+                        $"{ConsoleOutputColor.Yellow}#{i.Id}",
+                        "Author",
+                        "Created"
+                    }, 
+                    new[]
+                    {
+                        i.Title,
+                        i.Author,
+                        i.CreatedAt.ToString(CultureInfo.CurrentUICulture),
+                    }, 
+                    i.Description)).
+                    ToArray());
             }
             else if (parameters.Format == OutputFormat.Grid)
             {

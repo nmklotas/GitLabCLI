@@ -2,17 +2,17 @@
 using System.Linq;
 using System.Threading.Tasks;
 using FluentAssertions;
-using GitLabApiClient.Models.Issues.Responses;
 using GitLabCLI.Core.Gitlab.Issues;
 using GitLabCLI.Utilities;
 using Xunit;
 using static GitLabCLI.GitLab.Test.GitLabApiHelper;
+using IssueState = GitLabApiClient.Models.Issues.Responses.IssueState;
 
 namespace GitLabCLI.GitLab.Test
 {
     public sealed class GitLabIssuesFacadeTest
     {
-        private readonly GitLabIssuesFacade _sut = new GitLabIssuesFacade(ClientFactory);
+        private readonly GitLabIssuesFacade _sut = new GitLabIssuesFacade(ClientFactory, new Mapper());
 
         [Fact]
         public async Task CreatesIssue()
