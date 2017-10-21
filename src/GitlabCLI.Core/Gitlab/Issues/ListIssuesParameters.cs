@@ -18,7 +18,9 @@ namespace GitLabCLI.Core.Gitlab.Issues
 
         public string Assignee { get; }
 
-        public OutputFormat Format { get; set; }
+        public string Filter { get; set; }
+
+        public OutputFormat Output { get; set; }
 
         public bool AssignedToCurrentUser { get; set; }
 

@@ -48,7 +48,7 @@ namespace GitLabCLI.Console
             if (project.IsFailure)
                 return Result.Fail<ListIssuesParameters>(project);
 
-            var outputFormat = ParseOutputFormat(options.Format);
+            var outputFormat = ParseOutputFormat(options.Output);
             if (outputFormat.IsFailure)
                 return Result.Fail<ListIssuesParameters>(outputFormat);
 
@@ -62,7 +62,8 @@ namespace GitLabCLI.Console
                 options.Assignee)
             {
                 AssignedToCurrentUser = options.AssignedToMe,
-                Format = outputFormat.Value,
+                Output = outputFormat.Value,
+                Filter = options.Filter,
                 IssuesIds = options.Ids.SafeToList(),
                 Labels = GetLabels(options.Labels)
             });

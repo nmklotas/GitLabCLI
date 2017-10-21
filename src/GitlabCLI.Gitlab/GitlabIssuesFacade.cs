@@ -59,6 +59,7 @@ namespace GitLabCLI.GitLab
                 o.AssigneeId = assigneeId;
                 o.State = issueState;
                 o.Labels = parameters.Labels;
+                o.Filter = parameters.Filter;
                 o.IssueIds = parameters.IssuesIds;
             });
 

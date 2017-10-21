@@ -120,14 +120,16 @@ namespace GitLabCLI.Console.Test.Output
                 AssignedToMe = true,
                 Assignee = "assignee",
                 Labels = new[] { "label" },
-                Format = "grid",
+                Output = "grid",
+                Filter = "filter",
                 State = "opened",
                 Project = "project",
                 Ids = new[] { 1, 2 },
             }).Value.Should().Match<ListIssuesParameters>(s =>
                 s.AssignedToCurrentUser &&
                 s.Assignee == "assignee" &&
-                s.Format == OutputFormat.Grid &&
+                s.Output == OutputFormat.Grid &&
+                s.Filter == "filter" &&
                 s.Labels.SequenceEqual(new[] { "label" }) &&
                 s.IssueState == IssueState.Opened &&
                 s.Project == "project" &&

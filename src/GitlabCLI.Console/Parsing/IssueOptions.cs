@@ -49,8 +49,8 @@ namespace GitLabCLI.Console.Parsing
         [Option("assigned-to-me", HelpText = "Assigns issue to current user.")]
         public bool AssignedToMe { get; set; }
 
-        [Option('f', "format", HelpText = "Output format. Can be rows|grid. Default is rows.")]
-        public string Format { get; set; }
+        [Option('o', "output", HelpText = "Output format. Can be rows|grid. Default is rows.")]
+        public string Output { get; set; }
 
         [Option('a', "assignee", HelpText = "Assignee of issue.")]
         public string Assignee { get; set; }
@@ -60,6 +60,9 @@ namespace GitLabCLI.Console.Parsing
 
         [Option('i', "id", Separator = ',', HelpText = "Ids of issues. Separated by ','.")]
         public IEnumerable<int> Ids { get; set; }
+
+        [Option('f', "filter", HelpText = "Issues filter. Filter is applied on issues titles and descriptions.")]
+        public string Filter { get; set; }
 
         public Task Accept(LaunchOptionsVisitor visitor) => visitor.Visit(this);
     }

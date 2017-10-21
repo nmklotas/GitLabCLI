@@ -61,7 +61,7 @@ namespace GitLabCLI.Console
                 return;
             }
 
-            if (parameters.Format == OutputFormat.Rows)
+            if (parameters.Output == OutputFormat.Rows)
             {
                 _presenter.RowResult(
                     $"Found ({issues.Count}) issues in project {parameters.Project}",
@@ -80,7 +80,7 @@ namespace GitLabCLI.Console
                     i.Description)).
                     ToArray());
             }
-            else if (parameters.Format == OutputFormat.Grid)
+            else if (parameters.Output == OutputFormat.Grid)
             {
                 _presenter.GridResult(
                     $"Found ({issues.Count}) issues in project {parameters.Project}",
@@ -90,7 +90,7 @@ namespace GitLabCLI.Console
             }
             else
             {
-                throw new NotSupportedException($"OutputFormat {parameters.Format} is not supported");
+                throw new NotSupportedException($"OutputFormat {parameters.Output} is not supported");
             }
         }
     }

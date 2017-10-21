@@ -84,14 +84,16 @@ namespace GitLabCLI.Console.Test.Parsing
         [InlineData(
             "issue", "list",
             "--assigned-to-me",
-            "-f", "grid",
+            "-o", "grid",
+            "-f", "filter",
             "-s", "open",
             "-l", "testlabel1",
             "-i", "1, 2, 3")]
         [InlineData(
             "issue", "list",
             "--assigned-to-me",
-            "--format", "grid",
+            "--output", "grid",
+            "--filter", "filter",
             "--state", "open",
             "--labels", "testlabel1",
             "--id", "1, 2, 3")]
@@ -99,7 +101,8 @@ namespace GitLabCLI.Console.Test.Parsing
         {
             _sut.Parse(args).Should().Match<ListIssuesOptions>(
                 s => s.AssignedToMe &&
-                     s.Format == "grid" &&
+                     s.Output == "grid" &&
+                     s.Filter == "filter" &&
                      s.State == "open" &&
                      s.Ids.SequenceEqual(new[] { 1, 2, 3 }) &&
                      s.Labels.SequenceEqual(new[] { "testlabel1" }));
