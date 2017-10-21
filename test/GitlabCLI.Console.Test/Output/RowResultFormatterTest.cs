@@ -7,7 +7,7 @@ namespace GitLabCLI.Console.Test.Output
     public class RowResultFormatterTest
     {
         [Fact]
-        public void RowsAreFormatted()
+        public void MultipleRowsAreFormatted()
         {
             string result = new RowResultFormatter().Format(
                 "TestHeader",
@@ -34,8 +34,30 @@ namespace GitLabCLI.Console.Test.Output
             lines[11].Should().Be("test300: test300 value");
             lines[12].Should().BeEmpty();
             lines[13].Should().Be("long test300 body description");
+            lines[14].Should().BeEmpty();
 
-            lines.Should().HaveCount(14);
+            lines.Should().HaveCount(15);
+        }
+
+        [Fact]
+        public void RowsWithoutDescriptionIsFormattedWithoutTrailingNewLines()
+        {
+            string result = new RowResultFormatter().Format(
+                "TestHeader",
+                new Row(new[] { "test10" }, new[] { "test10 value" }, ""),
+                new Row(new[] { "test20" }, new[] { "test20 value" }, ""));
+
+            string[] lines = result.Split("\r\n");
+
+            lines[0].Should().Be("-------------------------");
+            lines[1].Should().Be("TestHeader");
+            lines[2].Should().BeEmpty();
+            lines[3].Should().Be("test10: test10 value");
+            lines[4].Should().BeEmpty();
+            lines[5].Should().Be("test20: test20 value");
+            lines[6].Should().BeEmpty();
+
+            lines.Should().HaveCount(7);
         }
     }
 }

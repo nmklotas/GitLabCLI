@@ -22,6 +22,8 @@ namespace GitLabCLI.Core.Gitlab.Issues
 
         public bool AssignedToCurrentUser { get; set; }
 
+        public IssueState IssueState { get; set; }
+
         public IList<string> Labels { get; set; } = new List<string>();
     }
 }
