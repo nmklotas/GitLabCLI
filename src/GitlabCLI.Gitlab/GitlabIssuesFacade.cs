@@ -53,14 +53,16 @@ namespace GitLabCLI.GitLab
             int? assigneeId = await GetUserId(client, parameters.AssignedToCurrentUser, parameters.Assignee);
 
             IssueState issueState = _mapper.Map(parameters.IssueState);
-            var issues = (await client.Issues.GetAsync(projectId, o => o.State = issueState)).ToList();
-            if (assigneeId.HasValue)
-                issues = issues.Where(i => i.Assignee?.Id == assigneeId).ToList();
 
-            if (parameters.Labels.Any())
-                issues = issues.Where(i => i.Labels != null && i.Labels.Contains(parameters.Labels)).ToList();
+            var issues = await client.Issues.GetAsync(projectId, o =>
+            {
+                o.AssigneeId = assigneeId;
+                o.State = issueState;
+                o.Labels = parameters.Labels;
+                o.IssueIds = parameters.IssuesIds;
+            });
 
-            return Result.Ok<IReadOnlyList<Issue>>(issues);
+            return Result.Ok<IReadOnlyList<Issue>>(issues.ToList());
         }
 
         public async Task<Result<Issue>> CloseIssue(CloseIssueParameters parameters)

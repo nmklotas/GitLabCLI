@@ -63,6 +63,7 @@ namespace GitLabCLI.Console
             {
                 AssignedToCurrentUser = options.AssignedToMe,
                 Format = outputFormat.Value,
+                IssuesIds = options.Ids.SafeToList(),
                 Labels = GetLabels(options.Labels)
             });
         }

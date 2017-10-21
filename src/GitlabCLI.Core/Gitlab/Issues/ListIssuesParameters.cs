@@ -24,6 +24,8 @@ namespace GitLabCLI.Core.Gitlab.Issues
 
         public IssueState IssueState { get; set; }
 
+        public IList<int> IssuesIds { get; set; } = new List<int>();
+
         public IList<string> Labels { get; set; } = new List<string>();
     }
 }

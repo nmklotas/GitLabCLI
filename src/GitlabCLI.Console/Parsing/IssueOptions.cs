@@ -58,6 +58,9 @@ namespace GitLabCLI.Console.Parsing
         [Option('s', "state", HelpText = "Issue state. Can be open|closed|all. Default is open.")]
         public string State { get; set; }
 
+        [Option('i', "id", Separator = ',', HelpText = "Ids of issues. Separated by ','.")]
+        public IEnumerable<int> Ids { get; set; }
+
         public Task Accept(LaunchOptionsVisitor visitor) => visitor.Visit(this);
     }
 }
