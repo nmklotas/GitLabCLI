@@ -26,48 +26,36 @@ namespace GitLabCLI.Console
             return container;
         }
 
-        private static void RegisterApplicationServices(WindsorContainer container)
-        {
-            container.Register(Component.For<Parser>().UsingFactoryMethod(c => Parser.Default));
-            container.Register(Component.For<CommandLineArgsParser>());
-            container.Register(Component.For<LaunchHandler>());
-            container.Register(Component.For<ParametersHandler>());
-            container.Register(Component.For<OutputPresenter>());
-            container.Register(Component.For<ConfigurationHandler>());
-            container.Register(Component.For<AppSettingsValidator>());
-            container.Register(Component.For<GridResultFormatter>());
-            container.Register(Component.For<LaunchOptionsVisitor>());
-        }
+        private static void RegisterApplicationServices(WindsorContainer container) 
+            => container.
+                Register(Component.For<Parser>().UsingFactoryMethod(c => Parser.Default)).
+                Register(Component.For<CommandLineArgsParser>()).
+                Register(Component.For<LaunchHandler>()).
+                Register(Component.For<ParametersHandler>()).
+                Register(Component.For<OutputPresenter>()).
+                Register(Component.For<RowResultFormatter>()).
+                Register(Component.For<ConfigurationHandler>()).
+                Register(Component.For<AppSettingsValidator>()).
+                Register(Component.For<GridResultFormatter>()).
+                Register(Component.For<LaunchOptionsVisitor>()).
+                Register(Component.For<ConsoleColoredWriter>());
 
-        private static void RegisterGitLabServices(WindsorContainer container)
-        {
-            container.Register(Component.For<IGitLabFacade>().ImplementedBy<GitLabFacade>());
-            container.Register(Component.For<GitLabClientFactory>());
-            container.Register(Component.For<GitLabIssuesFacade>());
-            container.Register(Component.For<GitLabMergesFacade>());
-            container.Register(Component.For<GitLabIssueHandler>());
-            container.Register(Component.For<GitLabMergeRequestsHandler>());
-            container.Register(Component.For<Mapper>());
+        private static void RegisterGitLabServices(WindsorContainer container) 
+            => container.
+                Register(Component.For<IGitLabFacade>().ImplementedBy<GitLabFacade>()).
+                Register(Component.For<GitLabClientFactory>()).
+                Register(Component.For<GitLabIssuesFacade>()).
+                Register(Component.For<GitLabMergesFacade>()).
+                Register(Component.For<GitLabIssueHandler>()).
+                Register(Component.For<GitLabMergeRequestsHandler>()).
+                Register(Component.For<Mapper>()).
+                Register(Component.For<JsonSerializer>().Instance(CreateJsonSerializer()));
 
-            container.Register(Component.For<JsonSerializer>().UsingFactoryMethod(c => JsonSerializer.CreateDefault(new JsonSerializerSettings
-            {
-                ContractResolver = new CamelCasePropertyNamesContractResolver()
-            })));
-        }
-
-        private static void RegisterSettingsServices(WindsorContainer container)
-        {
-            container.Register(Component.For<AppSettingsStorage>().UsingFactoryMethod(
-                c => new AppSettingsStorage(
-                    c.Resolve<JsonSerializer>(),
-                    GetSettingsFile())));
-
-            container.Register(Component.For<AppSettings>().UsingFactoryMethod
-                (c => c.Resolve<AppSettingsStorage>().Load()));
-
-            container.Register(Component.For<GitLabSettings>().UsingFactoryMethod
-                (c => Map(c.Resolve<AppSettings>())));
-        }
+        private static void RegisterSettingsServices(WindsorContainer container) 
+            => container.
+                Register(Component.For<AppSettingsStorage>().UsingFactoryMethod(c => new AppSettingsStorage(c.Resolve<JsonSerializer>(), GetSettingsFile()))).
+                Register(Component.For<AppSettings>().UsingFactoryMethod(c => c.Resolve<AppSettingsStorage>().Load())).
+                Register(Component.For<GitLabSettings>().UsingFactoryMethod(c => Map(c.Resolve<AppSettings>())));
 
         private static string GetSettingsFile()
         {
@@ -76,6 +64,12 @@ namespace GitLabCLI.Console
 
             return Path.Combine(localAppDataFolder, "gitlab", "appsettings.json");
         }
+
+        private static JsonSerializer CreateJsonSerializer() 
+            => JsonSerializer.CreateDefault(new JsonSerializerSettings
+        {
+            ContractResolver = new CamelCasePropertyNamesContractResolver()
+        });
 
         private static GitLabSettings Map(AppSettings settings)
         {

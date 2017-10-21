@@ -1,6 +1,7 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Linq;
+using GitLabApiClient.Models.Issues.Responses;
 using GitLabApiClient.Models.MergeRequests.Requests;
 using GitLabCLI.Core;
 using MergeRequestState = GitLabCLI.Core.Gitlab.Merges.MergeRequestState;
@@ -18,7 +19,9 @@ namespace GitLabCLI.GitLab
                 Assignee = i.Assignee?.Name,
                 Description = i.Description,
                 Id = i.Iid,
-                Title = i.Title
+                Title = i.Title,
+                Author = i.Author.Name,
+                CreatedAt = i.CreatedAt
             })
             .ToList());
         }
@@ -29,7 +32,9 @@ namespace GitLabCLI.GitLab
             {
                 Assignee = i.Assignee?.Name,
                 Id = i.Iid,
-                Title = i.Title
+                Title = i.Title,
+                Author = i.Author.Name,
+                CreatedAt = i.CreatedAt
             })
             .ToList());
         }
@@ -44,6 +49,21 @@ namespace GitLabCLI.GitLab
                     return QueryMergeRequestState.Merged;
                 case MergeRequestState.Closed:
                     return QueryMergeRequestState.Closed;
+                default:
+                    throw new NotSupportedException($"State {state} is not supported");
+            }
+        }
+
+        public IssueState Map(Core.Gitlab.Issues.IssueState state)
+        {
+            switch (state)
+            {
+                case Core.Gitlab.Issues.IssueState.Opened:
+                    return IssueState.Opened;
+                case Core.Gitlab.Issues.IssueState.Closed:
+                    return IssueState.Closed;
+                case Core.Gitlab.Issues.IssueState.All:
+                    return IssueState.All;
                 default:
                     throw new NotSupportedException($"State {state} is not supported");
             }
