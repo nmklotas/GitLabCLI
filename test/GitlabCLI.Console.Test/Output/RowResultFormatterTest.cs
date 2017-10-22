@@ -9,7 +9,9 @@ namespace GitLabCLI.Console.Test.Output
         [Fact]
         public void MultipleRowsAreFormatted()
         {
-            string result = new RowResultFormatter().Format(
+            var sut = new RowResultFormatter();
+
+            string result = sut.Format(
                 "TestHeader",
                 new Row(new[] { "test10"}, new[] { "test10 value"}, "long test10 body description"),
                 new Row(new[] { "test20" }, new[] { "test20 value" }, "long test20 body description"),
@@ -42,7 +44,9 @@ namespace GitLabCLI.Console.Test.Output
         [Fact]
         public void RowsWithoutDescriptionIsFormattedWithoutTrailingNewLines()
         {
-            string result = new RowResultFormatter().Format(
+            var sut = new RowResultFormatter();
+
+            string result = sut.Format(
                 "TestHeader",
                 new Row(new[] { "test10" }, new[] { "test10 value" }, ""),
                 new Row(new[] { "test20" }, new[] { "test20 value" }, ""));

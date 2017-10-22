@@ -3,7 +3,6 @@ using System.Linq;
 using System.Text;
 using GitLabCLI.Utilities;
 using static System.Array;
-using static System.Environment;
 
 namespace GitLabCLI.Console.Output
 {
@@ -49,7 +48,7 @@ namespace GitLabCLI.Console.Output
 
         private static string ConcatRows(IEnumerable<string> rows)
         {
-            return string.Join("\r\n", rows.Where(r => r != NewLine));
+            return string.Join("\r\n", rows.Where(r => r != "\r\n" &&  r != "\n"));
         }
     }
 }

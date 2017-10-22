@@ -1,6 +1,7 @@
 using System;
 using System.Collections.Generic;
 using System.Linq;
+using System.Text;
 using GitLabCLI.Utilities;
 
 namespace GitLabCLI.Console.Output
@@ -20,16 +21,17 @@ namespace GitLabCLI.Console.Output
             var underlineHeaders = GetHeaderUnderlines(calculatedColumnWidths);
             var gridRows = GetGridRows(columns, calculatedColumnWidths);
 
-            string result = "-------------------------";
-            result += "\r\n" + header;
-            result += "\r\n";
-            result += "\r\n" + string.Join(_separator, columnHeaders);
-            result += "\r\n" + string.Join(_separator, underlineHeaders);
+            var stringBuilder = new StringBuilder();
+            stringBuilder.AppendLine("-------------------------");
+            stringBuilder.AppendLine(header);
+            stringBuilder.AppendLine();
+            stringBuilder.AppendLine(string.Join(_separator, columnHeaders));
+            stringBuilder.AppendLine(string.Join(_separator, underlineHeaders));
 
             foreach (string gridRow in gridRows)
-                result += "\r\n" + gridRow;
+                stringBuilder.AppendLine(gridRow);
 
-            return result;
+            return stringBuilder.ToString();
         }
 
         private static IEnumerable<int> CalculateColumnWidths(GridColumn[] columns)
