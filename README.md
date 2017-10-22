@@ -90,10 +90,11 @@ gitlab merge create -t "Merge request title" -s feature -d develop
 gitlab merge create -t "Merge request title" -s feature -d develop -a User
 
 # list merge requests:
-gitlab merge list # list all
+gitlab merge list # list opened
 gitlab merge list opened # list opened
 gitlab merge list merged # list merged
 gitlab merge list closed # list closed
+gitlab merge list all # list all
 
 # list merge requests for assignees:
 gitlab merge list -a "User" # assigned to user
