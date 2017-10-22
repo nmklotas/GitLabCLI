@@ -115,7 +115,7 @@ namespace GitLabCLI.Console
             var validationResult = _configurationHandler.Validate();
             if (validationResult.IsFailure)
             {
-                _outputPresenter.Info(validationResult.Error);
+                _outputPresenter.ShowMessage(validationResult.Error);
                 return false;
             }
 
@@ -123,6 +123,6 @@ namespace GitLabCLI.Console
         }
 
         private void ShowError(Result result) 
-            => _outputPresenter.Error(result.Error);
+            => _outputPresenter.ShowError(result.Error);
     }
 }

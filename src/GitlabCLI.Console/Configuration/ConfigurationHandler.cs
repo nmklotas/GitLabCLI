@@ -30,14 +30,14 @@ namespace GitLabCLI.Console.Configuration
             var settings = _storage.Load();
 
             if (SaveConfigurationValues(parameters, settings))
-                _outputPresenter.Info("Configuration saved successfully.");
+                _outputPresenter.ShowMessage("Configuration saved successfully.");
 
             ShowConfiguration(settings);
         }
 
         private void ShowConfiguration(AppSettings settings)
         {
-            _outputPresenter.GridResult(
+            _outputPresenter.ShowGrid(
                 "Current configuration",
                 new GridColumn("Name", 100, GetSettingsProperties(settings).Select(GetPropertyName)),
                 new GridColumn("Value", 100, GetSettingsProperties(settings).Select(p => p.GetValue(settings))));

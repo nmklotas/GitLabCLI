@@ -18,29 +18,29 @@ namespace GitLabCLI.Console.Output
             _coloredWriter = coloredWriter;
         }
 
-        public void Info(string text)
+        public void ShowMessage(string text)
             => WriteLine(text);
 
-        public void Error(string text)
+        public void ShowError(string text)
             => WriteLine($"Error: {text}");
 
-        public void SuccessResult(string header)
+        public void ShowSuccess(string header)
         {
             WriteLine("-------------------------");
             WriteLine(header);
         }
 
-        public void FailureResult(string header, string error)
+        public void ShowError(string header, string error)
         {
             WriteLine("-------------------------");
             WriteLine(header);
             WriteLine($"Error: {error}");
         }
 
-        public void GridResult(string header, params GridColumn[] columns) 
+        public void ShowGrid(string header, params GridColumn[] columns) 
             => WriteLine(_gridResultFormatter.Format(header, columns));
 
-        public void RowResult(string header, params Row[] rows)
+        public void ShowRows(string header, params Row[] rows)
             => WriteLine(_rowResultFormatter.Format(header, rows));
 
         private void WriteLine(string text)

@@ -26,11 +26,11 @@ namespace GitLabCLI.Console
             var issueResult = await _gitLabFacade.CreateIssue(parameters);
             if (issueResult.IsFailure)
             {
-                _presenter.FailureResult("Failed to create issue", issueResult.Error);
+                _presenter.ShowError("Failed to create issue", issueResult.Error);
                 return;
             }
 
-            _presenter.SuccessResult($"Successfully created issue #{issueResult.Value}");
+            _presenter.ShowSuccess($"Successfully created issue #{issueResult.Value}");
         }
 
         public async Task CloseIssue(CloseIssueParameters parameters)
@@ -38,11 +38,11 @@ namespace GitLabCLI.Console
             var closeResult = await _gitLabFacade.CloseIssue(parameters);
             if (closeResult.IsFailure)
             {
-                _presenter.FailureResult("Failed to close issue", closeResult.Error);
+                _presenter.ShowError("Failed to close issue", closeResult.Error);
                 return;
             }
 
-            _presenter.SuccessResult($"Successfully closed issue #{parameters.IssueId}");
+            _presenter.ShowSuccess($"Successfully closed issue #{parameters.IssueId}");
         }
 
         public async Task ListIssues(ListIssuesParameters parameters)
@@ -50,20 +50,20 @@ namespace GitLabCLI.Console
             var issueResult = await _gitLabFacade.ListIssues(parameters);
             if (issueResult.IsFailure)
             {
-                _presenter.FailureResult("Failed to retrieve issues", issueResult.Error);
+                _presenter.ShowError("Failed to retrieve issues", issueResult.Error);
                 return;
             }
 
             var issues = issueResult.Value;
             if (issues.Count == 0)
             {
-                _presenter.SuccessResult($"No issues found in project {parameters.Project}");
+                _presenter.ShowSuccess($"No issues found in project {parameters.Project}");
                 return;
             }
 
             if (parameters.Output == OutputFormat.Rows)
             {
-                _presenter.RowResult(
+                _presenter.ShowRows(
                     $"Found ({issues.Count}) issues in project {parameters.Project}",
                     issues.Select(i => new Row(new[]
                     {
@@ -82,7 +82,7 @@ namespace GitLabCLI.Console
             }
             else if (parameters.Output == OutputFormat.Grid)
             {
-                _presenter.GridResult(
+                _presenter.ShowGrid(
                     $"Found ({issues.Count}) issues in project {parameters.Project}",
                     new GridColumn<int>("Issue Id", 20, issues.Select(s => s.Id)),
                     new GridColumn("Title", 150, issues.Select(s => s.Title)),

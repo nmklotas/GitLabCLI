@@ -34,7 +34,7 @@ namespace GitLabCLI.Console
             }
             catch (Exception ex)
             {
-                _outputPresenter.FailureResult("Unexpected error has occured", ex.ToString());
+                _outputPresenter.ShowError("Unexpected error has occured", ex.ToString());
                 return ExitCode.UnexpectedFailure;
             }
             finally

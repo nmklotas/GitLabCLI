@@ -30,14 +30,14 @@ namespace GitLabCLI.Console
 
             if (issuesResult.IsFailure)
             {
-                _outputPresenter.FailureResult("Failed to browse to issue", issuesResult.Error);
+                _outputPresenter.ShowError("Failed to browse to issue", issuesResult.Error);
                 return;
             }
 
             var firstIssue = issuesResult.Value.FirstOrDefault();
             if (firstIssue == null)
             {
-                _outputPresenter.Info($"Issue #{parameters.IssueId} was not found in project {parameters.Project}");
+                _outputPresenter.ShowMessage($"Issue #{parameters.IssueId} was not found in project {parameters.Project}");
                 return;
             }
 
@@ -47,7 +47,7 @@ namespace GitLabCLI.Console
             }
             catch (Win32Exception ex)
             {
-                _outputPresenter.Error($"Failed to open {firstIssue.WebUrl}: {ex}");
+                _outputPresenter.ShowError($"Failed to open {firstIssue.WebUrl}: {ex}");
             }
         }
     }

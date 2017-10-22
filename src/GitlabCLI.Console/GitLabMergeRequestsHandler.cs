@@ -22,11 +22,11 @@ namespace GitLabCLI.Console
             var mergeRequestResult = await _gitLabFacade.CreateMergeRequest(parameters);
             if (mergeRequestResult.IsFailure)
             {
-                _presenter.FailureResult("Failed to create merge request", mergeRequestResult.Error);
+                _presenter.ShowError("Failed to create merge request", mergeRequestResult.Error);
                 return;
             }
 
-            _presenter.SuccessResult($"Successfully created merge request #{mergeRequestResult.Value}");
+            _presenter.ShowSuccess($"Successfully created merge request #{mergeRequestResult.Value}");
         }
 
         public async Task ListMerges(ListMergesParameters parameters)
@@ -34,18 +34,18 @@ namespace GitLabCLI.Console
             var mergesResult = await _gitLabFacade.ListMergeRequests(parameters);
             if (mergesResult.IsFailure)
             {
-                _presenter.FailureResult("Failed to retrieve merge requests", mergesResult.Error);
+                _presenter.ShowError("Failed to retrieve merge requests", mergesResult.Error);
                 return;
             }
 
             var merges = mergesResult.Value;
             if (merges.Count == 0)
             {
-                _presenter.SuccessResult($"No merge requests found in project {parameters.Project}");
+                _presenter.ShowSuccess($"No merge requests found in project {parameters.Project}");
                 return;
             }
 
-            _presenter.GridResult(
+            _presenter.ShowGrid(
                 $"Found ({merges.Count}) merge requests in project {parameters.Project}",
                 new GridColumn<int>("Merge request Id", 20, merges.Select(s => s.Id)),
                 new GridColumn("Title", 100, merges.Select(s => s.Title)),
