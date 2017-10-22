@@ -26,6 +26,8 @@ To boost your productivity it's recommended to set default project also. So you 
 gitlab config --default-project "defaultproject"
 ```
 
+More configuration options can be found [here](https://github.com/nmklotas/GitLabCLI/wiki/Configuration)
+
 ### 2. If you want to find more information about certain commands just use --help:
 
 For example:
@@ -34,6 +36,11 @@ gitlab --help
 gitlab config --help
 gitlab issue create --help
 ```
+
+or see Wiki:  
+[Creating and listing issues](https://github.com/nmklotas/GitLabCLI/wiki/Creating-and-listing-issues)  
+[Creating and listing merge requests](https://github.com/nmklotas/GitLabCLI/wiki/Creating-and-listing-merge-requests)  
+
 ## Some examples:
 
 All commands have both short & long syntax.
