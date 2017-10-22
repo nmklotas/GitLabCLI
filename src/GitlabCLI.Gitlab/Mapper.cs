@@ -50,6 +50,8 @@ namespace GitLabCLI.GitLab
                     return QueryMergeRequestState.Merged;
                 case MergeRequestState.Closed:
                     return QueryMergeRequestState.Closed;
+                case MergeRequestState.All:
+                    return QueryMergeRequestState.All;
                 default:
                     throw new NotSupportedException($"State {state} is not supported");
             }

@@ -37,7 +37,7 @@ namespace GitLabCLI.Console.Parsing
             0,
             MetaName = "State",
             Default = "opened",
-            HelpText = "Merge request state. Can be opened|merged|closed.")]
+            HelpText = "Merge request state. Can be opened|merged|closed. Default is opened.")]
         public string State { get; set; }
 
         [Option('a', "assignee", HelpText = "Assignee of issue.")]

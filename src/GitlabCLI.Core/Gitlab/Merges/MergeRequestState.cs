@@ -4,6 +4,7 @@
     {
         Opened,
         Merged,
-        Closed
+        Closed,
+        All
     }
 }

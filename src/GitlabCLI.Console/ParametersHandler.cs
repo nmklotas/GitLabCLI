@@ -170,6 +170,8 @@ namespace GitLabCLI.Console
                     return MergeRequestState.Closed;
                 case "MERGED":
                     return MergeRequestState.Merged;
+                case "ALL":
+                    return MergeRequestState.All;
                 default:
                     return null;
             }
