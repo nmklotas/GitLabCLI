@@ -3,6 +3,7 @@ using System.Linq;
 using FluentAssertions;
 using GitLabCLI.Console.Configuration;
 using GitLabCLI.Console.Parsing;
+using GitLabCLI.Core;
 using GitLabCLI.Core.Gitlab.Issues;
 using GitLabCLI.Core.Gitlab.Merges;
 using Xunit;
@@ -108,6 +109,18 @@ namespace GitLabCLI.Console.Test.Output
                 Id = 1,
                 Project = "project"
             }).Value.Should().Match<CloseIssueParameters>(s =>
+                s.Project == "project" &&
+                s.IssueId == 1);
+        }
+
+        [Fact]
+        public void BrowseIssueParametersNegotiated()
+        {
+            _sut.NegotiateBrowseParameters(new BrowseOptions()
+            {
+                Id = 1,
+                Project = "project"
+            }).Value.Should().Match<BrowseParameters>(s =>
                 s.Project == "project" &&
                 s.IssueId == 1);
         }

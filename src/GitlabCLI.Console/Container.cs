@@ -6,6 +6,7 @@ using CommandLine;
 using GitLabCLI.Console.Configuration;
 using GitLabCLI.Console.Output;
 using GitLabCLI.Console.Parsing;
+using GitLabCLI.Core;
 using GitLabCLI.Core.Gitlab;
 using GitLabCLI.GitLab;
 using Newtonsoft.Json;
@@ -38,7 +39,9 @@ namespace GitLabCLI.Console
                 Register(Component.For<AppSettingsValidator>()).
                 Register(Component.For<GridResultFormatter>()).
                 Register(Component.For<LaunchOptionsVisitor>()).
-                Register(Component.For<ConsoleColoredWriter>());
+                Register(Component.For<IBrowser>().ImplementedBy<DefaultBrowser>()).
+                Register(Component.For<IConsoleWriter>().ImplementedBy<ConsoleColoredWriter>()).
+                Register(Component.For<IssueBrowseHandler>());
 
         private static void RegisterGitLabServices(WindsorContainer container) 
             => container.

@@ -1,8 +1,9 @@
 ﻿using System;
+using GitLabCLI.Core;
 
 namespace GitLabCLI.Console.Output
 {
-    public class ConsoleColoredWriter
+    public class ConsoleColoredWriter : IConsoleWriter
     {
         public void Write(string text)
         {

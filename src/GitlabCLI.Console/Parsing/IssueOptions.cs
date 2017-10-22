@@ -5,7 +5,7 @@ using CommandLine;
 namespace GitLabCLI.Console.Parsing
 {
     [Verb("issue", HelpText = "Commands: create, close, list. Run issue [command] --help to learn more.")]
-    [SubVerbs(typeof(CreateIssueOptions), typeof(ListIssuesOptions), typeof(CloseIssueOptions))]
+    [SubVerbs(typeof(CreateIssueOptions), typeof(ListIssuesOptions), typeof(CloseIssueOptions), typeof(BrowseOptions))]
     public abstract class IssueOptions : ProjectOptions
     {
     }
@@ -33,6 +33,15 @@ namespace GitLabCLI.Console.Parsing
 
     [Verb("close", HelpText = "Closes issue.")]
     public sealed class CloseIssueOptions : IssueOptions, IVisitableOption
+    {
+        [Option('i', "id", HelpText = "Issue id", Required = true)]
+        public int Id { get; set; }
+
+        public Task Accept(LaunchOptionsVisitor visitor) => visitor.Visit(this);
+    }
+
+    [Verb("browse", HelpText = "Opens issue in the default browser.")]
+    public sealed class BrowseOptions : IssueOptions, IVisitableOption
     {
         [Option('i', "id", HelpText = "Issue id", Required = true)]
         public int Id { get; set; }

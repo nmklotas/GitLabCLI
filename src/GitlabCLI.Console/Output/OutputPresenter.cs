@@ -1,15 +1,17 @@
-﻿namespace GitLabCLI.Console.Output
+﻿using GitLabCLI.Core;
+
+namespace GitLabCLI.Console.Output
 {
     public sealed class OutputPresenter
     {
         private readonly GridResultFormatter _gridResultFormatter;
         private readonly RowResultFormatter _rowResultFormatter;
-        private readonly ConsoleColoredWriter _coloredWriter;
+        private readonly IConsoleWriter _coloredWriter;
 
         public OutputPresenter(
             GridResultFormatter gridResultFormatter, 
             RowResultFormatter rowResultFormatter,
-            ConsoleColoredWriter coloredWriter)
+            IConsoleWriter coloredWriter)
         {
             _gridResultFormatter = gridResultFormatter;
             _rowResultFormatter = rowResultFormatter;

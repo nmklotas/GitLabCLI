@@ -86,6 +86,15 @@ namespace GitLabCLI.Console
             });
         }
 
+        public Result<BrowseParameters> NegotiateBrowseParameters(BrowseOptions options)
+        {
+            var project = GetProject(options);
+            if (project.IsFailure)
+                return Result.Fail<BrowseParameters>(project);
+
+            return Result.Ok(new BrowseParameters(project.Value, options.Id));
+        }
+
         public Result<ListMergesParameters> NegotiateListMergesParameters(ListMergesOptions options)
         {
             var project = GetProject(options);

@@ -13,18 +13,21 @@ namespace GitLabCLI.Console
         private readonly ConfigurationHandler _configurationHandler;
         private readonly ParametersHandler _parametersHandler;
         private readonly OutputPresenter _outputPresenter;
+        private readonly IssueBrowseHandler _issueBrowseHandler;
 
         public LaunchOptionsVisitor(
             GitLabIssueHandler issuesHandler,
             GitLabMergeRequestsHandler mergesHandler,
             ConfigurationHandler configurationHandler,
             ParametersHandler parametersHandler,
+            IssueBrowseHandler issueBrowseHandler,
             OutputPresenter outputPresenter)
         {
             _issuesHandler = issuesHandler;
             _mergesHandler = mergesHandler;
             _configurationHandler = configurationHandler;
             _parametersHandler = parametersHandler;
+            _issueBrowseHandler = issueBrowseHandler;
             _outputPresenter = outputPresenter;
         }
 
@@ -48,6 +51,18 @@ namespace GitLabCLI.Console
             var parameters = _parametersHandler.NegotiateCloseIssueParameters(options);
             if (parameters.IsSuccess)
                 await _issuesHandler.CloseIssue(parameters.Value);
+            else
+                ShowError(parameters);
+        }
+
+        public async Task Visit(BrowseOptions options)
+        {
+            if (!ValidateConfiguration())
+                return;
+
+            var parameters = _parametersHandler.NegotiateBrowseParameters(options);
+            if (parameters.IsSuccess)
+                await _issueBrowseHandler.Browse(parameters.Value);
             else
                 ShowError(parameters);
         }

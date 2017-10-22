@@ -21,7 +21,8 @@ namespace GitLabCLI.GitLab
                 Id = i.Iid,
                 Title = i.Title,
                 Author = i.Author.Name,
-                CreatedAt = i.CreatedAt
+                CreatedAt = i.CreatedAt,
+                WebUrl = i.WebUrl
             })
             .ToList());
         }

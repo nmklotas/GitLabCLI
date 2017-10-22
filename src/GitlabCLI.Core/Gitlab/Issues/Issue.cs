@@ -15,5 +15,7 @@ namespace GitLabCLI.Core.Gitlab.Issues
         public string Author { get; set; }
 
         public DateTime CreatedAt { get; set; }
+
+        public string WebUrl { get; set; }
     }
 }
