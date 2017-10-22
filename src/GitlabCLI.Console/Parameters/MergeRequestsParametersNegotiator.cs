@@ -2,6 +2,7 @@
 using GitLabCLI.Core;
 using GitLabCLI.Core.Gitlab.Merges;
 using GitLabCLI.Utilities;
+using static GitLabCLI.Core.Result;
 
 namespace GitLabCLI.Console.Parameters
 {
@@ -11,9 +12,9 @@ namespace GitLabCLI.Console.Parameters
         {
             var project = GetProject(options, defaultProject);
             if (project.IsFailure)
-                return Result.Fail<CreateMergeRequestParameters>(project);
+                return Fail<CreateMergeRequestParameters>(project);
 
-            return Result.Ok(new CreateMergeRequestParameters(
+            return Ok(new CreateMergeRequestParameters(
                 options.Title,
                 options.Source,
                 options.Destination,
@@ -28,14 +29,14 @@ namespace GitLabCLI.Console.Parameters
         {
             var project = GetProject(options, defaultProject);
             if (project.IsFailure)
-                return Result.Fail<ListMergesParameters>(project);
+                return Fail<ListMergesParameters>(project);
 
             var state = ParseMergeRequestState(options.State);
             if (!state.HasValue)
-                return Result.Fail<ListMergesParameters>($"State parameter: {options.State} is not supported." +
+                return Fail<ListMergesParameters>($"State parameter: {options.State} is not supported." +
                                                           "Supported values are: opened|closed|merged");
 
-            return Result.Ok(new ListMergesParameters(
+            return Ok(new ListMergesParameters(
                 project.Value,
                 state.Value,
                 options.Assignee)

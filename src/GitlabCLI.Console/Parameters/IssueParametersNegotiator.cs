@@ -10,18 +10,9 @@ namespace GitLabCLI.Console.Parameters
 {
     public class IssueParametersNegotiator : ProjectParametersNegotiator
     {
-        public Result<BrowseParameters> NegotiateBrowseParameters(BrowseOptions options, string defaultProject)
-        {
-            var project = GetProject(options, defaultProject);
-            if (project.IsFailure)
-                return Fail<BrowseParameters>(project);
-
-            return Ok(new BrowseParameters(project.Value, options.Id));
-        }
-
         public Result<CreateIssueParameters> NegotiateCreateIssueParameters(
-            CreateIssueOptions options, 
-            string defaultProject, 
+            CreateIssueOptions options,
+            string defaultProject,
             string defaultIssuesLabel)
         {
             var project = GetProject(options, defaultProject);
@@ -35,17 +26,8 @@ namespace GitLabCLI.Console.Parameters
                 options.Assignee)
             {
                 AssignedToCurrentUser = options.AssignMyself,
-                Labels = GetLabels(options.Labels, defaultIssuesLabel)
+                Labels = NegotiateLabels(options.Labels, defaultIssuesLabel)
             });
-        }
-
-        public Result<CloseIssueParameters> NegotiateCloseIssueParameters(CloseIssueOptions options, string defaultProject)
-        {
-            var project = GetProject(options, defaultProject);
-            if (project.IsFailure)
-                return Fail<CloseIssueParameters>(project);
-
-            return Ok(new CloseIssueParameters(project.Value, options.Id));
         }
 
         public Result<ListIssuesParameters> NegotiateListIssuesParameters(ListIssuesOptions options, string defaultProject, string defaultIssuesLabel)
@@ -61,7 +43,7 @@ namespace GitLabCLI.Console.Parameters
             var issueState = ParseIssueState(options.State);
             if (!issueState.HasValue)
                 return Fail<ListIssuesParameters>($"State parameter: {options.State} is not supported." +
-                                                         "Supported values are: opened|closed|all");
+                                                  "Supported values are: opened|closed|all");
 
             return Ok(new ListIssuesParameters(
                 project.Value,
@@ -71,11 +53,29 @@ namespace GitLabCLI.Console.Parameters
                 Output = outputFormat.Value,
                 Filter = options.Filter,
                 IssuesIds = options.Ids.SafeToList(),
-                Labels = GetLabels(options.Labels, defaultIssuesLabel)
+                Labels = NegotiateLabels(options.Labels, defaultIssuesLabel)
             });
         }
 
-        private List<string> GetLabels(IEnumerable<string> labels, string defaultIssuesLabel)
+        public Result<BrowseParameters> NegotiateBrowseParameters(BrowseOptions options, string defaultProject)
+        {
+            var project = GetProject(options, defaultProject);
+            if (project.IsFailure)
+                return Fail<BrowseParameters>(project);
+
+            return Ok(new BrowseParameters(project.Value, options.Id));
+        }
+
+        public Result<CloseIssueParameters> NegotiateCloseIssueParameters(CloseIssueOptions options, string defaultProject)
+        {
+            var project = GetProject(options, defaultProject);
+            if (project.IsFailure)
+                return Fail<CloseIssueParameters>(project);
+
+            return Ok(new CloseIssueParameters(project.Value, options.Id));
+        }
+
+        private static List<string> NegotiateLabels(IEnumerable<string> labels, string defaultIssuesLabel)
         {
             var inputLabels = labels.
                 SafeToList().

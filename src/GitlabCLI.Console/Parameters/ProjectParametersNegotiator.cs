@@ -1,6 +1,7 @@
 ﻿using GitLabCLI.Console.Parsing;
 using GitLabCLI.Core;
 using GitLabCLI.Utilities;
+using static GitLabCLI.Core.Result;
 
 namespace GitLabCLI.Console.Parameters
 {
@@ -12,10 +13,10 @@ namespace GitLabCLI.Console.Parameters
                 options.Project : defaultProject;
 
             return projectName.IsNullOrEmpty() ?
-                Result.Fail<string>(
+                Fail<string>(
                     "Project name is not provided and default is not set. " +
                     "You can set default project by running 'gitlab config --default-project {project}'") :
-                Result.Ok(projectName);
+                Ok(projectName);
         }
     }
 }
