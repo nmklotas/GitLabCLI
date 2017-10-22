@@ -1,6 +1,7 @@
 ﻿using System.Threading.Tasks;
 using GitLabCLI.Console.Configuration;
 using GitLabCLI.Console.Output;
+using GitLabCLI.Console.Parameters;
 using GitLabCLI.Console.Parsing;
 using GitLabCLI.Core;
 

@@ -2,6 +2,7 @@
 using System.Linq;
 using FluentAssertions;
 using GitLabCLI.Console.Configuration;
+using GitLabCLI.Console.Parameters;
 using GitLabCLI.Console.Parsing;
 using GitLabCLI.Core;
 using GitLabCLI.Core.Gitlab.Issues;
@@ -18,7 +19,7 @@ namespace GitLabCLI.Console.Test.Output
             DefaulIssuesLabel = "appsettings-label",
             GitLabAccessToken = "appsettings-token",
             GitLabHostUrl = "https://test-gitlab.com"
-        });
+        }, new IssueParametersNegotiator(), new MergeRequestsParametersNegotiator(),new ConfigurationParametersNegotiator());
 
         [Fact]
         public void NotProvidedProjectTakenFromSettings()
