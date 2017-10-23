@@ -46,7 +46,8 @@ namespace GitLabCLI.Console
                 Register(Component.For<IssueBrowseHandler>()).
                 Register(Component.For<IssueParametersNegotiator>()).
                 Register(Component.For<ConfigurationParametersNegotiator>()).
-                Register(Component.For<MergeRequestsParametersNegotiator>());
+                Register(Component.For<MergeRequestsParametersNegotiator>()).
+                Register(Component.For<Encryptor>());
 
         private static void RegisterGitLabServices(WindsorContainer container) 
             => container.
