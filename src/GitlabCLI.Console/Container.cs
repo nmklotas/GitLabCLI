@@ -41,7 +41,7 @@ namespace GitLabCLI.Console
                 Register(Component.For<AppSettingsValidator>()).
                 Register(Component.For<GridResultFormatter>()).
                 Register(Component.For<LaunchOptionsVisitor>()).
-                Register(Component.For<IBrowser>().ImplementedBy<DefaultBrowser>()).
+                Register(Component.For<IBrowser>().ImplementedBy<BrowserProcessStarter>()).
                 Register(Component.For<IConsoleWriter>().ImplementedBy<ConsoleColoredWriter>()).
                 Register(Component.For<IssueBrowseHandler>()).
                 Register(Component.For<IssueParametersNegotiator>()).

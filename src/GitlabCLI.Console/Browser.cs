@@ -3,8 +3,14 @@ using GitLabCLI.Core;
 
 namespace GitLabCLI.Console
 {
-    public sealed class DefaultBrowser : IBrowser
+    public sealed class BrowserProcessStarter : IBrowser
     {
-        public void Open(string url) => Process.Start(url);
+        public void Open(string url)
+        {
+            Process.Start(new ProcessStartInfo(url)
+            {
+                UseShellExecute = true
+            });
+        }
     }
 }
