@@ -27,5 +27,7 @@ namespace GitLabCLI.Console.Configuration
 
         [JsonProperty("default_issues_label")]
         public string DefaulIssuesLabel { get; set; }
+
+        public AppSettings Clone() => (AppSettings)MemberwiseClone();
     }
 }

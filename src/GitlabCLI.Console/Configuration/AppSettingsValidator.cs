@@ -16,7 +16,7 @@ namespace GitLabCLI.Console.Configuration
                                    "Run 'gitlab config --host {host}' to set host url.");
 
             if (!ValidateAuthorizationSettings())
-                return Result.Fail("GitLab authentication options are not set.\r\n" +
+                return Result.Fail("GitLab authentication options are not set or failed to decrypt.\r\n" +
                                    "You can set authentication options two ways:\r\n" +
                                    "1. Run 'gitlab config --token {token}' if you have auth token.\r\n" +
                                    "2. Run 'gitlab config --username {username} --password {password}' " +
@@ -30,9 +30,7 @@ namespace GitLabCLI.Console.Configuration
         private bool ValidateAuthorizationSettings()
         {
             bool tokenExits = !_settings.GitLabAccessToken.IsNullOrEmpty();
-            bool credentialsExits = !_settings.GitLabUserName.IsNullOrEmpty() || 
-                !_settings.GitLabPassword.IsNullOrEmpty();
-
+            bool credentialsExits = !_settings.GitLabUserName.IsNullOrEmpty() && !_settings.GitLabPassword.IsNullOrEmpty();
             return tokenExits || credentialsExits;
         }
     }

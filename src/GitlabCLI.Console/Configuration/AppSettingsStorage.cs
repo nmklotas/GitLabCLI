@@ -1,4 +1,6 @@
 ﻿using System.IO;
+using System.Security.Cryptography;
+using GitLabCLI.Console.Parameters;
 using GitLabCLI.Utilities;
 using Newtonsoft.Json;
 
@@ -8,47 +10,96 @@ namespace GitLabCLI.Console.Configuration
     {
         private readonly JsonSerializer _serializer;
         private readonly string _settingsFile;
-        private AppSettings _settings;
+        private readonly Encryptor _encryptor;
 
-        public AppSettingsStorage(JsonSerializer serializer, string settingsFile)
+        public AppSettingsStorage(JsonSerializer serializer, string settingsFile, Encryptor encryptor)
         {
             _serializer = serializer;
             _settingsFile = settingsFile;
+            _encryptor = encryptor;
         }
 
         public AppSettings Load()
         {
-            if (_settings != null)
-                return _settings;
-
             EnsureSettingsDirectoryExists();
 
             if (!File.Exists(_settingsFile))
+                return new AppSettings();
+
+            using (var settingsStream = File.OpenText(_settingsFile))
+            using (var textReader = new JsonTextReader(settingsStream))
             {
-                _settings = new AppSettings();
-                return _settings;
+                var settings = _serializer.Deserialize<AppSettings>(textReader) ?? new AppSettings();
+                DecryptSensitiveData(settings);
+                return settings;
             }
-
-            using (var file = File.OpenText(_settingsFile))
-            using (var reader = new JsonTextReader(file))
-                _settings = _serializer.Deserialize<AppSettings>(reader) ?? new AppSettings();
-
-            return _settings;
         }
 
         public void Save(AppSettings settings)
         {
             EnsureSettingsDirectoryExists();
 
-            using (var fs = File.OpenWrite(_settingsFile))
-            using (var sw = new StreamWriter(fs))
-            using (var jw = new JsonTextWriter(sw))
+            using (var settingsStream = File.OpenWrite(_settingsFile))
+            using (var streamWriter = new StreamWriter(settingsStream))
+            using (var textWriter = new JsonTextWriter(streamWriter))
             {
-                jw.Formatting = Formatting.Indented;
-                _serializer.Serialize(jw, settings);
+                textWriter.Formatting = Formatting.Indented;
+                SerializeSettings(textWriter, settings);
+            }
+        }
+
+        private void SerializeSettings(JsonTextWriter textWriter, AppSettings settings)
+        {
+            var settingsClone = settings.Clone();
+            EncryptSensitiveData(settingsClone);
+            _serializer.Serialize(textWriter, settingsClone);
+        }
+
+        private void EncryptSensitiveData(AppSettings settings)
+        {
+            if (!settings.GitLabPassword.IsNullOrEmpty())
+                settings.GitLabPassword = _encryptor.Encrypt(settings.GitLabPassword);
+
+            if (!settings.GitLabAccessToken.IsNullOrEmpty())
+                settings.GitLabAccessToken = _encryptor.Encrypt(settings.GitLabAccessToken);
+        }
+
+        private void DecryptSensitiveData(AppSettings settings)
+        {
+            if (!settings.GitLabPassword.IsNullOrEmpty())
+            {
+                SafeDecryptPassword();
+            }
+            if (!settings.GitLabAccessToken.IsNullOrEmpty())
+            {
+                SafeDecryptToken();
             }
 
-            _settings = settings;
+            void SafeDecryptPassword()
+            {
+                try
+                {
+                    settings.GitLabPassword = _encryptor.Decrypt(settings.GitLabPassword);
+                }
+                catch (CryptographicException)
+                {
+                    //if we can't decrypt it, reset it
+                    settings.GitLabPassword = null;
+                }
+            }
+
+            void SafeDecryptToken()
+            {
+                try
+                {
+                    settings.GitLabAccessToken = _encryptor.Decrypt(settings.GitLabAccessToken);
+                }
+                catch (CryptographicException)
+                {
+                    //if we can't decrypt it, reset it
+                    settings.GitLabAccessToken = null;
+                }
+            }
         }
 
         private void EnsureSettingsDirectoryExists()

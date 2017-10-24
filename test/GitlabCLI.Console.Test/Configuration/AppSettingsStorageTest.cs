@@ -2,6 +2,7 @@
 using System.IO;
 using FluentAssertions;
 using GitLabCLI.Console.Configuration;
+using GitLabCLI.Console.Parameters;
 using Newtonsoft.Json;
 using Xunit;
 
@@ -10,7 +11,7 @@ namespace GitLabCLI.Console.Test.Configuration
     public sealed class AppSettingsStorageTest
     {
         private readonly Func<string, AppSettingsStorage> _sut = p => new AppSettingsStorage(
-            JsonSerializer.CreateDefault(), p);
+            JsonSerializer.CreateDefault(), p, new Encryptor());
 
         private readonly AppSettings _settings = new AppSettings
         {

@@ -62,7 +62,7 @@ namespace GitLabCLI.Console
 
         private static void RegisterSettingsServices(WindsorContainer container) 
             => container.
-                Register(Component.For<AppSettingsStorage>().UsingFactoryMethod(c => new AppSettingsStorage(c.Resolve<JsonSerializer>(), GetSettingsFile()))).
+                Register(Component.For<AppSettingsStorage>().UsingFactoryMethod(c => new AppSettingsStorage(c.Resolve<JsonSerializer>(), GetSettingsFile(), c.Resolve<Encryptor>()))).
                 Register(Component.For<AppSettings>().UsingFactoryMethod(c => c.Resolve<AppSettingsStorage>().Load())).
                 Register(Component.For<GitLabSettings>().UsingFactoryMethod(c => Map(c.Resolve<AppSettings>())));
 
