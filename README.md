@@ -1,4 +1,4 @@
-# GitLabCLI (Beta)
+# GitLabCLI
 [![Build status](https://ci.appveyor.com/api/projects/status/h240b0xlwssirw3t?svg=true)](https://ci.appveyor.com/project/nmklotas/gitlabcli)
 [![codecov](https://codecov.io/gh/nmklotas/GitLabCLI/branch/master/graph/badge.svg)](https://codecov.io/gh/nmklotas/GitLabCLI)
 
