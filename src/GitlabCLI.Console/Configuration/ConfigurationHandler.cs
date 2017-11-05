@@ -32,7 +32,8 @@ namespace GitLabCLI.Console.Configuration
             if (SaveConfigurationValues(parameters, settings))
                 _outputPresenter.ShowMessage("Configuration saved successfully.");
 
-            ShowConfiguration(settings);
+            var encryptedSettings = _storage.LoadWithSensitiveDataEncrypted();
+            ShowConfiguration(encryptedSettings);
         }
 
         private void ShowConfiguration(AppSettings settings)

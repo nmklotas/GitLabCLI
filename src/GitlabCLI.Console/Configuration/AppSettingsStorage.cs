@@ -19,7 +19,17 @@ namespace GitLabCLI.Console.Configuration
             _encryptor = encryptor;
         }
 
+        public AppSettings LoadWithSensitiveDataEncrypted() 
+            => LoadSettingsFromFile();
+
         public AppSettings Load()
+        {
+            var settings = LoadSettingsFromFile();
+            DecryptSensitiveData(settings);
+            return settings;
+        }
+
+        private AppSettings LoadSettingsFromFile()
         {
             EnsureSettingsDirectoryExists();
 
@@ -29,9 +39,7 @@ namespace GitLabCLI.Console.Configuration
             using (var settingsStream = File.OpenText(_settingsFile))
             using (var textReader = new JsonTextReader(settingsStream))
             {
-                var settings = _serializer.Deserialize<AppSettings>(textReader) ?? new AppSettings();
-                DecryptSensitiveData(settings);
-                return settings;
+                return _serializer.Deserialize<AppSettings>(textReader) ?? new AppSettings();
             }
         }
 
